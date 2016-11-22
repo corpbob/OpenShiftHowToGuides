@@ -1,0 +1,1 @@
+ant producer -Durl=ssl://172.17.0.16:61617  -Dtopic=true -Dmax=1 -Duser=amq-demo-user -Dpassword=password -Djavax.net.ssl.keyStore=amq-client.ks -Djavax.net.ssl.keyStorePassword=password -Djavax.net.ssl.trustStore=amq-client.ts  -Djavax.net.ssl.trustStorePassword=password
