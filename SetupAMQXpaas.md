@@ -62,7 +62,7 @@ you can now start to test the A-MQ.
 ./run-producer.sh
 
 You should see something like:
-
+~~~~
 Buildfile: /home/vagrant/amq-copied-from-container/amq/examples/openwire/swissarmy/build.xml
 
 init:
@@ -110,5 +110,5 @@ producer:
 
 BUILD SUCCESSFUL
 Total time: 1 second
-
+~~~~
 Your test should be successful.
