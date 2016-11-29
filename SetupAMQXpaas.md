@@ -11,6 +11,7 @@ $ ls amq/scripts/
 02-gen-client-cert.sh  04-gen-broker-ts.sh  06-gen-base64-broker-ts.sh  create-amq-project.sh
 ~~~~ 
 Run these scripts starting from 01-gen-client-ks.sh up to 05-gen-broker-cert.sh.
+
 4. Copy the files application-templates/amq/amq62-persistent-ssl.json and application-templates/secrets/amq-app-secret.json into the current directory.
 5. Run the script 06-gen-base64-broker-ts.sh. It should give something like this:
 ~~~~
