@@ -5,7 +5,6 @@
 2. Clone or fork the repository https://github.com/corpbob/application-templates.git
 `git clone https://github.com/corpbob/application-templates.git`
 3. Cd to directory OpenShiftHowToGuides/amq/scripts. Inside this directory you can find scripts:
-
 ~~~~
 $ ls amq/scripts/
 01-gen-client-ks.sh    03-gen-broker-ks.sh  05-gen-broker-cert.sh       07-gen-base64-broker-ks.sh
@@ -17,13 +16,11 @@ Run these scripts starting from 01-gen-client-ks.sh up to 05-gen-broker-cert.sh.
 ~~~~
 /u3+7QAAAAIAAAABAAAAAgAKYW1xLWJyb2tlcgAAAViKkXC6AAVYLjUwOQAAA3UwggNxMIICWaADAgECAgRjbl2XMA0GCSqGSIb3DQEBCwUAMGkxCzAJBgNVBAYTAlNHMRIwEAYDVQQIEwlTaW5nYXBvcmUxEjAQBgNVBAcTCVNpbmdhcG9yZTEQMA4GA1UEChMHUmVkIEhhdDEPMA0GA1UECxMGQnJva2VyMQ8wDQYDVQQDEwZCcm9rZXIwHhcNMTYxMTIyMDU0NDU3WhcNMTcwMjIwMDU0NDU3WjBpMQswCQYDVQQGEwJTRzESMBAGA1UECBMJU2luZ2Fwb3JlMRIwEAYDVQQHEwlTaW5nYXBvcmUxEDAOBgNVBAoTB1JlZCBIYXQxDzANBgNVBAsTBkJyb2tlcjEPMA0GA1UEAxMGQnJva2VyMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAmZ9BMv17yggfcnN1fTZJaheRwCdoDM9xClU5Aq5t/Vyon2OEeV2ZxSRJw1Pwl3peLMPRBqj0wJR4fLYBw1Y4/UdjDW0RhOf+/lVI/FRnnEJyDZlpXhmhwh0FmaLt+QyTnqBFQ7Rv5swAbLOZgLOh0sYeD/t0TgU86A/yN9CkRcQ02EBdse5bAkJjyV3CvzN/tPwiVqtqxR6N2ev3Vk6apOcDJvUqaiIGaftEj9SY7xlQhQ+msRm+7E/Vr/DrjX15rO2OahHX3MqDBKI0nInCbzFhpz4gS8FXrWKNLmDlO0XeKTWmKp4NHOt19nJUIrsynxurs3gAYwiTKUUWp3CPMwIDAQABoyEwHzAdBgNVHQ4EFgQU9Rm/Ua2M3RG3gdPLnn0OnHcE7GwwDQYJKoZIhvcNAQELBQADggEBAFffWn+GSywVBf/PpvNf8YPiq031V9/7QWIO2yqaS5EwV9QkAorp5Og6bZ9T43iMrBBiP7YnFheQxS/ubKW+Gs8jqb84iXUuVmqov4tzkN4bBWWkjEaCGDoCtK6a125gi1PyEIMF/GiOK9vsK4gnwS8rw3RSKkVIhjaB1GN4T6fckV7HTrkhWKATyeen1VVqF+Lds91Ym0arGl+THAZIsO0HNZYvCBz9UyPDmjP9apmn8EBkQtLxu8dSn3PqkObT4XJFPeCxQ3Tlf4bkMe45dW/jCsSpdzmDxB1GI+fAYVsa9+FPyFan8lXsvGlNdc9/Jf/RlRYR9Mib5JGzDo3YQRshGrPXM0J4xhueRyusPB4pwFOOzA==
 ~~~~
-
 Copy the output to clipboard. Open the file amq-app-secret.json and look for the line containing broker.ts and replace the value with the value of the clipboard.
 6. Run the script 07-gen-base64-broker-ks.sh. The output should replace the value of the line containing broker.ks.
 7. Save the file.
 8. Run the script create-amq-project.sh.
 It will execute the following commands:
-
 ~~~~
 oc new-project amq-demo
 oc policy add-role-to-user view system:serviceaccount:amq-demo:amq-service-account
@@ -31,7 +28,6 @@ oc create -n amq-demo -f amq-app-secret.json
 oc create -n amq-demo -f amq62-persistent-ssl.json
 ~~~~
 9. Launch your browser at https://10.1.2.2:8443/console/ and click on the amq-demo project. Click on Add To Project and look for the template amq62-persistent-ssl and click on it. Set the values of the following parameters:
-
 ~~~~
 MQ_USERNAME = amq-demo-user
 MQ_PASSWORD = password
@@ -40,7 +36,6 @@ AMQ_KEYSTORE_PASSWORD = password
 ~~~~
 Click "Create". 
 10. It will then create the application. Click on Continue to Overview. Click on a pod and view the logs. 
-
 Once you are able to see something like this:
 ~~~~
  INFO | For help or more information please see: http://activemq.apache.org
@@ -48,12 +43,9 @@ Once you are able to see something like this:
  WARN | Temporary Store limit is 51200 mb, whilst the temporary data directory: /opt/amq/data/broker-amq-1-h5t07/tmp_storage only has 2998 mb of usable space - resetting to maximum available 2998 mb.
 ~~~~
 you can now start to test the A-MQ.
-
 10. Copy the files OpenShiftHowToGuides/amq/scripts/amq-client.* to OpenShiftHowToGuides/amq/java/swissarmy.
 11. Cd to OpenShiftHowToGuides/amq/java/swissarmy. You should see a file run-producer.sh. Run this file to test the A-MQ.
-
 `./run-producer.sh`
-
 You should see something like:
 ~~~~
 Buildfile: /home/vagrant/amq-copied-from-container/amq/examples/openwire/swissarmy/build.xml
