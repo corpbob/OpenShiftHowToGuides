@@ -22,6 +22,7 @@ Copy the output to clipboard. Open the file amq-app-secret.json and look for the
 7. Save the file.
 8. Run the script create-amq-project.sh.
 It will execute the following commands:
+
 ~~~~
 oc new-project amq-demo
 oc policy add-role-to-user view system:serviceaccount:amq-demo:amq-service-account
