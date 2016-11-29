@@ -2,18 +2,19 @@
 
 1. Clone or fork the repository https://github.com/corpbob/OpenShiftHowToGuides.git
 
-git clone https://github.com/corpbob/OpenShiftHowToGuides.git
+`git clone https://github.com/corpbob/OpenShiftHowToGuides.git`
 
 2. Clone or fork the repository https://github.com/corpbob/application-templates.git
 
-git clone https://github.com/corpbob/application-templates.git
+`git clone https://github.com/corpbob/application-templates.git`
 
 3. Cd to directory OpenShiftHowToGuides/amq/scripts. Inside this directory you can find scripts:
 
+~~~~
 $ ls amq/scripts/
 01-gen-client-ks.sh    03-gen-broker-ks.sh  05-gen-broker-cert.sh       07-gen-base64-broker-ks.sh
 02-gen-client-cert.sh  04-gen-broker-ts.sh  06-gen-base64-broker-ts.sh  create-amq-project.sh
- 
+~~~~ 
 Run these scripts starting from 01-gen-client-ks.sh up to 05-gen-broker-cert.sh.
 
 4. Copy the files application-templates/amq/amq62-persistent-ssl.json and application-templates/secrets/amq-app-secret.json into the current directory.
@@ -33,34 +34,37 @@ Copy the output to clipboard. Open the file amq-app-secret.json and look for the
 
 It will execute the following commands:
 
+~~~~
 oc new-project amq-demo
 oc policy add-role-to-user view system:serviceaccount:amq-demo:amq-service-account
 oc create -n amq-demo -f amq-app-secret.json
 oc create -n amq-demo -f amq62-persistent-ssl.json
+~~~~
 
 9. Launch your browser at https://10.1.2.2:8443/console/ and click on the amq-demo project. Click on Add To Project and look for the template amq62-persistent-ssl and click on it. Set the values of the following parameters:
 
+~~~~
 MQ_USERNAME = amq-demo-user
 MQ_PASSWORD = password
 AMQ_TRUSTSTORE_PASSWORD = password
 AMQ_KEYSTORE_PASSWORD = password
-
+~~~~
 Click "Create". 
 
 10. It will then create the application. Click on Continue to Overview. Click on a pod and view the logs. 
 
 Once you are able to see something like this:
-
+~~~~
  INFO | For help or more information please see: http://activemq.apache.org
  WARN | Store limit is 102400 mb (current store usage is 0 mb). The data directory: /opt/amq/data/kahadb only has 2998 mb of usable space - resetting to maximum available disk space: 2998 mb
  WARN | Temporary Store limit is 51200 mb, whilst the temporary data directory: /opt/amq/data/broker-amq-1-h5t07/tmp_storage only has 2998 mb of usable space - resetting to maximum available 2998 mb.
-
+~~~~
 you can now start to test the A-MQ.
 
 10. Copy the files OpenShiftHowToGuides/amq/scripts/amq-client.* to OpenShiftHowToGuides/amq/java/swissarmy.
 11. Cd to OpenShiftHowToGuides/amq/java/swissarmy. You should see a file run-producer.sh. Run this file to test the A-MQ.
 
-./run-producer.sh
+`./run-producer.sh`
 
 You should see something like:
 ~~~~
