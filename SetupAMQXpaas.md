@@ -70,9 +70,9 @@ init:
 compile:
 
 producer:
-     [echo] Running producer against server at $url = ssl://172.17.0.16:61617 for subject $subject = TEST.FOO
-     [java] Connecting to URL: ssl://172.17.0.16:61617 (amq-demo-user:password)
-     [java] Publishing a Message with size 1000 to topic: TEST.FOO
+       [echo] Running producer against server at $url = ssl://172.17.0.16:61617 for subject $subject = TEST.FOO
+       [java] Connecting to URL: ssl://172.17.0.16:61617 (amq-demo-user:password)
+       [java] Publishing a Message with size 1000 to topic: TEST.FOO
      [java] Using non-persistent messages
      [java] Sleeping between publish 0 ms
      [java] Running 1 parallel threads
