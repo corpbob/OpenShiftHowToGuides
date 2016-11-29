@@ -5,12 +5,12 @@
 2. Clone or fork the repository https://github.com/corpbob/application-templates.git
 `git clone https://github.com/corpbob/application-templates.git`
 3. Cd to directory OpenShiftHowToGuides/amq/scripts. Inside this directory you can find scripts:
-~~~~
-$ ls amq/scripts/
-01-gen-client-ks.sh    03-gen-broker-ks.sh  05-gen-broker-cert.sh       07-gen-base64-broker-ks.sh
-02-gen-client-cert.sh  04-gen-broker-ts.sh  06-gen-base64-broker-ts.sh  create-amq-project.sh
-~~~~ 
-Run these scripts starting from 01-gen-client-ks.sh up to 05-gen-broker-cert.sh.
+   ~~~~
+   $ ls amq/scripts/
+   01-gen-client-ks.sh    03-gen-broker-ks.sh  05-gen-broker-cert.sh       07-gen-base64-broker-ks.sh
+   02-gen-client-cert.sh  04-gen-broker-ts.sh  06-gen-base64-broker-ts.sh  create-amq-project.sh
+   ~~~~ 
+   Run these scripts starting from 01-gen-client-ks.sh up to 05-gen-broker-cert.sh.
 
 4. Copy the files application-templates/amq/amq62-persistent-ssl.json and application-templates/secrets/amq-app-secret.json into the current directory.
 5. Run the script 06-gen-base64-broker-ts.sh. It should give something like this:
