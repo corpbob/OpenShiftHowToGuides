@@ -29,6 +29,7 @@ oc policy add-role-to-user view system:serviceaccount:amq-demo:amq-service-accou
 oc create -n amq-demo -f amq-app-secret.json
 oc create -n amq-demo -f amq62-persistent-ssl.json
 ~~~~
+
 9. Launch your browser at https://10.1.2.2:8443/console/ and click on the amq-demo project. Click on Add To Project and look for the template amq62-persistent-ssl and click on it. Set the values of the following parameters:
 ~~~~
 MQ_USERNAME = amq-demo-user
@@ -36,7 +37,8 @@ MQ_PASSWORD = password
 AMQ_TRUSTSTORE_PASSWORD = password
 AMQ_KEYSTORE_PASSWORD = password
 ~~~~
-Click "Create". 
+Click "Create".
+
 10. It will then create the application. Click on Continue to Overview. Click on a pod and view the logs. 
 Once you are able to see something like this:
 ~~~~
@@ -45,8 +47,9 @@ Once you are able to see something like this:
  WARN | Temporary Store limit is 51200 mb, whilst the temporary data directory: /opt/amq/data/broker-amq-1-h5t07/tmp_storage only has 2998 mb of usable space - resetting to maximum available 2998 mb.
 ~~~~
 you can now start to test the A-MQ.
-10. Copy the files OpenShiftHowToGuides/amq/scripts/amq-client.* to OpenShiftHowToGuides/amq/java/swissarmy.
-11. Cd to OpenShiftHowToGuides/amq/java/swissarmy. You should see a file run-producer.sh. Run this file to test the A-MQ.
+
+11. Copy the files OpenShiftHowToGuides/amq/scripts/amq-client.* to OpenShiftHowToGuides/amq/java/swissarmy.
+12. Cd to OpenShiftHowToGuides/amq/java/swissarmy. You should see a file run-producer.sh. Run this file to test the A-MQ.
 `./run-producer.sh`
 You should see something like:
 ~~~~
