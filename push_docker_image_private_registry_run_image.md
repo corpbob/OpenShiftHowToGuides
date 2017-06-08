@@ -1,5 +1,8 @@
-# Assumption:
-## There is a user called openshift-dev with the following credentials:
+
+#How to push your own docker images to OpenShift internal registry
+
+## Assumption:
+### There is a user called openshift-dev with the following credentials:
 username: openshift-dev
 password: devel
 
@@ -20,19 +23,19 @@ RUN cd /home/tomcat/tomcat/bin && chmod +x *.sh
 ENTRYPOINT cd /home/tomcat/tomcat/bin && ./catalina.sh run
 ```
 
-# Build a docker image
+## Build a docker image
 ```bash
 $ docker build -t myproject/tomcat .
 ```
 In the command above, the image tag is myproject/tomcat.
 
-# Login as openshift-dev
+## Login as openshift-dev
 
 ```bash
 oc login -u openshift-dev -p devel
 ```
 
-# Create a new project. In this example, we call this project "myproject".
+## Create a new project. In this example, we call this project "myproject".
 
 ```bash
 [vagrant@rhel-cdk master]$ oc new-project myproject
@@ -44,7 +47,7 @@ You can add applications to this project with the 'new-app' command. For example
 
 to build a new example application in Ruby.
 ```
-# Login to docker 
+## Login to docker 
 
 ```
 [vagrant@rhel-cdk tomcat]$ docker login -u openshift-dev -p $(oc whoami -t) hub.openshift.rhel-cdk.10.1.2.2.xip.io
@@ -52,7 +55,7 @@ WARNING: login credentials saved in /home/vagrant/.docker/config.json
 Login Succeeded
 
 ``` 
-# Tag your image so that it contains the URL of the internal docker registry and the project name "myproject"
+## Tag your image so that it contains the URL of the internal docker registry and the project name "myproject"
 
 ```bash
 [vagrant@rhel-cdk master]$ docker tag myproject/tomcat hub.openshift.rhel-cdk.10.1.2.2.xip.io/myproject/tomcat
@@ -67,7 +70,7 @@ f82048aca1ad: Pushed
 36018b5e9787: Pushed 
 latest: digest: sha256:05f929a0deee05b2000ad3bae60e5db478577e2a18264745464e21b7f4a45efb size: 7424
 ```
-# Create a new application based on your image. In this case, our image is tomcat:
+## Create a new application based on your image. In this case, our image is tomcat:
 
 ```bash
 [vagrant@rhel-cdk tomcat]$ oc new-app tomcat
@@ -84,13 +87,13 @@ latest: digest: sha256:05f929a0deee05b2000ad3bae60e5db478577e2a18264745464e21b7f
     Run 'oc status' to view your app.
 ```
 
-# Create a route for your application
+## Create a route for your application
 
 ```bash
 [vagrant@rhel-cdk tomcat]$ oc expose svc tomcat
 route "tomcat" exposed
 ```
 
-# View your application from the browser
+## View your application from the browser
 
 ![Image of tomcat](images/tomcat_image.png)
