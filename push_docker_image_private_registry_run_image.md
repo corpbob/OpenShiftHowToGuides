@@ -46,6 +46,8 @@ to build a new example application in Ruby.
 ```
 
 # Tag your image so that it contains the URL of the internal docker registry and the project name "myproject"
+
+```bash
 [vagrant@rhel-cdk master]$ docker tag myproject/tomcat hub.openshift.rhel-cdk.10.1.2.2.xip.io/myproject/tomcat
 [vagrant@rhel-cdk master]$ docker images|less
 [vagrant@rhel-cdk master]$ docker push hub.openshift.rhel-cdk.10.1.2.2.xip.io/myproject/tomcat
