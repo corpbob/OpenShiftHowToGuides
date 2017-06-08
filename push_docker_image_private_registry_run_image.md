@@ -115,3 +115,6 @@ route "tomcat" exposed
 ## View your application from the browser
 
 ![Image of tomcat](images/tomcat_image.png)
+
+## That's it!
+
