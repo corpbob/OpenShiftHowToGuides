@@ -27,12 +27,18 @@ EXPOSE 8080
 RUN cd /home/tomcat/tomcat/bin && chmod +x *.sh
 ENTRYPOINT cd /home/tomcat/tomcat/bin && ./catalina.sh run
 ```
-
 ## Build a docker image
 ```bash
 $ docker build -t myproject/tomcat .
 ```
 In the command above, the image tag is myproject/tomcat.
+
+## Check that your images is already in the list
+
+```bash
+[vagrant@rhel-cdk tomcat]$ docker images|grep tomcat
+myproject/tomcat                                              latest              5f174c0409aa        2 hours ago         517.5 MB
+```
 
 ## Login as openshift-dev
 
