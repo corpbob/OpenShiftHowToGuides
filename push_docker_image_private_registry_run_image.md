@@ -3,9 +3,10 @@
 
 ## Assumption:
 ### There is a user called openshift-dev with the following credentials:
+```
 username: openshift-dev
 password: devel
-
+```
 # Create a docker image using the following Dockerfile:
 
 ```bash
