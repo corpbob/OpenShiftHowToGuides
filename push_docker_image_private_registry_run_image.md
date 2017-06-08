@@ -33,7 +33,7 @@ $ docker build -t myproject/tomcat .
 ```
 In the command above, the image tag is myproject/tomcat.
 
-## Check that your images is already in the list
+## Check that your image is already in the list
 
 ```bash
 [vagrant@rhel-cdk tomcat]$ docker images|grep tomcat
