@@ -5,7 +5,10 @@ password: devel
 
 2. Create a docker image using the following Dockerfile:
 
+```bash
 $ cat Dockerfile
+```
+```vi
 FROM centos:latest
 RUN yum install -y java-1.8.0-openjdk-devel
 RUN yum install -y unzip
@@ -17,6 +20,7 @@ RUN cd /home/tomcat && unzip apache-tomcat-9.0.0.M21.zip && ln -s apache-tomcat-
 EXPOSE 8080
 RUN cd /home/tomcat/tomcat/bin && chmod +x *.sh
 ENTRYPOINT cd /home/tomcat/tomcat/bin && ./catalina.sh run
+```
 
 Build a docker image
 ```bash
