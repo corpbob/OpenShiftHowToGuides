@@ -1,5 +1,7 @@
 
-# How to push your own docker images to OpenShift internal registry
+# How to run your very own docker image in OpenShift without pushing to Docker Hub.
+
+In order to run your own Docker image, you need to push the image to OpenShift internal Docker registry.
 
 ## Assumption:
 ### There is a user called openshift-dev with the following credentials:
