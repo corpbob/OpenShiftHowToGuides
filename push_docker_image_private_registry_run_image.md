@@ -1,5 +1,5 @@
 
-#How to push your own docker images to OpenShift internal registry
+# How to push your own docker images to OpenShift internal registry
 
 ## Assumption:
 ### There is a user called openshift-dev with the following credentials:
