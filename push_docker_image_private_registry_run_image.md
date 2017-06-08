@@ -44,12 +44,18 @@ You can add applications to this project with the 'new-app' command. For example
 
 to build a new example application in Ruby.
 ```
+# Login to docker 
 
+```
+[vagrant@rhel-cdk tomcat]$ docker login -u openshift-dev -p $(oc whoami -t) hub.openshift.rhel-cdk.10.1.2.2.xip.io
+WARNING: login credentials saved in /home/vagrant/.docker/config.json
+Login Succeeded
+
+``` 
 # Tag your image so that it contains the URL of the internal docker registry and the project name "myproject"
 
 ```bash
 [vagrant@rhel-cdk master]$ docker tag myproject/tomcat hub.openshift.rhel-cdk.10.1.2.2.xip.io/myproject/tomcat
-[vagrant@rhel-cdk master]$ docker images|less
 [vagrant@rhel-cdk master]$ docker push hub.openshift.rhel-cdk.10.1.2.2.xip.io/myproject/tomcat
 The push refers to a repository [hub.openshift.rhel-cdk.10.1.2.2.xip.io/myproject/tomcat]
 a682f6ed0658: Pushed 
@@ -61,3 +67,29 @@ f82048aca1ad: Pushed
 36018b5e9787: Pushed 
 latest: digest: sha256:05f929a0deee05b2000ad3bae60e5db478577e2a18264745464e21b7f4a45efb size: 7424
 ```
+# Create a new application based on your image. In this case, our image is tomcat:
+
+```bash
+[vagrant@rhel-cdk tomcat]$ oc new-app tomcat
+--> Found image 434f6a1 (2 hours old) in image stream tomcat under tag "latest" for "tomcat"
+
+    * This image will be deployed in deployment config "tomcat"
+    * Port 8080/tcp will be load balanced by service "tomcat"
+      * Other containers can access this service through the hostname "tomcat"
+
+--> Creating resources with label app=tomcat ...
+    deploymentconfig "tomcat" created
+    service "tomcat" created
+--> Success
+    Run 'oc status' to view your app.
+```
+
+# Create a route for your application
+
+```bash
+[vagrant@rhel-cdk tomcat]$ oc expose svc tomcat
+route "tomcat" exposed
+```
+
+# View your application from the browser
+
