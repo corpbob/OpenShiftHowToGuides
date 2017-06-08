@@ -14,7 +14,6 @@ RUN yum install -y unzip
 RUN adduser tomcat
 USER tomcat
 RUN cd /home/tomcat && curl http://mirror.rise.ph/apache/tomcat/tomcat-9/v9.0.0.M21/bin/apache-tomcat-9.0.0.M21.zip -o apache-tomcat-9.0.0.M21.zip
-#COPY apache-tomcat-9.0.0.M19.zip /home/tomcat
 RUN cd /home/tomcat && unzip apache-tomcat-9.0.0.M21.zip && ln -s apache-tomcat-9.0.0.M21 tomcat
 EXPOSE 8080
 RUN cd /home/tomcat/tomcat/bin && chmod +x *.sh
@@ -23,8 +22,9 @@ ENTRYPOINT cd /home/tomcat/tomcat/bin && ./catalina.sh run
 
 # Build a docker image
 ```bash
-$ docker build -t myproject/tomcat
+$ docker build -t myproject/tomcat .
 ```
+In the command above, the image tag is myproject/tomcat.
 
 # Login as openshift-dev
 
