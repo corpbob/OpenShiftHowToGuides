@@ -60,6 +60,10 @@ to build a new example application in Ruby.
 ```
 ## Login to docker 
 
+The URL of the OpenShift internal registry is hub.openshift.rhel-cdk.10.1.2.2.xip.io. To determine the URL of your internal Openshift Docker registry, go to the url https://10.1.2.2:8443/console/project/default/overview and look at the Docker registry route as shown in the red box below:
+
+![images/openshift_registry_screenshot.png](images/openshift_registry_screenshot.png)
+
 ```
 [vagrant@rhel-cdk tomcat]$ docker login -u openshift-dev -p $(oc whoami -t) hub.openshift.rhel-cdk.10.1.2.2.xip.io
 WARNING: login credentials saved in /home/vagrant/.docker/config.json
