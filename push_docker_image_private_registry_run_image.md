@@ -4,6 +4,8 @@
 In order to run your own Docker image, you need to push the image to OpenShift internal Docker registry.
 
 ## Assumption:
+### You have a working OpenShift cluster. To setup a one-node cluster, refer to this link: https://github.com/openshift/origin/blob/master/docs/cluster_up_down.md
+
 ### There is a user called openshift-dev with the following credentials:
 ```
 username: openshift-dev
