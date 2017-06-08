@@ -94,6 +94,9 @@ latest: digest: sha256:05f929a0deee05b2000ad3bae60e5db478577e2a18264745464e21b7f
 [vagrant@rhel-cdk tomcat]$ oc expose svc tomcat
 route "tomcat" exposed
 ```
+## View your application from the OpenShift console
+
+![OpenShift console](images/openshift_tomcat_screenshot.png)
 
 ## View your application from the browser
 
