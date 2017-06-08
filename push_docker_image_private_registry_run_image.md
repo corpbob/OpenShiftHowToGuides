@@ -1,7 +1,11 @@
 
-# How to push your own docker images to OpenShift internal registry
+# How to run your very own docker image in OpenShift without pushing to Docker Hub.
+
+In order to run your own Docker image, you need to push the image to OpenShift internal Docker registry.
 
 ## Assumption:
+### You have a working OpenShift cluster. To setup a one-node cluster, refer to this link: https://github.com/openshift/origin/blob/master/docs/cluster_up_down.md
+
 ### There is a user called openshift-dev with the following credentials:
 ```
 username: openshift-dev
@@ -23,12 +27,18 @@ EXPOSE 8080
 RUN cd /home/tomcat/tomcat/bin && chmod +x *.sh
 ENTRYPOINT cd /home/tomcat/tomcat/bin && ./catalina.sh run
 ```
-
 ## Build a docker image
 ```bash
 $ docker build -t myproject/tomcat .
 ```
 In the command above, the image tag is myproject/tomcat.
+
+## Check that your image is already in the list
+
+```bash
+[vagrant@rhel-cdk tomcat]$ docker images|grep tomcat
+myproject/tomcat                                              latest              5f174c0409aa        2 hours ago         517.5 MB
+```
 
 ## Login as openshift-dev
 
@@ -94,6 +104,9 @@ latest: digest: sha256:05f929a0deee05b2000ad3bae60e5db478577e2a18264745464e21b7f
 [vagrant@rhel-cdk tomcat]$ oc expose svc tomcat
 route "tomcat" exposed
 ```
+## View your application from the OpenShift console
+
+![OpenShift console](images/openshift_tomcat_screenshot.png)
 
 ## View your application from the browser
 
