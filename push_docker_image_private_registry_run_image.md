@@ -5,7 +5,7 @@ In order to run your own Docker image, you need to push the image to OpenShift i
 
 ## Assumption:
 ### You have a working OpenShift cluster. To setup a one-node cluster, refer to this link: https://github.com/openshift/origin/blob/master/docs/cluster_up_down.md
-
+OR
 ### There is a user called openshift-dev with the following credentials:
 ```
 username: openshift-dev
@@ -46,7 +46,7 @@ myproject/tomcat                                              latest            
 oc login -u openshift-dev -p devel
 ```
 
-## Create a new project. In this example, we call this project "myproject".
+## Create a new project. In this example, we call this project "myproject". When prompted for Email, enter any valid email.
 
 ```bash
 [vagrant@rhel-cdk master]$ oc new-project myproject
@@ -60,15 +60,33 @@ to build a new example application in Ruby.
 ```
 ## Login to docker 
 
-The URL of the OpenShift internal registry is hub.openshift.rhel-cdk.10.1.2.2.xip.io. To determine the URL of your internal Openshift Docker registry, go to the OpenShift console->default and look at the Docker registry route as shown in the red box below:
+The URL of the OpenShift internal registry is hub.openshift.rhel-cdk.10.1.2.2.xip.io. To determine the URL of your internal Openshift Docker registry, go to the OpenShift console( https://10.1.2.2:8443/console/ )->default and look at the Docker registry route as shown in the red box below:
 
 ![images/openshift_registry_screenshot.png](images/openshift_registry_screenshot.png)
+
+```
+[vagrant@rhel-cdk tomcat]$ oc get routes -n default
+
+```
+
+```
+[vagrant@rhel-cdk tomcat]$ sudo vi /etc/hosts
+    add on the last line; 10.1.2.2 hub.openshift.rhel-cdk.10.1.2.2.xip.io
+    save, then ping hub.openshift.rhel-cdk.10.1.2.2.xip.io
+```
+
+```
+[vagrant@rhel-cdk tomcat]$ sudo vi /etc/sysconfig
+    uncomment INSECURE_REGISTRY, and modify with
+    INSECURE_REGISTRY='__insecure-registry hub.openshift.rhel-cdk.10.1.2.2.xip.io'
+[vagrant@rhel-cdk tomcat]$ sudo systemctl restart docker
+[vagrant@rhel-cdk tomcat]$ sudo sccli openshift
+```
 
 ```
 [vagrant@rhel-cdk tomcat]$ docker login -u openshift-dev -p $(oc whoami -t) hub.openshift.rhel-cdk.10.1.2.2.xip.io
 WARNING: login credentials saved in /home/vagrant/.docker/config.json
 Login Succeeded
-
 ``` 
 ## Tag your image so that it contains the URL of the internal docker registry and the project name "myproject"
 
