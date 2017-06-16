@@ -69,18 +69,24 @@ The URL of the OpenShift internal registry is hub.openshift.rhel-cdk.10.1.2.2.xi
 
 ```
 
+This step might be needed. Best to add to your /etc/hosts file.
+
 ```
 [vagrant@rhel-cdk tomcat]$ sudo vi /etc/hosts
     add on the last line; 10.1.2.2 hub.openshift.rhel-cdk.10.1.2.2.xip.io
     save, then ping hub.openshift.rhel-cdk.10.1.2.2.xip.io
 ```
+If you get a certificate error, add edit your /etc/sysconfig/docker file and add the following:
 
 ```
-[vagrant@rhel-cdk tomcat]$ sudo vi /etc/sysconfig
-    uncomment INSECURE_REGISTRY, and modify with
-    INSECURE_REGISTRY='--insecure-registry hub.openshift.rhel-cdk.10.1.2.2.xip.io'
+[vagrant@rhel-cdk tomcat]$ sudo vi /etc/sysconfig/docker
+```
+INSECURE_REGISTRY='--insecure-registry hub.openshift.rhel-cdk.10.1.2.2.xip.io'
+
+Restart docker:
+
+```
 [vagrant@rhel-cdk tomcat]$ sudo systemctl restart docker
-[vagrant@rhel-cdk tomcat]$ sudo sccli openshift
 ```
 
 ```
