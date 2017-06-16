@@ -76,7 +76,11 @@ This step might be needed. Best to add to your /etc/hosts file.
     add on the last line; 10.1.2.2 hub.openshift.rhel-cdk.10.1.2.2.xip.io
     save, then ping hub.openshift.rhel-cdk.10.1.2.2.xip.io
 ```
-If you get a certificate error, add edit your /etc/sysconfig/docker file and add the following:
+If you get a certificate error, like the below:
+
+![images/oc-er01.png](images/oc-er01.png)
+
+add edit your /etc/sysconfig/docker file and add the following:
 
 ```
 [vagrant@rhel-cdk tomcat]$ sudo vi /etc/sysconfig/docker
