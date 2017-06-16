@@ -80,12 +80,12 @@ If you get a certificate error, like the below:
 
 ![images/oc-er01.png](images/oc-er01.png)
 
-add edit your /etc/sysconfig/docker file and add the following:
+edit your /etc/sysconfig/docker file and add the following:
 
 ```
 [vagrant@rhel-cdk tomcat]$ sudo vi /etc/sysconfig/docker
 ```
-INSECURE_REGISTRY='--insecure-registry hub.openshift.rhel-cdk.10.1.2.2.xip.io'
+```INSECURE_REGISTRY='--insecure-registry hub.openshift.rhel-cdk.10.1.2.2.xip.io'```
 
 Restart docker:
 
