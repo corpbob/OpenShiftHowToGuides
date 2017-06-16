@@ -78,7 +78,7 @@ The URL of the OpenShift internal registry is hub.openshift.rhel-cdk.10.1.2.2.xi
 ```
 [vagrant@rhel-cdk tomcat]$ sudo vi /etc/sysconfig
     uncomment INSECURE_REGISTRY, and modify with
-    INSECURE_REGISTRY='__insecure-registry hub.openshift.rhel-cdk.10.1.2.2.xip.io'
+    INSECURE_REGISTRY='--insecure-registry hub.openshift.rhel-cdk.10.1.2.2.xip.io'
 [vagrant@rhel-cdk tomcat]$ sudo systemctl restart docker
 [vagrant@rhel-cdk tomcat]$ sudo sccli openshift
 ```
