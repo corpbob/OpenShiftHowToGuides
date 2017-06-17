@@ -40,6 +40,7 @@
 
 <img src="images/networking-host-only.png" height="200px">
 
+## Configure CentOS
 
 - Once installation is complete, configure the networking inside CentOS. As root edit the file /etc/sysconfig/network-scripts/ifcfg-enp0s3 and set it to these contents
 
@@ -101,18 +102,18 @@ PING 10.1.2.2 (10.1.2.2): 56 data bytes
 1 packets transmitted, 1 packets received, 0.0% packet loss
 round-trip min/avg/max/stddev = 0.454/0.454/0.454/0.000 ms
 ```
-- Install docker
-
-```
-yum install -y docker
-```
-
-- Install oc client
+## Install oc client
 
 ```bash
 curl -L https://github.com/openshift/origin/releases/download/v1.5.1/openshift-origin-client-tools-v1.5.1-7b451fc-linux-64bit.tar.gz -o oc.tar.gz
 tar tzf oc.tar.gz 
 mv openshift-origin-client-tools-v1.5.1-7b451fc-linux-64bit/oc /usr/local/bin/
+```
+
+## Install docker
+
+```
+yum install -y docker
 ```
 - Edit the file /etc/sysconfig/docker and add the line 
 
@@ -124,6 +125,7 @@ INSECURE_REGISTRY='--insecure-registry 172.30.0.0/16'
 ```
 systemctl restart docker
 ```
+## Configure firewalld
 
 - Run the command below and get the IP
 
@@ -150,3 +152,14 @@ firewall-cmd --permanent --zone public --add-port 443/tcp
 firewall-cmd --reload
  ```
 
+## Install OpenShift
+
+- Create directory /var/lib/origin/openshift.local.data to hold etcd data.
+
+```
+mkdir /var/lib/origin/openshift.local.data
+```
+
+```
+oc cluster up --public-hostname=10.1.2.2 --routing-suffix=10.1.2.2.xip.io --host-data-dir=/var/lib/origin/openshift.local.data --use-existing-config=true
+```
