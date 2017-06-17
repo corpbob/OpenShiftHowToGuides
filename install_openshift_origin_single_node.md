@@ -161,5 +161,54 @@ mkdir /var/lib/origin/openshift.local.data
 ```
 
 ```
-oc cluster up --public-hostname=10.1.2.2 --routing-suffix=10.1.2.2.xip.io --host-data-dir=/var/lib/origin/openshift.local.data --use-existing-config=true
+[root@openshift sysconfig]# oc cluster up \
+--public-hostname=10.1.2.2 --routing-suffix=10.1.2.2.xip.io \
+--host-data-dir=/var/lib/origin/openshift.local.data \
+--metrics=true --logging=true
+```
+- You will get an output similar to the below
+
+```
+-- Checking OpenShift client ... OK
+-- Checking Docker client ... OK
+-- Checking Docker version ... OK
+-- Checking for existing OpenShift container ... 
+   Deleted existing OpenShift container
+-- Checking for openshift/origin:v1.5.1 image ... OK
+-- Checking Docker daemon configuration ... OK
+-- Checking for available ports ... OK
+-- Checking type of volume mount ... 
+   Using nsenter mounter for OpenShift volumes
+-- Creating host directories ... OK
+-- Finding server IP ... 
+   Using 10.0.2.15 as the server IP
+-- Starting OpenShift container ... 
+   Creating initial OpenShift configuration
+   Starting OpenShift using container 'origin'
+   Waiting for API server to start listening
+   OpenShift server started
+-- Adding default OAuthClient redirect URIs ... OK
+-- Installing registry ... OK
+-- Installing router ... OK
+-- Installing metrics ... OK
+-- Importing image streams ... OK
+-- Importing templates ... OK
+-- Login to server ... OK
+-- Creating initial project "myproject" ... OK
+-- Removing temporary directory ... OK
+-- Checking container networking ... OK
+-- Server Information ... 
+   OpenShift server started.
+   The server is accessible via web console at:
+       https://10.1.2.2:8443
+
+   The metrics service is available at:
+       https://metrics-openshift-infra.10.1.2.2.xip.io
+
+   You are logged in as:
+       User:     developer
+       Password: developer
+
+   To login as administrator:
+       oc login -u system:admin
 ```
