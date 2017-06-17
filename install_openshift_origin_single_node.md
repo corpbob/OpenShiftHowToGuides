@@ -212,3 +212,21 @@ mkdir /var/lib/origin/openshift.local.data
    To login as administrator:
        oc login -u system:admin
 ```
+
+- Add admin user to admin role so that all projects will be visible in the web console.
+
+```
+oc adm policy add-cluster-role-to-user admin admin
+```
+
+- Navigate to the web console at https://10.1.2.2:8443 and login with the credentials
+
+```
+username: admin
+password: admin
+```
+You should be able to see this:
+
+<img src="images/web_console.png" height="200px">
+
+# Congratulations! OpenShift Origin is up and running!
