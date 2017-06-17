@@ -101,4 +101,52 @@ PING 10.1.2.2 (10.1.2.2): 56 data bytes
 1 packets transmitted, 1 packets received, 0.0% packet loss
 round-trip min/avg/max/stddev = 0.454/0.454/0.454/0.000 ms
 ```
+- Install docker
+
+```
+yum install -y docker
+```
+
+- Install oc client
+
+```bash
+curl -L https://github.com/openshift/origin/releases/download/v1.5.1/openshift-origin-client-tools-v1.5.1-7b451fc-linux-64bit.tar.gz -o oc.tar.gz
+tar tzf oc.tar.gz 
+mv openshift-origin-client-tools-v1.5.1-7b451fc-linux-64bit/oc /usr/local/bin/
+```
+- Edit the file /etc/sysconfig/docker and add the line 
+
+```
+INSECURE_REGISTRY='--insecure-registry 172.30.0.0/16'
+```
+- restart docker
+
+```
+systemctl restart docker
+```
+
+- Run the command below and get the IP
+
+```
+[root@openshift sysconfig]# docker network inspect -f "{{range .IPAM.Config }}{{ .Subnet }}{{end}}" bridge
+172.17.0.0/16
+```
+
+- Use the IP return above for the below commands:
+
+```
+firewall-cmd --permanent --new-zone dockerc
+firewall-cmd --permanent --zone dockerc --add-source 172.17.0.0/16
+firewall-cmd --permanent --zone dockerc --add-port 53/udp
+firewall-cmd --permanent --zone dockerc --add-port 8053/udp
+firewall-cmd --reload
+```
+- Run the addtional commands below to open the ports from outside the VM
+
+```
+firewall-cmd --permanent --zone public --add-port 8443/tcp
+firewall-cmd --permanent --zone public --add-port 80/tcp
+firewall-cmd --permanent --zone public --add-port 443/tcp
+firewall-cmd --reload
+ ```
 
