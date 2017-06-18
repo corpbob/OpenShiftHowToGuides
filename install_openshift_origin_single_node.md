@@ -12,33 +12,33 @@
 
 - A dialog box will appear
 
-<img src="images/host-only2.png" height="200px">
+<img src="images/host-only2.png" height="400px">
 
 - Add a host-only network and set it's IP address to 10.1.2.1.
 
-<img src="images/host-only3.png" height="200px">
+<img src="images/host-only3.png" height="400px">
 
 - Click OK
 
 ## Install CentOS
 - Using VirtualBox, click the Create button
 
-<img src="images/install_centos_create.png" height="200px">
+<img src="images/install_centos_create.png" height="400px">
 
 - specify the name. The version should be Red Hat (64-bit)
 - Allocate at least 8 GB RAM, 4 CPU
 
-<img src="images/install_centos_memory.png" height="200px">
+<img src="images/install_centos_memory.png" height="400px">
 
-<img src="images/install_centos_cpu.png" height="200px">
+<img src="images/install_centos_cpu.png" height="400px">
 
 - Configure the Network. Set the first adapter to NAT
 
-<img src="images/networking-nat.png" height="200px">
+<img src="images/networking-nat.png" height="400px">
 
 - Set the second adapter to the host-only network you created earlier
 
-<img src="images/networking-host-only.png" height="200px">
+<img src="images/networking-host-only.png" height="400px">
 
 ## Configure CentOS
 
@@ -149,6 +149,7 @@ firewall-cmd --reload
 firewall-cmd --permanent --zone public --add-port 8443/tcp
 firewall-cmd --permanent --zone public --add-port 80/tcp
 firewall-cmd --permanent --zone public --add-port 443/tcp
+firewall-cmd --permanent --zone public --add-port 10250/tcp
 firewall-cmd --reload
  ```
 
@@ -227,6 +228,6 @@ password: admin
 ```
 You should be able to see this:
 
-<img src="images/web_console.png" height="200px">
+<img src="images/web_console.png">
 
 # Congratulations! OpenShift Origin is up and running!
