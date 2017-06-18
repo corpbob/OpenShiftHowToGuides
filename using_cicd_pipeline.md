@@ -104,6 +104,269 @@ oc create -f todo_pipeline.yml
 
 <img src="images/cicd_pipeline_navigate.png" height=400px>
 
+- You should be able to see this:
+
 <img src="images/cicd_pipeline_empty.png" height=200px>
 
+## Setup the UAT Environment
 
+- Save the following into the file todo_mongo_secret.yml
+
+```
+apiVersion: v1
+data:
+  database-admin-password: ZGVtbw==
+  database-password: ZGVtbw==
+  database-user: ZGVtbw==
+kind: Secret
+metadata:
+  creationTimestamp: null
+  labels:
+    app: mongodb-persistent
+    template: mongodb-persistent-template
+  name: mongodb
+type: Opaque
+```
+
+- Save the following into the file todo_template_uat.yml:
+
+```
+apiVersion: v1
+kind: Template
+metadata:
+  name: todo
+objects:
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: null
+    labels:
+      app: mongodb-persistent
+      template: mongodb-persistent-template
+    name: mongodb
+  spec:
+    ports:
+    - name: mongo
+      port: 27017
+      protocol: TCP
+      targetPort: 27017
+    selector:
+      name: mongodb
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    labels:
+      app: todo
+    name: todo
+  spec:
+    ports:
+    - name: 8080-tcp
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+    selector:
+      deploymentconfig: todo
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Route
+  metadata:
+    labels:
+      app: todo
+    name: todo
+  spec:
+    host: todo-todo-uat2.10.1.2.2.nip.io
+    port:
+      targetPort: 8080-tcp
+    to:
+      kind: Service
+      name: todo
+      weight: 100
+    wildcardPolicy: None
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    labels:
+      app: mongodb-persistent
+      template: mongodb-persistent-template
+    name: mongodb
+  spec:
+    replicas: 1
+    selector:
+      name: mongodb
+    strategy:
+      activeDeadlineSeconds: 21600
+      recreateParams:
+        timeoutSeconds: 600
+      resources: {}
+      type: Recreate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          name: mongodb
+      spec:
+        containers:
+        - env:
+          - name: MONGODB_USER
+            valueFrom:
+              secretKeyRef:
+                key: database-user
+                name: mongodb
+          - name: MONGODB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: database-password
+                name: mongodb
+          - name: MONGODB_ADMIN_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: database-admin-password
+                name: mongodb
+          - name: MONGODB_DATABASE
+            value: todo-api
+          image: centos/mongodb-32-centos7
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
+            tcpSocket:
+              port: 27017
+            timeoutSeconds: 1
+          name: mongodb
+          ports:
+          - containerPort: 27017
+            protocol: TCP
+          readinessProbe:
+            exec:
+              command:
+              - /bin/sh
+              - -i
+              - -c
+              - mongo 127.0.0.1:27017/$MONGODB_DATABASE -u $MONGODB_USER -p $MONGODB_PASSWORD
+                --eval="quit()"
+            failureThreshold: 3
+            initialDelaySeconds: 3
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              memory: 512Mi
+          securityContext:
+            capabilities: {}
+            privileged: false
+          terminationMessagePath: /dev/termination-log
+          volumeMounts:
+          - mountPath: /var/lib/mongodb/data
+            name: mongodb-data
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: mongodb-data
+          persistentVolumeClaim:
+            claimName: mongodb
+    test: false
+    triggers:
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - mongodb
+        from:
+          kind: ImageStreamTag
+          name: mongodb:3.2
+          namespace: openshift
+      type: ImageChange
+    - type: ConfigChange
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    generation: 1
+    labels:
+      app: todo
+    name: todo
+  spec:
+    replicas: 1
+    selector:
+      deploymentconfig: todo
+    strategy:
+      activeDeadlineSeconds: 21600
+      resources: {}
+      rollingParams:
+        intervalSeconds: 1
+        maxSurge: 25%
+        maxUnavailable: 25%
+        timeoutSeconds: 600
+        updatePeriodSeconds: 1
+      type: Rolling
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: todo
+          deploymentconfig: todo
+      spec:
+        containers:
+        - env:
+          - name: PORT
+            value: "8080"
+          image: 172.30.1.1:5000/todo-dev/todo
+          imagePullPolicy: Always
+          name: todo
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+    test: false
+    triggers:
+    - imageChangeParams:
+        automatic: false
+        containerNames:
+        - todo
+        from:
+          kind: ImageStreamTag
+          name: todo:latest
+          namespace: todo-dev
+      type: ImageChange
+    - type: ConfigChange
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    labels:
+      app: mongodb-persistent
+      template: mongodb-persistent-template
+    name: mongodb
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 1Gi
+
+```
+
+- Give jenkins the permission to edit todo-uat project
+```
+oc policy add-role-to-user edit system:serviceaccount:todo-dev:jenkins -n todo-uat
+```
+
+- Create a new project todo-uat
+- Import the mongo secret:
+```
+oc create -f todo_mongo_secret.yml 
+```
