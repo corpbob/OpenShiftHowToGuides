@@ -392,3 +392,34 @@ oc create -f todo_template_uat.yml
 ```
 oc new-app todo
 ```
+- Your UAT should look like the below. Notice that there is no deployment for the "todo" service but the mongodb is deployed.
+
+<img src="images/cicd_uat_overview.png" height="400px">
+
+## Starting the CI/CD Pipeline
+
+- Go back to project todo-dev. Click on Builds->Pipelines. 
+
+<img src="images/cicd_start_pipeline.png" height=400px>
+
+- You can also take a look at Jenkins and see the progress
+
+<img src="images/cicd_jenkins_progress.png" height=400px>
+
+- The DEV environment will now do a rolling deployment 
+
+<img src="images/cicd_todo_dev_rolling_deployment.png" height=400px>
+
+- The Pipeline will now reach the Approval Stage:
+
+<img src="images/cicd_pipeline_wait_approval.png" height=400px>
+
+- Click on Input Required. Click on  Approve. The todo service in UAT will now deploy
+
+<img src="images/cicd_uat_deployment.png" height=400px>
+
+- The pipeline will show that it is complete:
+
+<img src="images/cicd_end_pipeline.png" height=400px>
+
+# Congratulations, you have setup the CI/CD Pipeline!
