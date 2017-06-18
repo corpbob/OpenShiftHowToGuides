@@ -100,3 +100,10 @@ oc project todo-dev
 oc create -f todo_pipeline.yml
 ```
 
+- Open the Pipeline Page. Click on Build->Pipelines as show below:
+
+<img src="images/cicd_pipeline_navigate.png" height=400px>
+
+<img src="images/cicd_pipeline_empty.png" height=200px>
+
+
