@@ -91,7 +91,7 @@ PING yahoo.com (98.139.180.149) 56(84) bytes of data.
 2 packets transmitted, 2 received, 0% packet loss, time 1001ms
 rtt min/avg/max/mdev = 227.997/228.146/228.295/0.149 ms
 ```
-- From the host machine, you should be able to ping the VM ip 10.1.2.2
+- From the host machine, you should be able to ping the VM ip 10.1.2.2. Otherwise, wait awhile, at the VM's Power button, found at the upper right of the console, make sure that the 'Ethernet(enp0s8)' is connected. 
 
 ```
 Red-Hats-MacBook-Pro:~ bcorpus$ ping 10.1.2.2
@@ -106,7 +106,7 @@ round-trip min/avg/max/stddev = 0.454/0.454/0.454/0.000 ms
 
 ```bash
 curl -L https://github.com/openshift/origin/releases/download/v1.5.1/openshift-origin-client-tools-v1.5.1-7b451fc-linux-64bit.tar.gz -o oc.tar.gz
-tar tzf oc.tar.gz 
+tar -xzvf oc.tar.gz 
 mv openshift-origin-client-tools-v1.5.1-7b451fc-linux-64bit/oc /usr/local/bin/
 ```
 
@@ -120,6 +120,14 @@ yum install -y docker
 ```
 INSECURE_REGISTRY='--insecure-registry 172.30.0.0/16'
 ```
+- Edit the file /etc/docker/daemon.json and add the line 
+
+```
+{
+ "other-prop": 'blah',
+ "insecure-registries" : ["172.30.0.0/16"]
+}
+```
 - restart docker
 
 ```
@@ -131,6 +139,7 @@ systemctl restart docker
 
 ```
 [root@openshift sysconfig]# docker network inspect -f "{{range .IPAM.Config }}{{ .Subnet }}{{end}}" bridge
+
 172.17.0.0/16
 ```
 
@@ -158,7 +167,7 @@ firewall-cmd --reload
 - Create directory /var/lib/origin/openshift.local.data to hold etcd data.
 
 ```
-mkdir /var/lib/origin/openshift.local.data
+sudo mkdir /var/lib/origin/openshift.local.data
 ```
 
 ```
