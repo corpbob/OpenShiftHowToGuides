@@ -79,7 +79,7 @@ spec:
           stage( 'Wait for approval')
           input( 'Aprove to production?')
           stage('Deploy UAT'){
-            openshiftDeploy(deploymentConfig: 'todo', namespace: 'todo-uat2')
+            openshiftDeploy(deploymentConfig: 'todo', namespace: 'todo-uat')
           }
 
         }
