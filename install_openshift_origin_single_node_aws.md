@@ -3,7 +3,7 @@
 ## Assumptions:
 
 - You have an AWS account
-- You launched an instance using CentOS 7 (x86_64) - with Updates HVM
+- You launched an instance using CentOS 7 (x86_64) - with Updates HVM. https://aws.amazon.com/marketplace/pp/B00O7WM7QW
 - You have allocated an elastic IP, which we call <elastic-ip> moving forward
 - You have associated <elastic-ip> to your running instance.
 - You need to be root to install.
@@ -82,10 +82,11 @@ firewall-cmd --reload
 ```
 sudo mkdir -p /var/lib/origin/openshift.local.data
 ```
+*Important: Substitute your ip address when you see <elastic ip>*
 
 ```
 [root@openshift sysconfig]# oc cluster up \
---public-hostname=10.1.2.2 --routing-suffix=10.1.2.2.nip.io \
+--public-hostname=<elastic ip> --routing-suffix=<elastic ip>.nip.io \
 --host-data-dir=/var/lib/origin/openshift.local.data \
 --metrics=true
 ```
@@ -104,7 +105,7 @@ sudo mkdir -p /var/lib/origin/openshift.local.data
    Using nsenter mounter for OpenShift volumes
 -- Creating host directories ... OK
 -- Finding server IP ... 
-   Using 10.0.2.15 as the server IP
+   Using <elastic ip> as the server IP
 -- Starting OpenShift container ... 
    Creating initial OpenShift configuration
    Starting OpenShift using container 'origin'
@@ -123,10 +124,10 @@ sudo mkdir -p /var/lib/origin/openshift.local.data
 -- Server Information ... 
    OpenShift server started.
    The server is accessible via web console at:
-       https://10.1.2.2:8443
+       https://<elastic ip>:8443
 
    The metrics service is available at:
-       https://metrics-openshift-infra.10.1.2.2.xip.io
+       https://metrics-openshift-infra.<elastic ip>.xip.io
 
    You are logged in as:
        User:     developer
@@ -142,7 +143,7 @@ sudo mkdir -p /var/lib/origin/openshift.local.data
 oc adm policy add-cluster-role-to-user admin admin
 ```
 
-- Navigate to the web console at https://10.1.2.2:8443 and login with the credentials
+- Navigate to the web console at https://<elastic ip>:8443 and login with the credentials
 
 ```
 username: admin
