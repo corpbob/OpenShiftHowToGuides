@@ -4,8 +4,8 @@
 
 - You have an AWS account
 - You launched an instance using CentOS 7 (x86_64) - with Updates HVM. https://aws.amazon.com/marketplace/pp/B00O7WM7QW
-- You have allocated an elastic IP, which we call <elastic-ip> moving forward
-- You have associated <elastic-ip> to your running instance.
+- You have allocated an elastic IP, which we call **\<elastic-ip\>** moving forward
+- You have associated \<elastic-ip\> to your running instance.
 - You need to be root to install.
 
 ## Add the following entry to the security group named "CentOS 7 (x86_64) - with Updates HVM..."
@@ -143,7 +143,7 @@ sudo mkdir -p /var/lib/origin/openshift.local.data
 oc adm policy add-cluster-role-to-user admin admin
 ```
 
-- Navigate to the web console at https://<elastic ip>:8443 and login with the credentials
+- Navigate to the web console at https://\<elastic ip\>:8443 and login with the credentials
 
 ```
 username: admin
