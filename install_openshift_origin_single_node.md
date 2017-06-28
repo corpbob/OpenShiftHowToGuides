@@ -167,7 +167,7 @@ firewall-cmd --reload
 - Create directory /var/lib/origin/openshift.local.data to hold etcd data.
 
 ```
-sudo mkdir /var/lib/origin/openshift.local.data
+sudo mkdir -p /var/lib/origin/openshift.local.data
 ```
 
 ```
