@@ -2,8 +2,10 @@
 
 ## Assumptions:
 
-- CentOS operating System running as a VM in virtual box.
-- Download CentOS from here: http://isoredirect.centos.org/centos/7/isos/x86_64/CentOS-7-x86_64-Everything-1611.iso
+- You have an AWS account
+- You launched an instance using CentOS 7 (x86_64) - with Updates HVM
+- You have allocated an elastic IP, which we call <elastic-ip> moving forward
+- You have associated <elastic-ip> to your running instance.
 
 ## Create a Host-Only Network in VirtualBox
 - Navigate to VirtualBox->Preferences
