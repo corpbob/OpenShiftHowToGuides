@@ -20,6 +20,18 @@ curl -L https://github.com/openshift/origin/releases/download/v1.5.1/openshift-o
 tar -xzvf oc.tar.gz 
 mv openshift-origin-client-tools-v1.5.1-7b451fc-linux-64bit/oc /usr/local/bin/
 ```
+
+## Add /usr/local/bin to root's PATH. Edit /root/.bashrc and add the following line:
+
+```
+export PATH=$PATH:/usr/local/bin
+```
+Source the file /root/.bashrc
+
+```
+source /root/.bashrc
+```
+
 ## Install Firewalld if not already installed
 
 ```
