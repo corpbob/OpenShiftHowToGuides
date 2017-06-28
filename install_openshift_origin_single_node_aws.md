@@ -6,8 +6,9 @@
 - You launched an instance using CentOS 7 (x86_64) - with Updates HVM
 - You have allocated an elastic IP, which we call <elastic-ip> moving forward
 - You have associated <elastic-ip> to your running instance.
+- You need to be root to install.
 
-## Add the following entry to the security group
+## Add the following entry to the security group named "CentOS 7 (x86_64) - with Updates HVM..."
 
 <img src="images/aws_security_group_openshift.png">
 
@@ -19,6 +20,16 @@ curl -L https://github.com/openshift/origin/releases/download/v1.5.1/openshift-o
 tar -xzvf oc.tar.gz 
 mv openshift-origin-client-tools-v1.5.1-7b451fc-linux-64bit/oc /usr/local/bin/
 ```
+## Install Firewalld if not already installed
+
+```
+yum install -y firewalld
+```
+## Install git if not already installed
+
+```
+yum install -y git
+```
 
 ## Install docker
 
@@ -29,14 +40,6 @@ yum install -y docker
 
 ```
 INSECURE_REGISTRY='--insecure-registry 172.30.0.0/16'
-```
-- Edit the file /etc/docker/daemon.json and add the line 
-
-```
-{
- "other-prop": 'blah',
- "insecure-registries" : ["172.30.0.0/16"]
-}
 ```
 - restart docker
 
