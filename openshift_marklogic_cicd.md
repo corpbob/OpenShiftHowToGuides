@@ -2,7 +2,7 @@
 
 ## Create UAT Environment
 
-- Create a file named node-ml-uat.yml with the following contents
+- Create a template file named node-ml-uat.yml with the following contents
 
 ```
 apiVersion: v1
@@ -140,4 +140,26 @@ oc new-project mlnode-uat
 
 ```
 oc secrets add serviceaccount/default secrets/pull-secret --for=pull
+```
+## Import the template node-ml-uat.yml
+
+```
+[root@localhost devenvy]# oc create -f node-ml-uat.yml 
+template "node-ml-template" created
+```
+
+## Create the node-ml application
+
+```
+[root@localhost devenvy]# oc new-app node-ml-template
+--> Deploying template "mlnode-uat/node-ml-template" to project mlnode-uat
+
+--> Creating resources ...
+    deploymentconfig "node-ml-app" created
+    imagestream "node-ml-app" created
+    service "node-ml-app" created
+    route "nodeml" created
+    imagestream "node-ml" created
+--> Success
+    Run 'oc status' to view your app.
 ```
