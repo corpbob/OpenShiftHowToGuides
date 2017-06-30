@@ -124,6 +124,12 @@ objects:
       importPolicy: {}
       name: latest
 ```
+Important: Take note that the imageChangeParams.automatic is false:
+
+```
+    - imageChangeParams:
+        automatic: false
+```
 
 ## Create a new project 
 
@@ -163,3 +169,6 @@ template "node-ml-template" created
 --> Success
     Run 'oc status' to view your app.
 ```
+You should see something like this:
+
+![images/node-ml-uat-screenshot.png](images/node-ml-uat-screenshot.png)
