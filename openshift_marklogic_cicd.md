@@ -386,3 +386,10 @@ template "node-ml-template" created
 You should see something like this:
 
 ![images/node-ml-uat-screenshot.png](images/node-ml-uat-screenshot.png)
+
+### We need to give jenkins service account in mlnode project edit access to mlnode-uat
+
+```
+[root@localhost devenvy]# oc policy add-role-to-user edit system:serviceaccount:mlnode:jenkins -n mlnode-uat
+role "edit" added: "system:serviceaccount:mlnode:jenkins"
+```
