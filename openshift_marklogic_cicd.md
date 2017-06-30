@@ -200,6 +200,19 @@ template "node-ml-template" created
 [root@localhost devenvy]# oc create -f node_ml_pipeline.yml
 buildconfig "node-ml-pipeline-template" created
 ```
+You should see a jenkins service was added:
+
+![images/ml-node-dev-cicd.png](images/ml-node-dev-cicd.png)
+
+Navigate to the pipeline to see it:
+
+![images/ml-node-navigate-pipeline.png](images/ml-node-navigate-pipeline.png)
+
+The pipeline that is yet to be started looks like:
+
+![images/ml-node-pipeline-1.png](images/ml-node-pipeline-1.png)
+
+However, we cannot start this yet. We need to create the UAT Environment.
 
 ## Create UAT Environment
 
@@ -373,3 +386,10 @@ template "node-ml-template" created
 You should see something like this:
 
 ![images/node-ml-uat-screenshot.png](images/node-ml-uat-screenshot.png)
+
+### We need to give jenkins service account in mlnode project edit access to mlnode-uat
+
+```
+[root@localhost devenvy]# oc policy add-role-to-user edit system:serviceaccount:mlnode:jenkins -n mlnode-uat
+role "edit" added: "system:serviceaccount:mlnode:jenkins"
+```
