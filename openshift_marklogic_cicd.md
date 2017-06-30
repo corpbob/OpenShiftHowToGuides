@@ -200,6 +200,13 @@ template "node-ml-template" created
 [root@localhost devenvy]# oc create -f node_ml_pipeline.yml
 buildconfig "node-ml-pipeline-template" created
 ```
+You should see a jenkins service was added:
+
+![images/ml-node-dev-cicd.png](images/ml-node-dev-cicd.png)
+
+Navigate to the pipeline to see it:
+
+![images/ml-node-navigate-pipeline.png](images/ml-node-navigate-pipeline.png)
 
 ## Create UAT Environment
 
