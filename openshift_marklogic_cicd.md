@@ -404,3 +404,22 @@ If you click on the jenkins like you'll find the pipeline:
 
 ![images/ml-node-start-pipeline-2.png](images/ml-node-start-pipeline-2.png)
 
+You can also look at the jenkins log:
+
+![images/ml-node-start-pipeline-3.png](images/ml-node-start-pipeline-3.png)
+
+## Wait for Approval
+
+![images/ml-node-pipeline-wait-approval.png](images/ml-node-pipeline-wait-approval.png)
+
+## Click on Approve
+
+![images/ml-node-pipeline-approval.png](images/ml-node-pipeline-approval.png)
+
+## Deploy to UAT Stage
+
+![images/ml-node-pipeline-deploy-uat.png](images/ml-node-pipeline-deploy-uat.png)
+
+## Congratulations! You just deployed to UAT using the pipeline!
+
+![images/ml-node-pipeline-uat-deployed.png](images/ml-node-pipeline-uat-deployed.png)
