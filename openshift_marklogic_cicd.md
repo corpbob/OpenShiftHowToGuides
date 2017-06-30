@@ -410,13 +410,15 @@ You can also look at the jenkins log:
 
 ## Wait for Approval
 
+At this stage the pipeline will wait for an Approver to give the go-signal.
+
 ![images/ml-node-pipeline-wait-approval.png](images/ml-node-pipeline-wait-approval.png)
 
-## Click on Approve
+## Click on Approve to deploy to UAT
 
 ![images/ml-node-pipeline-approval.png](images/ml-node-pipeline-approval.png)
 
-## Deploy to UAT Stage
+## Pipeline Deploying to UAT
 
 ![images/ml-node-pipeline-deploy-uat.png](images/ml-node-pipeline-deploy-uat.png)
 
