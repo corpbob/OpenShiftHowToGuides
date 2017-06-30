@@ -208,6 +208,12 @@ Navigate to the pipeline to see it:
 
 ![images/ml-node-navigate-pipeline.png](images/ml-node-navigate-pipeline.png)
 
+The pipeline that is yet to be started looks like:
+
+![images/ml-node-pipeline-1.png](images/ml-node-pipeline-1.png)
+
+However, we cannot start this yet. We need to create the UAT Environment.
+
 ## Create UAT Environment
 
 - Create a template file named node-ml-uat.yml with the following contents
