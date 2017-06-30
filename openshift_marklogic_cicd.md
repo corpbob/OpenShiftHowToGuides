@@ -393,3 +393,14 @@ You should see something like this:
 [root@localhost devenvy]# oc policy add-role-to-user edit system:serviceaccount:mlnode:jenkins -n mlnode-uat
 role "edit" added: "system:serviceaccount:mlnode:jenkins"
 ```
+
+# Running the CI/CD Pipeline
+
+If you click on the jenkins like you'll find the pipeline:
+
+![images/ml-node-jenkins-1.png](images/ml-node-jenkins-1.png)
+
+## Start the pipeline
+
+![images/ml-node-start-pipeline-2.png](images/ml-node-start-pipeline-2.png)
+
