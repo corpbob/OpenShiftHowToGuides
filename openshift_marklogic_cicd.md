@@ -169,14 +169,14 @@ oc new-project mlnode
 ## Import the template 
 
 ```
-[root@ip-172-31-36-101 devenvy]# oc create -f node-ml.yml 
+[root@localhost devenvy]# oc create -f node-ml.yml 
 template "node-ml-template" created
 ```
 
 ### Create the app from the template ```node-ml-template```
 
 ```
-[root@ip-172-31-36-101 devenvy]# oc new-app node-ml-template
+[root@localhost devenvy]# oc new-app node-ml-template
 --> Deploying template "mlnode/node-ml-template" to project mlnode
 
 --> Creating resources ...
@@ -189,6 +189,16 @@ template "node-ml-template" created
 --> Success
     Build scheduled, use 'oc logs -f bc/node-ml' to track its progress.
     Run 'oc status' to view your app.
+```
+### You should see something like this at the end of the build and deployment
+
+![images/node-ml-dev.png](images/node-ml-dev.png)
+
+### Import the ci/cd pipeline
+
+```
+[root@localhost devenvy]# oc create -f node_ml_pipeline.yml
+buildconfig "node-ml-pipeline-template" created
 ```
 
 ## Create UAT Environment
