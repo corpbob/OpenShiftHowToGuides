@@ -172,6 +172,25 @@ oc new-project mlnode
 [root@ip-172-31-36-101 devenvy]# oc create -f node-ml.yml 
 template "node-ml-template" created
 ```
+
+### Create the app from the template ```node-ml-template```
+
+```
+[root@ip-172-31-36-101 devenvy]# oc new-app node-ml-template
+--> Deploying template "mlnode/node-ml-template" to project mlnode
+
+--> Creating resources ...
+    buildconfig "node-ml" created
+    deploymentconfig "node-ml-app" created
+    imagestream "node-ml-app" created
+    service "node-ml-app" created
+    route "nodeml" created
+    imagestream "node-ml" created
+--> Success
+    Build scheduled, use 'oc logs -f bc/node-ml' to track its progress.
+    Run 'oc status' to view your app.
+```
+
 ## Create UAT Environment
 
 - Create a template file named node-ml-uat.yml with the following contents
