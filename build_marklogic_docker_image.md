@@ -1,5 +1,10 @@
 # How to build MarkLogic docker image
 
+## Pre-requisites
+
+- Create a directory ```tmp``` in the current working directory.
+- Download MarkLogic rpm from https://developer.marklogic.com/download/binaries/9.0/MarkLogic-9.0-1.1.x86_64.rpm
+- Once downloaded, move the file to ```tmp``` directory and rename it as MarkLogic9.rpm
 - Create a file named Docker file in the current directory with the following contents:
 
 ```
@@ -23,9 +28,9 @@ RUN yum -y install \
   initscripts \
   /tmp/${ML_RPM_FILE} \
   python-setuptools 
-# Install, Supervisor
-RUN easy_install supervisor
-ADD supervisord.conf /etc/supervisord.conf
+# Install, Supervisor (We're not using the super
+# RUN easy_install supervisor
+# ADD supervisord.conf /etc/supervisord.conf
 
 # Clean up
 RUN yum clean all && rm -rf /tmp/${ML_RPM_FILE}
@@ -59,4 +64,9 @@ ENTRYPOINT mkdir -p /var/opt/MarkLogic/Logs && touch /var/opt/MarkLogic/Logs/Err
 - Build the docker image  using the command:
 ```
 docker build --rm=true -t marklogic9 .
+```
+- Check if the docker images was created
+
+```
+docker images|grep marklogic9
 ```
