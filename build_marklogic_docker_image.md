@@ -17,5 +17,8 @@ docker build --rm=true -t marklogic9 .
 - Check if the docker images was created
 
 ```
-docker images|grep marklogic9
+[root@openshiftdev tmp2]# docker images|grep marklogic9
+marklogic9                                   latest              60784656367c        41 seconds ago      1.809 GB
+
 ```
+# Congratulations! You have just build the MarkLogic9 Docker Image!
