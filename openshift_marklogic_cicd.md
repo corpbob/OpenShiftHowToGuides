@@ -1,6 +1,9 @@
 # How to Develop MarkLogic Applications in OpenShift
 
 ## Assumptions
+- You have installed OpenShift. Instructions here:
+  - [install_openshift_origin_single_node.md](install_openshift_origin_single_node.md)
+  - [install_openshift_origin_single_node_aws.md](install_openshift_origin_single_node_aws.md)
 
 - You are logged in to OpenShift as admin
 
