@@ -131,14 +131,6 @@ oc new-app slush-marklogic-node-app
 ```
 oc create -f slush-marklogic-node-pipeline.yml 
 ```
-
-
-### Import the ci/cd pipeline
-
-```
-[root@localhost devenvy]# oc create -f node_ml_pipeline.yml
-buildconfig "node-ml-pipeline-template" created
-```
 You should see a jenkins service was added:
 
 ![images/ml-node-dev-cicd.png](images/ml-node-dev-cicd.png)
