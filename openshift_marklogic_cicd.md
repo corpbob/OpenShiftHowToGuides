@@ -1,6 +1,6 @@
 # How to Develop MarkLogic Applications in OpenShift
 
-# Assumptions
+## Assumptions
 
 - You are logged in to OpenShift as admin
 
@@ -26,7 +26,9 @@ You have access to the following projects and can switch between them with 'oc p
 Using project "default".
 ```
 
-- You have built the MarkLogic 9 Docker image from this [link](build_marklogic_docker_image.md)
+## Build the MarkLogic 9 Docker Image 
+
+- Instructions are here [build_marklogic_docker_image](build_marklogic_docker_image.md)
 
 ## Push the MarkLogic Docker image to OpenShift namespace
 
@@ -86,8 +88,39 @@ spec:
 status:
   dockerImageRepository: ""
 ```
+## Build the slush-marklogic-node Source-2-Image Docker Image 
+- Instructions are here [build_slush_marklogic_node_docker_s2i_image.md](build_slush_marklogic_node_docker_s2i_image.md)
 
 ## Create DEV environment
+
+- Download the file [slush-marklogic-node-templatel.yml](marklogic/slush-marklogic-node-templatel.yml)
+- Create dev project
+
+```
+oc new-project ml-dev
+```
+
+- Allow MarkLogic to run as root user.
+```
+oc adm policy add-scc-to-user anyuid -z default
+```
+
+- Save the docker credentials for pushing and pulling
+```
+oc secrets new-dockercfg push-secret --docker-server=172.30.1.1:5000 --docker-username=admin --docker-password=$(oc whoami -t) --docker-email=admin@example.com
+oc secrets add serviceaccount/default secrets/push-secret --for=pull,mount
+```
+
+- Import the template
+```
+oc create -f slush-marklogic-node-templatel.yml
+```
+
+- Create a new app
+
+```
+oc new-app slush-marklogic-node-app
+```
 
 ### Create the template file node-ml.yml
 ```
