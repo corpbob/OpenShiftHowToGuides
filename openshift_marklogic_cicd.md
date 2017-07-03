@@ -148,11 +148,11 @@ However, we cannot start this yet. We need to create the UAT Environment.
 
 ## Create UAT Environment
 
-- Download the file [slush-marklogic-node-templatel.yml](marklogic/slush-marklogic-node-templatel.yml)
-- Create dev project
+- Download the file [slush-marklogic-node-templatel-uat.yml(marklogic/slush-marklogic-node-templatel-uat.yml)
+- Create uat project
 
 ```
-oc new-project ml-dev
+oc new-project ml-uat
 ```
 
 - Allow MarkLogic to run as root user.
@@ -168,7 +168,7 @@ oc secrets add serviceaccount/default secrets/push-secret --for=pull,mount
 
 - Import the template
 ```
-oc create -f slush-marklogic-node-templatel.yml
+oc create -f slush-marklogic-node-templatel-uat.yml
 ```
 
 - Create a new app
@@ -179,7 +179,7 @@ oc new-app slush-marklogic-node-app
 - After completion, your console should look like the following:
 
 TODO: this image should be uat environment.
-![slush-marklogic-node-overview.png](images/slush-marklogic-node-overview.png)
+![slush-marklogic-node-uat-overview.png](images/slush-marklogic-node-uat-overview.png)
 
 
 ### We need to give jenkins service account in mlnode project edit access to mlnode-uat
