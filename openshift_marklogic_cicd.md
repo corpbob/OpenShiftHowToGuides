@@ -26,7 +26,9 @@ You have access to the following projects and can switch between them with 'oc p
 Using project "default".
 ```
 
-## Build the MarkLogic 9 Docker Image [link](build_marklogic_docker_image.md)
+## Build the MarkLogic 9 Docker Image 
+
+- Instructions are here [build_marklogic_docker_image](build_marklogic_docker_image.md)
 
 ## Push the MarkLogic Docker image to OpenShift namespace
 
