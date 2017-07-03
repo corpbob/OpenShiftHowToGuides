@@ -148,11 +148,11 @@ However, we cannot start this yet. We need to create the UAT Environment.
 
 ## Create UAT Environment
 
-- Download the file [slush-marklogic-node-templatel.yml](marklogic/slush-marklogic-node-templatel.yml)
-- Create dev project
+- Download the file [slush-marklogic-node-templatel-uat.yml(marklogic/slush-marklogic-node-templatel-uat.yml)
+- Create uat project
 
 ```
-oc new-project ml-dev
+oc new-project ml-uat
 ```
 
 - Allow MarkLogic to run as root user.
@@ -168,7 +168,7 @@ oc secrets add serviceaccount/default secrets/push-secret --for=pull,mount
 
 - Import the template
 ```
-oc create -f slush-marklogic-node-templatel.yml
+oc create -f slush-marklogic-node-templatel-uat.yml
 ```
 
 - Create a new app
