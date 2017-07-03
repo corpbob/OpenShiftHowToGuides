@@ -57,9 +57,9 @@ EXPOSE 7997 7998 7999 8000 8001 8002 8005 8004 30050 30051 8040 8041 8070
 ENTRYPOINT mkdir -p /var/opt/MarkLogic/Logs && touch /var/opt/MarkLogic/Logs/ErrorLog.txt && /opt/MarkLogic/bin/MarkLogic && tail -f /var/opt/MarkLogic/Logs/ErrorLog.txt
 #ENTRYPOINT a=`cat /etc/hosts|tail -1` && b=`cat /etc/resolv.conf |grep search|awk '{print $2}'` && echo $a.$b >> /etc/hosts && cat /etc/hosts && hostname && cat /etc/resolv.conf && /usr/bin/supervisord -c /etc/supervisord.conf
 
-#docker build --rm=true -t "centos7-ml9" .
-#docker run --name ml9 -d -p 8000:8000 -p 8001:8001 -p 8002:8002 --privileged=true -v /var/opt/MarkLogic:/var/opt/MarkLogic centos7-ml9
-#docker run --name ml9 -d -p 8000:8000 -p 8001:8001 -p 8002:8002 centos7-ml9
+#docker build --rm=true -t marklogic9 .
+#docker run --name ml9 -d -p 8000:8000 -p 8001:8001 -p 8002:8002 --privileged=true -v /var/opt/MarkLogic:/var/opt/MarkLogic marklogic9
+#docker run --name ml9 -d -p 8000:8000 -p 8001:8001 -p 8002:8002 marklogic9
 ```
 - Build the docker image  using the command:
 ```
