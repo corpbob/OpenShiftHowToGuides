@@ -353,7 +353,8 @@ oc new-project mlnode-uat
 
 ## Save docker authentication information to be used when pulling the images from dev:
 
-```oc secrets new-dockercfg pull-secret --docker-server=172.30.1.1:5000 --docker-username=admin --docker-password=$(oc whoami -t) --docker-email=admin@example.com
+```
+oc secrets new-dockercfg pull-secret --docker-server=172.30.1.1:5000 --docker-username=admin --docker-password=$(oc whoami -t) --docker-email=admin@example.com
 ```
 
 ## Link this secret to the service account
