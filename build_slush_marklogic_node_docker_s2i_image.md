@@ -69,3 +69,4 @@ spec:
 status:
   dockerImageRepository: ""
 ```
+# Congratulations! You have build the slush-marklogic-node s2i builder image!
