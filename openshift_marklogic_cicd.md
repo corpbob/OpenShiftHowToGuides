@@ -88,7 +88,9 @@ spec:
 status:
   dockerImageRepository: ""
 ```
-## Build the slush-marklogic-node Source-2-Image Docker Image [build_slush_marklogic_node_docker_s2i_image.md](build_slush_marklogic_node_docker_s2i_image.md)
+## Build the slush-marklogic-node Source-2-Image Docker Image 
+- Instructions are here [build_slush_marklogic_node_docker_s2i_image.md](build_slush_marklogic_node_docker_s2i_image.md)
+
 ## Create DEV environment
 
 ### Create the template file node-ml.yml
