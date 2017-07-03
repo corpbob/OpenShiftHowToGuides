@@ -215,6 +215,7 @@ objects:
         from:
           kind: ImageStreamTag
           name: slush-marklogic-app:latest
+          namespace: ml-dev
       type: ImageChange
 - apiVersion: v1
   kind: ImageStream
