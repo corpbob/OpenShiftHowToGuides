@@ -43,7 +43,17 @@ docker login -u admin -p $(oc whoami -t) 172.30.1.1:5000
 
 - Push the image 
 ```
-docker push 172.30.1.1:5000/openshift/marklogic9
+[root@openshiftdev ~]# docker push 172.30.1.1:5000/openshift/marklogic9
+The push refers to a repository [172.30.1.1:5000/openshift/marklogic9]
+ed592544bda0: Pushed 
+c4d1a54cbe8c: Pushed 
+109dc775307d: Pushed 
+12d0ed825c00: Pushed 
+a2183695d4bf: Pushed 
+88fee9aaa960: Pushed 
+dc1e2dcdc7b6: Layer already exists 
+latest: digest: sha256:47319f54d674621a27ea90dc6c86edb0fe3db0b20184bf3b9a91b417e3f8f1ea size: 9964
+
 ```
 
 ## Create DEV environment
