@@ -152,7 +152,7 @@ sudo mkdir -p /var/lib/origin/openshift.local.data
 - Add admin user to admin role so that all projects will be visible in the web console.
 
 ```
-oc adm policy add-cluster-role-to-user admin admin
+oc adm policy add-cluster-role-to-user cluster-admin admin
 ```
 
 - Navigate to the web console at https://\<elastic ip\>:8443 and login with the credentials
