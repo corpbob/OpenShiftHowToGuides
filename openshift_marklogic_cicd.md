@@ -1,6 +1,6 @@
 # How to Develop MarkLogic Applications in OpenShift
 
-# Assumptions
+## Assumptions
 
 - You are logged in to OpenShift as admin
 
@@ -26,7 +26,7 @@ You have access to the following projects and can switch between them with 'oc p
 Using project "default".
 ```
 
-- You have built the MarkLogic 9 Docker image from this [link](build_marklogic_docker_image.md)
+## Build the MarkLogic 9 Docker Image [link](build_marklogic_docker_image.md)
 
 ## Push the MarkLogic Docker image to OpenShift namespace
 
@@ -86,7 +86,7 @@ spec:
 status:
   dockerImageRepository: ""
 ```
-
+## Build the slush-marklogic-node Source-2-Image Docker Image [build_slush_marklogic_node_docker_s2i_image.md](build_slush_marklogic_node_docker_s2i_image.md)
 ## Create DEV environment
 
 ### Create the template file node-ml.yml
