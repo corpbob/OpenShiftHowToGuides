@@ -145,187 +145,49 @@ The pipeline that is yet to be started looks like:
 
 However, we cannot start this yet. We need to create the UAT Environment.
 
+
 ## Create UAT Environment
 
-- Create a template file named node-ml-uat.yml with the following contents
+- Download the file [slush-marklogic-node-templatel.yml](marklogic/slush-marklogic-node-templatel.yml)
+- Create dev project
 
 ```
-apiVersion: v1
-kind: Template
-metadata:
-  name: node-ml-template 
-objects:
-- apiVersion: v1
-  kind: DeploymentConfig
-  metadata:
-    labels:
-      app: node-ml-app
-    name: node-ml-app
-  spec:
-    replicas: 1
-    selector:
-      app: node-ml-app
-      deploymentconfig: node-ml-app
-    strategy:
-      activeDeadlineSeconds: 21600
-      resources: {}
-      rollingParams:
-        intervalSeconds: 1
-        maxSurge: 25%
-        maxUnavailable: 25%
-        pre:
-          execNewPod:
-            command:
-            - echo
-            - "hello world"
-            containerName: node-ml-app
-          failurePolicy: Abort
-        timeoutSeconds: 600
-        updatePeriodSeconds: 1
-      type: Rolling
-    template:
-      metadata:
-        creationTimestamp: null
-        labels:
-          app: node-ml-app
-          deploymentconfig: node-ml-app
-      spec:
-        containers:
-        - image: 172.30.1.1:5000/mlnode/node-ml-app
-          imagePullPolicy: Always
-          name: node-ml-app
-          ports:
-          - containerPort: 3000
-            protocol: TCP
-          resources: {}
-          terminationMessagePath: /dev/termination-log
-        dnsPolicy: ClusterFirst
-        restartPolicy: Always
-        securityContext: {}
-        terminationGracePeriodSeconds: 30
-    test: false
-    triggers:
-    - type: ConfigChange
-    - imageChangeParams:
-        automatic: false
-        containerNames:
-        - node-ml-app
-        from:
-          kind: ImageStreamTag
-          name: node-ml-app:latest
-          namespace: mlnode
-      type: ImageChange
-- apiVersion: v1
-  kind: ImageStream
-  metadata:
-    name: node-ml-app
-  spec:
-    tags:
-- apiVersion: v1
-  kind: Service
-  metadata:
-    labels:
-      app: node-ml-app
-    name: node-ml-app
-  spec:
-    ports:
-    - name: 3000-tcp
-      port: 3000
-      protocol: TCP
-      targetPort: 3000
-    selector:
-      app: node-ml-app
-      deploymentconfig: node-ml-app
-    sessionAffinity: None
-    type: ClusterIP
-- apiVersion: v1
-  kind: Route
-  metadata:
-    annotations:
-      openshift.io/host.generated: "true"
-    creationTimestamp: null
-    name: nodeml
-  spec:
-    host: nodeml-mlnode-uat.10.1.2.2.nip.io
-    port:
-      targetPort: 3000-tcp
-    to:
-      kind: Service
-      name: node-ml-app
-      weight: 100
-    wildcardPolicy: None
-- apiVersion: v1
-  kind: ImageStream
-  metadata:
-    name: node-ml
-  spec:
-    tags:
-    - annotations:
-        description: The Node ML Image
-        tags: node-ml
-      from:
-        kind: DockerImage
-        name: docker.io/bcorpusjr/node-ml
-      importPolicy: {}
-      name: latest
-```
-Important: Take note that the imageChangeParams.automatic is false:
-
-```
-    - imageChangeParams:
-        automatic: false
+oc new-project ml-dev
 ```
 
-## Create a new project 
-
+- Allow MarkLogic to run as root user.
 ```
-oc new-project mlnode-uat
-```
-
-## Save docker authentication information to be used when pulling the images from dev:
-
-```
-oc secrets new-dockercfg pull-secret --docker-server=172.30.1.1:5000 --docker-username=admin --docker-password=$(oc whoami -t) --docker-email=admin@example.com
+oc adm policy add-scc-to-user anyuid -z default
 ```
 
-## Link this secret to the service account
-
+- Save the docker credentials for pushing and pulling
 ```
-oc secrets add serviceaccount/default secrets/pull-secret --for=pull
-```
-## Import the template node-ml-uat.yml
-
-```
-[root@localhost devenvy]# oc create -f node-ml-uat.yml 
-template "node-ml-template" created
+oc secrets new-dockercfg push-secret --docker-server=172.30.1.1:5000 --docker-username=admin --docker-password=$(oc whoami -t) --docker-email=admin@example.com
+oc secrets add serviceaccount/default secrets/push-secret --for=pull,mount
 ```
 
-## Create the node-ml application
+- Import the template
+```
+oc create -f slush-marklogic-node-templatel.yml
+```
+
+- Create a new app
 
 ```
-[root@localhost devenvy]# oc new-app node-ml-template
---> Deploying template "mlnode-uat/node-ml-template" to project mlnode-uat
-
---> Creating resources ...
-    deploymentconfig "node-ml-app" created
-    imagestream "node-ml-app" created
-    service "node-ml-app" created
-    route "nodeml" created
-    imagestream "node-ml" created
---> Success
-    Run 'oc status' to view your app.
+oc new-app slush-marklogic-node-app
 ```
-You should see something like this:
+- After completion, your console should look like the following:
 
-![images/node-ml-uat-screenshot.png](images/node-ml-uat-screenshot.png)
+TODO: this image should be uat environment.
+![slush-marklogic-node-overview.png](images/slush-marklogic-node-overview.png)
+
 
 ### We need to give jenkins service account in mlnode project edit access to mlnode-uat
 
 ```
-[root@localhost devenvy]# oc policy add-role-to-user edit system:serviceaccount:mlnode:jenkins -n mlnode-uat
-role "edit" added: "system:serviceaccount:mlnode:jenkins"
+[root@localhost marklogic]# oc policy add-role-to-user edit system:serviceaccount:ml-dev:jenkins -n ml-uat
+role "edit" added: "system:serviceaccount:ml-dev:jenkins"
 ```
-
 # Running the CI/CD Pipeline
 
 If you click on the jenkins like you'll find the pipeline:
