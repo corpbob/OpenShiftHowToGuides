@@ -27,6 +27,13 @@ docker tag slush-marklogic-node  172.30.1.1:5000/openshift/slush-marklogic-node
 
 ```
 [root@openshiftdev OpenShiftHowToGuides]# docker login -u admin -p $(oc whoami -t) 172.30.1.1:5000
+```
+
+- Push image to repository
+
+```
+docker push 172.30.1.1:5000/openshift/slush-marklogic-node
+
 The push refers to a repository [172.30.1.1:5000/openshift/slush-marklogic-node]
 4e1c82c1b725: Pushed 
 9bae9189a217: Pushed 
