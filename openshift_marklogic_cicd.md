@@ -121,6 +121,9 @@ oc create -f slush-marklogic-node-templatel.yml
 ```
 oc new-app slush-marklogic-node-app
 ```
+- After completion, your console should look like the following:
+
+![slush-marklogic-node-overview.png](images/slush-marklogic-node-overview.png)
 
 ### Create the template file node-ml.yml
 ```
