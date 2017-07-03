@@ -219,3 +219,21 @@ At this stage the pipeline will wait for an Approver to give the go-signal.
 ## Congratulations! You just deployed to UAT using the pipeline!
 
 ![images/ml-node-pipeline-uat-deployed.png](images/ml-node-pipeline-uat-deployed.png)
+
+## Click on the route above to launch the slush-marklogic-node app. You shoud see something like this:
+
+![images/slush-marklogic-node-app-page.png](images/slush-marklogic-node-app-page.png)
+
+## Login the the application using credentials
+
+```
+username: admin
+password: admin
+```
+![images/slush-marklogic-node-app-login.png](images/slush-marklogic-node-app-login.png)
+
+## Click on the search menu to get the following:
+
+![images/slush-marklogic-node-app-search.png](images/slush-marklogic-node-app-search.png)
+
+# Congratulations you have now completed CI/CD setup of MarkLogic on OpenShift!
