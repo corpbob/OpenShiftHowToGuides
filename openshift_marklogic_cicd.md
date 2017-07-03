@@ -179,7 +179,7 @@ oc new-app slush-marklogic-node-app
 - After completion, your console should look like the following:
 
 TODO: this image should be uat environment.
-![slush-marklogic-node-overview.png](images/slush-marklogic-node-overview.png)
+![slush-marklogic-node-uat-overview.png](images/slush-marklogic-node-uat-overview.png)
 
 
 ### We need to give jenkins service account in mlnode project edit access to mlnode-uat
