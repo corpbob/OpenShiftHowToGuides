@@ -14,6 +14,11 @@ curl https://raw.githubusercontent.com/corpbob/OpenShiftHowToGuides/marklogic/ma
 ```
 
 - Download the [initialize-ml.sh](marklogic/initialize-ml.sh) to $PWD.
+
+```
+curl https://raw.githubusercontent.com/corpbob/OpenShiftHowToGuides/marklogic/marklogic/initialize-ml.sh -o initialize-ml.sh
+```
+
 - Build the docker image  using the command:
 ```
 docker build --rm=true -t marklogic9 .
