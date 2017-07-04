@@ -103,6 +103,11 @@ status:
 ## Create DEV environment
 
 - Download the file [slush-marklogic-node-templatel.yml](marklogic/slush-marklogic-node-templatel.yml)
+
+```
+curl https://raw.githubusercontent.com/corpbob/OpenShiftHowToGuides/marklogic/marklogic/slush-marklogic-node-templatel.yml -o slush-marklogic-node-templatel.yml
+```
+
 - Create dev project
 
 ```
