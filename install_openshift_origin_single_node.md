@@ -165,8 +165,7 @@ sudo mkdir -p /var/lib/origin/openshift.local.data
 ```
 [root@openshift sysconfig]# oc cluster up \
 --public-hostname=10.1.2.2 --routing-suffix=10.1.2.2.nip.io \
---host-data-dir=/var/lib/origin/openshift.local.data \
---metrics=true
+--host-data-dir=/var/lib/origin/openshift.local.data
 ```
 - You will get an output similar to the below
 
