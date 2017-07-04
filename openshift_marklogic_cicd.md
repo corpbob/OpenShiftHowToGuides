@@ -4,6 +4,12 @@
 - You have installed OpenShift. Instructions here:
   - [install_openshift_origin_single_node.md](install_openshift_origin_single_node.md)
   - [install_openshift_origin_single_node_aws.md](install_openshift_origin_single_node_aws.md)
+- You have started OpenShift.
+```
+oc cluster up \
+--public-hostname=10.1.2.2 --routing-suffix=10.1.2.2.nip.io \
+--host-data-dir=/var/lib/origin/openshift.local.data
+```
 
 - You are logged in to OpenShift as admin
 
