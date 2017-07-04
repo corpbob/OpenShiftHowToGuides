@@ -120,14 +120,6 @@ yum install -y docker
 ```
 INSECURE_REGISTRY='--insecure-registry 172.30.0.0/16'
 ```
-- Edit the file /etc/docker/daemon.json and add the line 
-
-```
-{
- "other-prop": 'blah',
- "insecure-registries" : ["172.30.0.0/16"]
-}
-```
 - restart docker
 
 ```
