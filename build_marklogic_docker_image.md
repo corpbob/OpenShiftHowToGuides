@@ -9,7 +9,16 @@
 
 ## Building the image
 - Download the Dockerfile from this link [Dockerfile](marklogic/Dockerfile) to $PWD.
+```
+curl https://raw.githubusercontent.com/corpbob/OpenShiftHowToGuides/marklogic/marklogic/Dockerfile -o Dockerfile
+```
+
 - Download the [initialize-ml.sh](marklogic/initialize-ml.sh) to $PWD.
+
+```
+curl https://raw.githubusercontent.com/corpbob/OpenShiftHowToGuides/marklogic/marklogic/initialize-ml.sh -o initialize-ml.sh
+```
+
 - Build the docker image  using the command:
 ```
 docker build --rm=true -t marklogic9 .
