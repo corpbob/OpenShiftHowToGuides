@@ -172,4 +172,8 @@ firewall-cmd --direct --add-rule ipv4 filter FORWARD 3 -i enp0s8 -o docker0 -j A
    [ <rule ipv="ipv4" table="filter" chain="FORWARD_direct" priority="0"> -i enp0s8 -o docker0 -j ACCEPT </rule> ]
 </direct>
 ```
+## Launch your browser and navigate to http://10.1.2.2:32055. You should get the MarkLogic Admin Console. The same process applies to get the Query Console.
+
+![images/marklogic_console.png](images/marklogic_console.png)
+
 
