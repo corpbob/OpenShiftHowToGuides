@@ -118,3 +118,58 @@ status:
   loadBalancer: {}
 ```
 
+## Get the nodePort of the admin console from the listing above. In this example, the nodePort=32055. You can do a curl to this port to access the admin console.
+
+```
+[root@openshift ~]# curl -v http://10.1.2.2:32055
+* About to connect() to 10.1.2.2 port 32055 (#0)
+*   Trying 10.1.2.2...
+* Connected to 10.1.2.2 (10.1.2.2) port 32055 (#0)
+> GET / HTTP/1.1
+> User-Agent: curl/7.29.0
+> Host: 10.1.2.2:32055
+> Accept: */*
+> 
+< HTTP/1.1 401 Unauthorized
+< Server: MarkLogic
+< WWW-Authenticate: Digest realm="public", qop="auth", nonce="4b707e317fde11fa4c1cf31879451bbf", opaque="83ced25ba4b28df6"
+< Content-Type: text/html; charset=utf-8
+< Content-Length: 209
+< Connection: Keep-Alive
+< Keep-Alive: timeout=5
+< 
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>401 Unauthorized</title>
+    <meta name="robots" content="noindex,nofollow"/>
+  </head>
+  <body>
+    <h1>401 Unauthorized</h1>
+  </body>
+</html>
+* Connection #0 to host 10.1.2.2 left intact
+```
+
+The "Unauthorized" response came from MarkLogic admin console.
+
+## Open the firewall so you can use a browser to view the Admin Console.
+
+```
+firewall-cmd --zone public --add-port 32055/tcp --permanent
+```
+
+## Create a new iptables rule that will correctly forward the packets to docker.
+
+```
+firewall-cmd --direct --add-rule ipv4 filter FORWARD 3 -i enp0s8 -o docker0 -j ACCEPT
+```
+
+## Make the iptables rule persistent. Create a file /etc/firewalld/direct.xml with the following contents:
+
+```
+<?xml version="1.0" encoding="utf-8"?>
+<direct>
+   [ <rule ipv="ipv4" table="filter" chain="FORWARD_direct" priority="0"> -i enp0s8 -o docker0 -j ACCEPT </rule> ]
+</direct>
+```
+
