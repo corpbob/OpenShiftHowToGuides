@@ -1,0 +1,345 @@
+apiVersion: v1
+kind: Template
+metadata:
+  creationTimestamp: null
+  name: slush-marklogic-node-app
+objects:
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    labels:
+      app: marklogic9
+    name: marklogic9
+  spec:
+    replicas: 1
+    selector:
+      app: marklogic9
+      deploymentconfig: marklogic9
+    strategy:
+      activeDeadlineSeconds: 21600
+      resources: {}
+      rollingParams:
+        intervalSeconds: 1
+        maxSurge: 25%
+        maxUnavailable: 25%
+        timeoutSeconds: 600
+        updatePeriodSeconds: 1
+        post:
+          execNewPod:
+            command:
+            - /tmp/initialize-ml.sh 
+            - -u
+            - admin 
+            - -p 
+            - admin
+            - -r 
+            - public
+            containerName: marklogic9
+          failurePolicy: Abort
+      type: Rolling
+    template:
+      metadata:
+        labels:
+          app: marklogic9
+          deploymentconfig: marklogic9
+      spec:
+        containers:
+        - image: 172.30.1.1:5000/openshift/marklogic9
+          imagePullPolicy: Always
+          name: marklogic9
+          ports:
+          - containerPort: 7997
+            protocol: TCP
+          - containerPort: 7998
+            protocol: TCP
+          - containerPort: 8004
+            protocol: TCP
+          - containerPort: 8041
+            protocol: TCP
+          - containerPort: 30050
+            protocol: TCP
+          - containerPort: 30051
+            protocol: TCP
+          - containerPort: 8000
+            protocol: TCP
+          - containerPort: 8005
+            protocol: TCP
+          - containerPort: 8040
+            protocol: TCP
+          - containerPort: 7999
+            protocol: TCP
+          - containerPort: 8001
+            protocol: TCP
+          - containerPort: 8002
+            protocol: TCP
+          - containerPort: 8070
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          volumeMounts:
+          - mountPath: /var/opt/MarkLogic
+            name: marklogic-data
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: marklogic-data
+          persistentVolumeClaim:
+            claimName: marklogic-pvc
+    test: false
+    triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - marklogic9
+        from:
+          kind: ImageStreamTag
+          name: marklogic9:latest
+          namespace: openshift
+      type: ImageChange
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    name: marklogic-pvc
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 10Gi
+- apiVersion: v1
+  kind: Service
+  metadata:
+    labels:
+      app: marklogic9
+    name: marklogic
+  spec:
+    ports:
+    - name: 7997-tcp
+      port: 7997
+      protocol: TCP
+      targetPort: 7997
+    - name: 7998-tcp
+      port: 7998
+      protocol: TCP
+      targetPort: 7998
+    - name: 7999-tcp
+      port: 7999
+      protocol: TCP
+      targetPort: 7999
+    - name: 8000-tcp
+      port: 8000
+      protocol: TCP
+      targetPort: 8000
+    - name: 8001-tcp
+      port: 8001
+      protocol: TCP
+      targetPort: 8001
+    - name: 8002-tcp
+      port: 8002
+      protocol: TCP
+      targetPort: 8002
+    - name: 8004-tcp
+      port: 8004
+      protocol: TCP
+      targetPort: 8004
+    - name: 8005-tcp
+      port: 8005
+      protocol: TCP
+      targetPort: 8005
+    - name: 8040-tcp
+      port: 8040
+      protocol: TCP
+      targetPort: 8040
+    - name: 8041-tcp
+      port: 8041
+      protocol: TCP
+      targetPort: 8041
+    - name: 30050-tcp
+      port: 30050
+      protocol: TCP
+      targetPort: 30050
+    - name: 30051-tcp
+      port: 30051
+      protocol: TCP
+      targetPort: 30051
+    - name: 8070-tcp
+      port: 8070
+      protocol: TCP
+      targetPort: 8070
+    selector:
+      app: marklogic9
+      deploymentconfig: marklogic9
+    sessionAffinity: None
+    type: ClusterIP
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    labels:
+      app: ${NAME}
+    name: ${NAME}
+  spec:
+    nodeSelector: null
+    output:
+      to:
+        kind: ImageStreamTag
+        name: ${NAME}:latest
+    postCommit: {}
+    resources: {}
+    runPolicy: Serial
+    source:
+      contextDir: /
+      git:
+        ref: ${SOURCE_REPOSITORY_REF}
+        uri: ${SOURCE_REPOSITORY_URL}
+      type: Git
+      sourceSecret:
+        name: bitbucket
+    strategy:
+      sourceStrategy:
+        from:
+          kind: ImageStreamTag
+          name: slush-marklogic-node:latest
+          namespace: openshift
+      type: Source
+    triggers:
+    - generic:
+        secret: ${GITHUB_WEBHOOK_SECRET}
+      type: Generic
+    - github:
+        secret: ${GITHUB_WEBHOOK_SECRET}
+      type: GitHub
+    - imageChange: {}
+      type: ImageChange
+    - type: ConfigChange
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    labels:
+      app: slush-marklogic-app
+    name: slush-marklogic-app
+  spec:
+    replicas: 1
+    selector:
+      app: slush-marklogic-app
+      deploymentconfig: slush-marklogic-app
+    strategy:
+      activeDeadlineSeconds: 21600
+      resources: {}
+      rollingParams:
+        intervalSeconds: 1
+        maxSurge: 25%
+        maxUnavailable: 25%
+        pre:
+          execNewPod:
+            command:
+            - bash
+            - deploy.sh
+            containerName: slush-marklogic-app
+          failurePolicy: Abort
+        timeoutSeconds: 600
+        updatePeriodSeconds: 1
+      type: Rolling
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: slush-marklogic-app
+          deploymentconfig: slush-marklogic-app
+      spec:
+        containers:
+        - image: " "
+          imagePullPolicy: Always
+          name: slush-marklogic-app
+          ports:
+          - containerPort: 3000
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+    test: false
+    triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - slush-marklogic-app
+        from:
+          kind: ImageStreamTag
+          name: slush-marklogic-app:latest
+      type: ImageChange
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    name: slush-marklogic-app
+  spec:
+    tags:
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: slush-marklogic-app
+    labels:
+      app: slush-marklogic-app
+  spec:
+    ports:
+    - name: 3000-tcp
+      port: 3000
+      protocol: TCP
+      targetPort: 3000
+    selector:
+      app: slush-marklogic-app
+      deploymentconfig: slush-marklogic-app
+    sessionAffinity: None
+    type: ClusterIP
+- apiVersion: v1
+  kind: Route
+  metadata:
+    name: ${NAME}
+    annotations: 
+      template.openshift.io/expose-uri: http://{.spec.host}{.spec.path}
+  spec:
+    host: ${APPLICATION_DOMAIN}
+    port:
+      targetPort: 3000-tcp
+    to:
+      kind: Service
+      name: ${NAME}
+      weight: 100
+    wildcardPolicy: None
+parameters:
+  - name: NAME
+    displayName: Name
+    description: The name assigned to all of the frontend objects defined in this template.
+    required: true
+    value: slush-marklogic-app
+  - name: SOURCE_REPOSITORY_URL 
+    displayName: Source Repository URL 
+    description: The URL of the repository with your application source code 
+    value: https://github.com/corpbob/sample-marklogic-app.git
+    required: true 
+  - name: SOURCE_REPOSITORY_REF
+    displayName: Git Reference
+    description: Set this to a branch name, tag or other ref of your repository if you are not using the default branch.
+  - name: OPENSHIFT_DEPLOYMENT_NAMESPACE
+    displayName: The Project Name
+    description: The Project Name
+    required: false
+  - name: GITHUB_WEBHOOK_SECRET
+    displayName: GitHub Webhook Secret
+    description: Github trigger secret.  A difficult to guess string encoded as part of the webhook URL.  Not encrypted.
+    generate: expression
+    from: "[a-zA-Z0-9]{40}"
+  - name: GENERIC_WEBHOOK_SECRET
+    displayName: Generic Webhook Secret
+    description: A secret string used to configure the Generic webhook.
+    generate: expression
+    from: "[a-zA-Z0-9]{40}"
+  - name: APPLICATION_DOMAIN
+    displayName: Application Hostname
+    description: The exposed hostname that will route to the Node.js service, if left blank a value will be defaulted.
+    value: ""
