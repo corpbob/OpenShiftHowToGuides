@@ -194,6 +194,7 @@ objects:
       git:
         ref: ${SOURCE_REPOSITORY_REF}
         uri: ${SOURCE_REPOSITORY_URL}
+        commit: v0.1
       type: Git
     strategy:
       sourceStrategy:
