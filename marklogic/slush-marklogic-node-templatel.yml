@@ -175,6 +175,12 @@ objects:
     sessionAffinity: None
     type: ClusterIP
 - apiVersion: v1
+  kind: ImageStream
+  metadata:
+    name: slush-marklogic-app
+  spec:
+    tags:
+- apiVersion: v1
   kind: BuildConfig
   metadata:
     labels:
@@ -194,7 +200,7 @@ objects:
       git:
         ref: ${SOURCE_REPOSITORY_REF}
         uri: ${SOURCE_REPOSITORY_URL}
-        commit: v0.1
+        #commit: v0.1
       type: Git
     strategy:
       sourceStrategy:
@@ -272,12 +278,6 @@ objects:
           kind: ImageStreamTag
           name: slush-marklogic-app:latest
       type: ImageChange
-- apiVersion: v1
-  kind: ImageStream
-  metadata:
-    name: slush-marklogic-app
-  spec:
-    tags:
 - apiVersion: v1
   kind: Service
   metadata:
