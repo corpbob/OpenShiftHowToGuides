@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Template
 metadata:
   creationTimestamp: null
-  name: xxx
+  name: sonar-gogs
 objects:
 - apiVersion: v1
   kind: ServiceAccount
@@ -221,7 +221,8 @@ objects:
   kind: Service
   metadata:
     annotations:
-      openshift.io/generated-by: OpenShiftNewApp
+      service.alpha.openshift.io/dependencies: '[{"name":"postgresql-gogs","namespace":"","kind":"Service"}]'
+ 
     creationTimestamp: null
     labels:
       app: gogs
@@ -481,7 +482,7 @@ objects:
         from:
           kind: ImageStreamTag
           name: sonarqube:latest
-          namespace: sq
+          namespace: openshift
       type: ImageChange
 - apiVersion: v1
   kind: Service
