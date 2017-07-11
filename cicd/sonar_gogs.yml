@@ -1,0 +1,567 @@
+apiVersion: v1
+kind: Template
+metadata:
+  creationTimestamp: null
+  name: xxx
+objects:
+- apiVersion: v1
+  kind: ServiceAccount
+  metadata:
+    name: useroot
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    labels:
+      app: gogs
+    name: gogs
+- apiVersion: v1
+  data:
+    install_gogs.sh: |2
+      curl -v -XPOST http://gogs:3000/install -d 'db_type=PostgreSQL&db_host=postgresql-gogs%3A5432&db_user=userRRC&db_passwd=pglfjBeRH7aCcyhI&db_name=gogs&ssl_mode=disable&db_path=data%2Fgogs.db&app_name=Gogs&repo_root_path=%2Fdata%2Fgit%2Fgogs-repositories&run_user=git&domain=localhost&ssh_port=22&http_port=3000&app_url=http%3A%2F%2Fgogs-xxx.34.228.119.113.nip.io&log_root_path=%2Fapp%2Fgogs%2Flog&smtp_host=&smtp_from=&smtp_user=&smtp_passwd=&enable_federated_avatar=on&enable_captcha=on&admin_name=&admin_passwd=&admin_confirm_passwd=&admin_email='
+  kind: ConfigMap
+  metadata:
+    creationTimestamp: null
+    name: myconfig
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    creationTimestamp: null
+    generation: 1
+    labels:
+      app: postgresql-persistent
+      template: postgresql-persistent-template
+    name: postgresql-gogs
+  spec:
+    replicas: 1
+    selector:
+      name: postgresql-gogs
+    strategy:
+      activeDeadlineSeconds: 21600
+      recreateParams:
+        timeoutSeconds: 600
+      resources: {}
+      type: Recreate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          name: postgresql-gogs
+      spec:
+        containers:
+        - env:
+          - name: POSTGRESQL_USER
+            valueFrom:
+              secretKeyRef:
+                key: database-user
+                name: postgresql
+          - name: POSTGRESQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: database-password
+                name: postgresql
+          - name: POSTGRESQL_DATABASE
+            value: gogs
+          image: centos/postgresql-95-centos7
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
+            tcpSocket:
+              port: 5432
+            timeoutSeconds: 1
+          name: postgresql
+          ports:
+          - containerPort: 5432
+            protocol: TCP
+          readinessProbe:
+            exec:
+              command:
+              - /bin/sh
+              - -i
+              - -c
+              - psql -h 127.0.0.1 -U $POSTGRESQL_USER -q -d $POSTGRESQL_DATABASE -c
+                'SELECT 1'
+            failureThreshold: 3
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              memory: 512Mi
+          securityContext: {}
+          #  capabilities: {}
+          #  privileged: false
+          terminationMessagePath: /dev/termination-log
+          volumeMounts:
+          - mountPath: /var/lib/pgsql/data
+            name: postgresql-data
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: postgresql-data
+          persistentVolumeClaim:
+            claimName: postgresql-gogs
+    test: false
+    triggers:
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - postgresql
+        from:
+          kind: ImageStreamTag
+          name: postgresql:9.5
+          namespace: openshift
+      type: ImageChange
+    - type: ConfigChange
+
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    generation: 1
+    labels:
+      app: gogs
+    name: gogs
+  spec:
+    replicas: 1
+    selector:
+      app: gogs
+      deploymentconfig: gogs
+    strategy:
+      activeDeadlineSeconds: 21600
+      resources: {}
+      rollingParams:
+        intervalSeconds: 1
+        maxSurge: 25%
+        maxUnavailable: 25%
+        timeoutSeconds: 600
+        updatePeriodSeconds: 1
+        post:
+          failurePolicy: Abort
+          execNewPod:
+            containerName: gogs
+            command:
+              - bash
+              - -c
+              #- "sleep 60 && curl -v -XPOST http://gogs:3000/install -d 'db_type=PostgreSQL&db_host=postgresql-gogs%3A5432&db_user=userRRC&db_passwd=pglfjBeRH7aCcyhI&db_name=gogs&ssl_mode=disable&db_path=data%2Fgogs.db&app_name=Gogs&repo_root_path=%2Fdata%2Fgit%2Fgogs-repositories&run_user=git&domain=localhost&ssh_port=22&http_port=3000&app_url=http%3A%2F%2Fgogs-xxx.34.228.119.113.nip.io&log_root_path=%2Fapp%2Fgogs%2Flog&smtp_host=&smtp_from=&smtp_user=&smtp_passwd=&enable_federated_avatar=on&enable_captcha=on&admin_name=&admin_passwd=&admin_confirm_passwd=&admin_email='"
+              - "echo GOGS_URL: ${uri} && echo xxx: ${URI} && sleep 60 && curl -v -XPOST http://gogs:3000/install -d 'db_type=PostgreSQL&db_host=postgresql-gogs%3A5432&db_user=userRRC&db_passwd=pglfjBeRH7aCcyhI&db_name=gogs&ssl_mode=disable&db_path=data%2Fgogs.db&app_name=Gogs&repo_root_path=%2Fdata%2Fgit%2Fgogs-repositories&run_user=git&domain=localhost&ssh_port=22&http_port=3000&app_url=http://${GOGS_URL}&log_root_path=%2Fapp%2Fgogs%2Flog&smtp_host=&smtp_from=&smtp_user=&smtp_passwd=&enable_federated_avatar=on&enable_captcha=on&admin_name=&admin_passwd=&admin_confirm_passwd=&admin_email='"
+              # - ${INSTALL_GOGS}
+              #- bash
+              #- /tmp/install_gogs.sh
+      type: Rolling
+    template:
+      metadata:
+        annotations:
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: gogs
+          deploymentconfig: gogs
+      spec:
+        containers:
+        - image: gogs/gogs
+          imagePullPolicy: Always
+          name: gogs
+          ports:
+          - containerPort: 22
+            protocol: TCP
+          - containerPort: 3000
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          env:
+            - name: INSTALL_GOGS
+              valueFrom:
+                configMapKeyRef:
+                  name: myconfig
+                  key: install_gogs.sh
+          volumeMounts:
+          - mountPath: /data
+            name: gogs-volume-1
+          - mountPath: /tmp/scripts
+            name: install-gogs
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        securityContext: {}
+        serviceAccount: useroot
+        serviceAccountName: useroot
+        #  privileged: true
+        terminationGracePeriodSeconds: 30
+        #volumes:
+        #- configMap:
+        #    name: myconfig
+        #    items:
+        #    - key: app.ini
+        #      path: gogs/conf/app.ini
+        #  name: gogs-volume-1
+        volumes:
+        - name: gogs-volume-1
+          persistentVolumeClaim: 
+            claimName: gogs-pvc
+        - configMap:
+            name: myconfig
+          name: install-gogs
+    test: false
+    triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - gogs
+        from:
+          kind: ImageStreamTag
+          name: gogs:latest
+          namespace: openshift
+      type: ImageChange
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: null
+    labels:
+      app: gogs
+    name: gogs
+  spec:
+    ports:
+    - name: 22-tcp
+      port: 22
+      protocol: TCP
+      targetPort: 22
+    - name: 3000-tcp
+      port: 3000
+      protocol: TCP
+      targetPort: 3000
+    selector:
+      app: gogs
+      deploymentconfig: gogs
+    sessionAffinity: None
+    type: ClusterIP
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: null
+    labels:
+      app: postgresql-persistent
+      template: postgresql-persistent-template
+    name: postgresql-gogs
+  spec:
+    ports:
+    - name: postgresql
+      port: 5432
+      protocol: TCP
+      targetPort: 5432
+    selector:
+      name: postgresql-gogs
+    sessionAffinity: None
+    type: ClusterIP
+- apiVersion: v1
+  kind: Route
+  metadata:
+    annotations: 
+      template.openshift.io/expose-uri: http://{.spec.host}{.spec.path}
+    name: gogs
+  spec:
+    host: ${GOGS_URL}
+    port:
+      targetPort: 3000-tcp
+    to:
+      kind: Service
+      name: gogs
+      weight: 100
+    wildcardPolicy: None
+- apiVersion: v1
+  data:
+    database-password: cGdsZmpCZVJIN2FDY3loSQ==
+    database-user: dXNlclJSQw==
+  kind: Secret
+  metadata:
+    creationTimestamp: null
+    labels:
+      app: postgresql-persistent
+      template: postgresql-persistent-template
+    name: postgresql
+  type: Opaque
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    labels:
+      app: postgresql-persistent
+      template: postgresql-persistent-template
+    name: postgresql-sonarqube
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 1Gi
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    labels:
+      app: gogs
+    name: gogs-pvc
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 1Gi
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    creationTimestamp: null
+    generation: 1
+    labels:
+      app: postgresql-persistent
+      template: postgresql-persistent-template
+    name: postgresql
+  spec:
+    replicas: 1
+    selector:
+      name: postgresql
+    strategy:
+      activeDeadlineSeconds: 21600
+      recreateParams:
+        timeoutSeconds: 600
+      resources: {}
+      type: Recreate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          name: postgresql
+      spec:
+        containers:
+        - env:
+          - name: POSTGRESQL_USER
+            value: user
+          - name: POSTGRESQL_PASSWORD
+            value: user
+          - name: POSTGRESQL_DATABASE
+            value: sonar
+          image: centos/postgresql-95-centos7
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
+            tcpSocket:
+              port: 5432
+            timeoutSeconds: 1
+          name: postgresql
+          ports:
+          - containerPort: 5432
+            protocol: TCP
+          readinessProbe:
+            exec:
+              command:
+              - /bin/sh
+              - -i
+              - -c
+              - psql -h 127.0.0.1 -U $POSTGRESQL_USER -q -d $POSTGRESQL_DATABASE -c
+                'SELECT 1'
+            failureThreshold: 3
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              memory: 512Mi
+          securityContext: {}
+          #  capabilities: {}
+          #  privileged: false
+          terminationMessagePath: /dev/termination-log
+          volumeMounts:
+          - mountPath: /var/lib/pgsql/data
+            name: postgresql-data
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: postgresql-data
+          persistentVolumeClaim:
+            claimName: postgresql-sonarqube
+    test: false
+    triggers:
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - postgresql
+        from:
+          kind: ImageStreamTag
+          name: postgresql:9.5
+          namespace: openshift
+      type: ImageChange
+    - type: ConfigChange
+
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    name: sonarqube
+  spec:
+    tags:
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: null
+    generation: 1
+    labels:
+      app: sonarqube
+    name: sonarqube
+  spec:
+    replicas: 1
+    selector:
+      app: sonarqube
+      deploymentconfig: sonarqube
+    strategy:
+      activeDeadlineSeconds: 21600
+      resources: {}
+      rollingParams:
+        intervalSeconds: 1
+        maxSurge: 25%
+        maxUnavailable: 25%
+        timeoutSeconds: 600
+        updatePeriodSeconds: 1
+      type: Rolling
+    template:
+      metadata:
+        annotations:
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: sonarqube
+          deploymentconfig: sonarqube
+      spec:
+        containers:
+        - env:
+          - name: SONARQUBE_JDBC_USERNAME
+            value: user
+          - name: SONARQUBE_JDBC_PASSWORD
+            value: user
+          - name: SONARQUBE_JDBC_URL
+            value: jdbc:postgresql://postgresql-sonarqube/sonar
+          image: sonarqube
+          imagePullPolicy: Always
+          name: sonarqube
+          ports:
+          - containerPort: 9000
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          volumeMounts:
+          - mountPath: /opt/sonarqube/data
+            name: sonarqube-volume-1
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        securityContext: {}
+        serviceAccount: useroot
+        serviceAccountName: useroot
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: sonarqube-volume-1
+          persistentVolumeClaim: 
+            claimName: sonarqube-pvc
+    test: false
+    triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - sonarqube
+        from:
+          kind: ImageStreamTag
+          name: sonarqube:latest
+          namespace: sq
+      type: ImageChange
+- apiVersion: v1
+  kind: Service
+  metadata:
+    labels:
+      app: sonarqube
+    name: sonarqube
+    annotations:
+      service.alpha.openshift.io/dependencies: '[{"name":"postgresql-sonarqube","namespace":"","kind":"Service"}]'
+  spec:
+    ports:
+    - name: 9000-tcp
+      port: 9000
+      protocol: TCP
+      targetPort: 9000
+    selector:
+      app: sonarqube
+      deploymentconfig: sonarqube
+    sessionAffinity: None
+    type: ClusterIP
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    labels:
+      app: sonarqube
+    name: sonarqube-pvc
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 1Gi
+- apiVersion: v1
+  kind: Route
+  metadata:
+    name: sonarqube
+  spec:
+    host: sonarqube-sq5.34.228.119.113.nip.io
+    port:
+      targetPort: 9000-tcp
+    to:
+      kind: Service
+      name: sonarqube
+      weight: 100
+    wildcardPolicy: None
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: null
+    labels:
+      app: postgresql-persistent
+      template: postgresql-persistent-template
+    name: postgresql-sonarqube
+  spec:
+    ports:
+    - name: postgresql
+      port: 5432
+      protocol: TCP
+      targetPort: 5432
+    selector:
+      name: postgresql
+    sessionAffinity: None
+    type: ClusterIP
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    labels:
+      app: postgresql-persistent
+      template: postgresql-persistent-template
+    name: postgresql-gogs
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 1Gi
+parameters:
+  - name: GOGS_URL
+    displayName: Gogs URL
+    description: The url of gogs application
+    required: true
+    value: 'gogs.34.228.119.113.nip.io'
+
