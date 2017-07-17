@@ -310,6 +310,42 @@ objects:
       name: ${NAME}
       weight: 100
     wildcardPolicy: None
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    labels:
+      app: slush-marklogic-app
+      name: slush-marklogic-node-pipeline
+      template: slush-marklogic-node-pipeline
+    name: slush-marklogic-node-pipeline
+  spec:
+    runPolicy: Serial
+    strategy:
+      jenkinsPipelineStrategy:
+        jenkinsfile: |-
+          node() {
+            stage('build') {
+              openshiftBuild(buildConfig: 'slush-marklogic-app', showBuildLogs: 'true')
+            }
+            stage('deploy') {
+              openshiftDeploy(deploymentConfig: 'slush-marklogic-app')
+            }
+ 
+            stage( 'Wait for approval')
+            input( 'Aprove to production?')
+            stage('Deploy UAT'){
+              openshiftDeploy(deploymentConfig: 'slush-marklogic-app', namespace: 'ml-uat')
+            }
+
+          }
+      type: JenkinsPipeline
+    triggers:
+    - github:
+        secret: secret101
+      type: GitHub
+    - generic:
+        secret: secret101
+      type: Generic
 parameters:
   - name: NAME
     displayName: Name
@@ -342,3 +378,4 @@ parameters:
     displayName: Application Hostname
     description: The exposed hostname that will route to the Node.js service, if left blank a value will be defaulted.
     value: ""
+
