@@ -24,7 +24,9 @@ green     green-bg.10.1.2.2.nip.io             blue       8080-tcp              
 [root@openshift ~]# curl http://green-bg.10.1.2.2.nip.io/hello
 green
 ```
+```
 oc patch route/green -p '{"spec":{ "to": { "name": "blue" }}}'
+```
 
 ```
 [root@openshift ~]# curl http://green-bg.10.1.2.2.nip.io/hello
