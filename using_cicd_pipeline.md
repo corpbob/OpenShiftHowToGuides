@@ -37,10 +37,10 @@ Git URL: https://github.com/corpbob/todoAPIjs.git
 ```
 PORT = 8080
 ```
-- Click Create
 
 <img src="images/cicd_nodejs_settings2.png" height=400px>
 
+- Click Create
 - Wait for the deployment of node.js to complete. After completion, click on the link as shown below to show you the application.
 
 <img src="images/cicd_todo_route.png" height=400px>
