@@ -49,7 +49,7 @@ PORT = 8080
 
 <img src="images/cicd_todo_web.png" height=400px>
 
-- Click on Add to Project. Search for jenkins-persistent
+- [*OPTIONAL*] Click on Add to Project. Search for jenkins-persistent. _If you don't do this step (this specific bullet point), OpenShift will do this for you._
 
 <img src="images/cicd_jenkins_persistent.png" height=400px>
 
