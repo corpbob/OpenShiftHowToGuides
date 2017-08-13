@@ -118,6 +118,7 @@ done
 - Add the following string parameters
   - tag
   - commit
+- Tick "Trigger Builds Remotely". Set the token to _secret_.
 - Modify the pipeline script
 ```
 deployment_patch = """{
