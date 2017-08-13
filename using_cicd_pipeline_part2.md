@@ -1,6 +1,12 @@
 # Using CICD Pipeline Part 2
 
-Assumptions: You have setup the CI/CD from this link [using_cicd_pipeline.md](using_cicd_pipeline.md)
+## Objectives:
+- Setup Gogs git service. 
+- Trigger Jenkins build using a Gogs Git Hook.
+- Automatically tag the ImageStream using the git tag supplied by the developer upon pushing to Git.
+
+## Assumptions
+- You have setup the CI/CD from this link [using_cicd_pipeline.md](using_cicd_pipeline.md)
 
 ## Setup Gogs
 
@@ -8,7 +14,7 @@ Assumptions: You have setup the CI/CD from this link [using_cicd_pipeline.md](us
 ```
 oc new-project gogs
 ```
-- Install persistent PostgreSQL. Set postgresql username, password and database to "gogs".
+- Install persistent PostgreSQL. Set postgresql username, password and database to _gogs_.
 
 - Pull the image first
 ```
