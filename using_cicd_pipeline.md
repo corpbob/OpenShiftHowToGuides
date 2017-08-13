@@ -360,13 +360,11 @@ objects:
         storage: 1Gi
 
 ```
-
+- Create a new project todo-uat
 - Give jenkins the permission to edit todo-uat project
 ```
 oc policy add-role-to-user edit system:serviceaccount:todo-dev:jenkins -n todo-uat
 ```
-
-- Create a new project todo-uat
 - Import the mongo secret:
 ```
 oc create -f todo_mongo_secret.yml 
