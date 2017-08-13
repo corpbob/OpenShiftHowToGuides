@@ -361,6 +361,10 @@ objects:
 
 ```
 - Create a new project todo-uat
+```
+oc new-project todo-uat
+```
+
 - Give jenkins the permission to edit todo-uat project
 ```
 oc policy add-role-to-user edit system:serviceaccount:todo-dev:jenkins -n todo-uat
