@@ -8,7 +8,7 @@ Assumptions: You have setup the CI/CD from this link [using_cicd_pipeline.md](us
 ```
 oc new-project gogs
 ```
-- Install persistent PostgreSQL
+- Install persistent PostgreSQL. Set postgresql username, password and database to "gogs".
 
 - Pull the image first
 ```
@@ -144,7 +144,7 @@ node('nodejs') {
 
 ## Test the setup
 - In the project todoAPIjs, modify the README file by adding any character/word.
-- Execute the following
+- Execute the following code. The tag should be relevant to your organization.
 ```
 git add README
 git commit -m "test"
@@ -152,3 +152,5 @@ git tag TestReady-1.0
 git push gogs TestReady-1.0
 ```
 - Verify that the Pipeline was triggered.
+
+# You have now configured automated build upon pushing to Git!
