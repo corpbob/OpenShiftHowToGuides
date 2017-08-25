@@ -373,15 +373,9 @@ oc policy add-role-to-user edit system:serviceaccount:todo-dev:jenkins -n todo-u
 ```
 oc create -f todo_mongo_secret.yml 
 ```
-- Save docker authentication information to be used when pulling the images from dev:
-
+- Give the default account image-puller role on images in todo-dev
 ```
-oc secrets new-dockercfg pull-secret --docker-server=172.30.1.1:5000 --docker-username=admin --docker-password=$(oc whoami -t) --docker-email=admin@example.com
-```
-
-- Link this secret to the service account 
-```
-oc secrets add serviceaccount/default secrets/pull-secret --for=pull
+oc policy add-role-to-user system:image-puller system:serviceaccount:todo-uat:default --namespace=todo-dev
 ```
 
 - Import the template todo_template_uat.yml
