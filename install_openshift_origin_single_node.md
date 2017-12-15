@@ -103,6 +103,9 @@ PING 10.1.2.2 (10.1.2.2): 56 data bytes
 round-trip min/avg/max/stddev = 0.454/0.454/0.454/0.000 ms
 ```
 ## Install oc client
+Important: The latest version of OpenShift is now 3.7. Please use the binaries here instead:
+
+https://gcsweb-ci.svc.ci.openshift.org/gcs/origin-ci-test/branch-logs/origin/v3.7.0/builds/test_branch_origin_cross/1032/artifacts/zips/
 
 ```bash
 curl -L https://github.com/openshift/origin/releases/download/v1.5.1/openshift-origin-client-tools-v1.5.1-7b451fc-linux-64bit.tar.gz -o oc.tar.gz
