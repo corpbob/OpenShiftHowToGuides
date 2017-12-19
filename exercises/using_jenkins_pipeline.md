@@ -37,6 +37,22 @@ You should be able to see something like this
 
 ![Todo After Import](images/todo_after_import.png)
 
+## Create a Mongodb database instance using Mongodb template
+
+- Using the service catalog, search for a mongodb template. 
+
+![MongoDB template](images/todo_mongodb1.png)
+- Set the following parameters to the specified values:
+
+  - Database Service Name = mongodb
+  - MongoDB Connection Usernae = demo
+  - MongoDB Connection Password = demo
+  - MongoDB Database Name = demo
+  - MongoDB Admin Password = demo
+
+
+![MongoDB template values](images/todo_mongodb2.png)
+
 ## Create a new application using NodeJs template
 
 Click "Add to Project", search for NodeJs
@@ -70,4 +86,18 @@ Configure the deployment config to use this secret.
 - Go to Builds->Builds->todo
 
 ![Edit Build Config](images/todo_edit_build_config.png)
+
+- Click on Advanced Options
+
+![Advanced Options](images/todo_edit_build_config2.png)
+
+- Set source secret to gogs-secret
+
+![Set Source Secret](images/todo_edit_build_config3.png)
+
+- Click Save 
+- Click Start Build
+
+![Todo Build Logs](images/todo_build_logs.png)
+- Wait for the build to complete. The build will complete when the image build is pushed to the internal docker registry.
 
