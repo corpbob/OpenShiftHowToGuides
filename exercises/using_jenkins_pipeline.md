@@ -108,4 +108,10 @@ Configure the deployment config to use this secret.
 
 ![Todo Build Logs](images/todo_build_logs.png)
 - Wait for the build to complete. The build will complete when the image build is pushed to the internal docker registry.
+- This will automatically deploy the todo application. Go to Applications-Pods. Click on the todo pod. Click on Logs and you should see something like
 
+![Todo Deployment](images/todo_deployment.png)
+
+- Click on the todo url and you should be able to see something like this
+
+![Todo Page](images/todo_web_page.png)
