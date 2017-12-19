@@ -11,6 +11,14 @@ We are going to replace the "non-persistent" volume mounted on /data and change 
 
 ![Delete Gogs Non-Persistent Volume](images/delete_gogs_volume.png)
 
+Click on Add Storage. 
+
+![Add New Storage](images/add_gogs_storage1.png)
+
+You'll notice there is only one storage and it's already claimed by another container. We need to create another storage. Click on 'create storage' 
+
+![Create New Storage](images/add_gogs_storage2.png)
+
 ## Configure the gogs database by accessing the gogs url. TODO: Add detailed steps.
 ## Get the contents of /opt/gogs/custom/conf/app.ini
 ```
