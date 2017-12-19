@@ -115,3 +115,47 @@ Configure the deployment config to use this secret.
 - Click on the todo url and you should be able to see something like this
 
 ![Todo Page](images/todo_web_page.png)
+
+## Create the Build Pipeline
+
+- Copy the following pipeline definition to a file todo_pipeline.yml
+
+```
+apiVersion: v1
+kind: BuildConfig
+metadata:
+  labels:
+    app: jenkins-pipeline-example
+    name: sample-pipeline
+    template: application-template-sample-pipeline
+  name: todo-pipeline
+spec:
+  runPolicy: Serial
+  strategy:
+    jenkinsPipelineStrategy:
+      jenkinsfile: |-
+        node('nodejs') {
+          stage('build') {
+            openshiftBuild(buildConfig: 'todo', showBuildLogs: 'true')
+          }
+          stage('deploy') {
+            openshiftDeploy(deploymentConfig: 'todo')
+          }
+ 
+          stage( 'Wait for approval')
+          input( 'Aprove to production?')
+          stage('Deploy UAT'){
+            openshiftDeploy(deploymentConfig: 'todo', namespace: 'todo-uat')
+          }
+
+        }
+    type: JenkinsPipeline
+  triggers:
+  - github:
+      secret: secret101
+    type: GitHub
+  - generic:
+      secret: secret101
+    type: Generic
+```
+- Import this definition to the todo-dev project
