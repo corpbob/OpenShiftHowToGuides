@@ -158,4 +158,12 @@ spec:
       secret: secret101
     type: Generic
 ```
-- Import this definition to the todo-dev project
+- Import this definition to the todo-dev project.
+
+```
+oc create -f todo_pipeline.yml
+```
+
+- Go to Build->Pipelines. You should be able to see something like this:
+
+![Todo Build Pipeline](images/todo_pipeline.png)
