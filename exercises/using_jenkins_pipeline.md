@@ -8,17 +8,25 @@ First we need to register to Gogs as a developer.
 
 ## Create a new Repository
 
-Click the + sign of My Repositories. Input the details as shown below
+Click the + sign of My Repositories. Set the following details:
+
+- Repository Name = todoAPIjs
+- Visibility = Private
+
+Click Create Repository
 
 ![Repository Details](images/new_repository_details.png)
 
-## Import source code into Gogs
+Copy the new repository url to the clipboard
+
+![Repository URL](images/todo_repository.png)
+
+## Import source code to the Repository
 
 - Clone the application https://github.com/corpbob/todoAPIjs.git
 ```
 git clone https://github.com/corpbob/todoAPIjs.git
 ```
-- Login to gogs and create a new repository named todoAPIjs. Make it private.
 - Add a new remote 
 ```
 cd todoAPIjs
