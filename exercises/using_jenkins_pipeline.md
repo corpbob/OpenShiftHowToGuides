@@ -1,5 +1,17 @@
 # Using Jenkins Pipeline
 
+## Register to Gogs 
+
+First we need to register to Gogs as a developer.
+
+![Register To Gogs](images/register_to_gogs.png)
+
+## Create a new Repository
+
+Click the + sign of My Repositories. Input the details as shown below
+
+![Repository Details](images/new_repository_details.png)
+
 ## Import source code into Gogs
 
 - Clone the application https://github.com/corpbob/todoAPIjs.git
