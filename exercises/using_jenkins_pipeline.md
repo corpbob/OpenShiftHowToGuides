@@ -47,11 +47,13 @@ You should be able to see something like this
   - Database Service Name = mongodb
   - MongoDB Connection Usernae = demo
   - MongoDB Connection Password = demo
-  - MongoDB Database Name = demo
+  - MongoDB Database Name = todo-api
   - MongoDB Admin Password = demo
 
 
 ![MongoDB template values](images/todo_mongodb2.png)
+
+- Click on Create.
 
 ## Create a new application using NodeJs template
 
@@ -62,6 +64,12 @@ Click "Add to Project", search for NodeJs
 Input the details as shown below. The project should be the project assigned to you.
 
 ![New NodeJs App Details](images/todo_nodejs_details.png)
+
+Click on "advanced options". Scroll to Deployment Configuration and add Environment Variable
+
+```
+PORT = 8080
+```
 
 Click on Create.
 
