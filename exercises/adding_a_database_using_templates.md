@@ -7,6 +7,7 @@
 - PostgreSQL Connection Password
 - PostgreSQL Database Name
 
+![Setting Database Parameters](images/gogs_database_settings.png)
 ## Click on Create. 
 This will create the PostgreSQL database container and run it. It will also request for a persistent volume where it can persist the data across restarts.
 
