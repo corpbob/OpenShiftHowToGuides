@@ -1,5 +1,7 @@
 # Adding a Database Using Templates
 ## Browse the catalog and look for PostgreSQL database
+
+![Service Catalog](images/service_catalog.png)
 ## Set the following required input fields to 'gogs'
 - PostgreSQL Connection Username
 - PostgreSQL Connection Password
