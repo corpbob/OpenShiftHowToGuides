@@ -174,11 +174,3 @@ oc create -f todo_pipeline.yml
   - View the Jenkins Log as the build progresses
   - View the Deployment after the build
 
-## Setup the UAT environment
-
-- Create a project for UAT. The project should be named after the following convention:
-
-dev${your number}-uat
-
-- 
-
