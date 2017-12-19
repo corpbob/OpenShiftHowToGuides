@@ -23,18 +23,31 @@ Mount gogs-storage to /data and click Add
 
 ![Create New Storage](images/add_gogs_storage2.png)
 
-## Configure the gogs database by accessing the gogs url. TODO: Add detailed steps.
-## Get the contents of /opt/gogs/custom/conf/app.ini
+# Expose the gogs service 
+
+Type the following command to create a route for the gogs service.
+
 ```
-[root@openshift todoAPIjs]# oc project gogs
-[root@openshift todoAPIjs]# oc get pods
-NAME                 READY     STATUS    RESTARTS   AGE
-gogs-3-t3wqs         1/1       Running   0          9h
-postgresql-1-7969q   1/1       Running   0          10h
-```
-- Take note of the pod and get the contents of /opt/gogs/custom/conf/app.ini.
-```
-oc rsh gogs-3-t3wqs cat /opt/gogs/custom/conf/app.ini
+oc expose svc gogs
 ```
 
-- Create a config map with key "app.ini" and value equal to the contents of /opt/gogs/custom/conf/app.ini. This will redeploy the gogs application. TODO: Add detailed steps.
+## Configure the gogs database by accessing the gogs url. TODO: Add detailed steps.
+Click on the gogs url to open the gogs service.
+
+![Gogs Install Page](images/gogs_install.png)
+
+Set the following parameters to the following values:
+
+Host = postgresql:5432
+User = gogs
+Password = gogs
+Database Name = gogs
+Run User = gogs
+
+Set the application url to the url of gogs.
+
+Click on Install Gogs. You will get the following page
+
+![Gogs Sign-In Page](images/gogs_sign_in_page.png)
+
+In the next exercise, we will learn how to externalize configuration using ConfigMaps
