@@ -43,6 +43,10 @@ Click "Add to Project", search for NodeJs
 
 ![New NodeJS Apps](images/new_app_nodejs.png)
 
+Input the details as shown below. The project should be the project assigned to you.
+
+![New NodeJs App Details](images/todo_nodejs_details.png)
+
 ## Configure gogs secret in OpenShift
 - Make sure you are in project todo-dev
 ```
