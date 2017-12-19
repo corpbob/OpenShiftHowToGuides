@@ -33,6 +33,10 @@ cd todoAPIjs
 git remote add gogs <your gogs todoAPIjs repository url>
 git push gogs master
 ```
+You should be able to see something like this
+
+![Todo After Import](images/todo_after_import.png)
+
 ## Configure gogs secret in OpenShift
 - Make sure you are in project todo-dev
 ```
