@@ -47,6 +47,11 @@ Input the details as shown below. The project should be the project assigned to 
 
 ![New NodeJs App Details](images/todo_nodejs_details.png)
 
+Click on Create.
+
+The build will fail in this case because the repository is private.
+
+![Build Error](images/todo_error.png)
 ## Configure gogs secret in OpenShift
 - Make sure you are in project todo-dev
 ```
