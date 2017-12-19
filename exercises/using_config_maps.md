@@ -29,7 +29,7 @@ Since this is a new config map, we need to create it.
 
 You can use any unique name for the Config Map. In this exercise, we name it gogs-config. The key should be "app.ini".  We then paste the contents of app.ini to the text area. This will be rendered as a file by Kubernetes with filename app.ini.
 
-After saving, you will be taken to the page "Add Config Files to gogs". Click on "Source" and select gogs-config. Set the mount path to /opt/gogs/custom/conf/ and click Save.
+After saving, you will be taken to the page "Add Config Files to gogs". Click on "Source" and select gogs-config. Set the mount path to /opt/gogs/custom/conf/ and click Add.
 
 ![Add Config Files 2](images/add_config_files2.png)
 
