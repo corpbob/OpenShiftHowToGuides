@@ -51,15 +51,23 @@ Click on Create.
 
 The build will fail in this case because the repository is private.
 
+## Add Gogs credentials to your OpenShift project
+
 ![Build Error](images/todo_error.png)
-## Configure gogs secret in OpenShift
-- Make sure you are in project todo-dev
+
+- Make sure you are in the correct project
+
 ```
-oc project todo-dev
+oc project
 ```
 
 - Create basic secret by specifying your username and password to gogs. In the command below, substitute your gogs username and gogs password.
 ```
 oc secrets new-basicauth  gogs-secret --username=<your gogs username> --password=<your gogs password>
 ```
+Configure the deployment config to use this secret. 
+
+- Go to Builds->Builds->todo
+
+![Edit Build Config](images/todo_edit_build_config.png)
 
