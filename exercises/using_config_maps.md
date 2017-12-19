@@ -27,4 +27,9 @@ Since this is a new config map, we need to create it.
 
 ![Create Config Map](images/create_config_map.png)
 
- Create a config map with key "app.ini" and value equal to the contents of /opt/gogs/custom/conf/app.ini. This will redeploy the gogs application. TODO: Add detailed steps.
+You can use any unique name for the Config Map. In this exercise, we name it gogs-config. The key should be "app.ini".  We then paste the contents of app.ini to the text area. This will be rendered as a file by Kubernetes with filename app.ini.
+
+After saving, you will be taken to the page "Add Config Files to gogs". Click on "Source" and select gogs-config. Set the mount path to /opt/gogs/custom/conf/ and click Save.
+
+![Add Config Files 2](images/add_config_files2.png)
+
