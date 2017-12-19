@@ -20,11 +20,11 @@ FROM centos:latest
 RUN yum install -y java-1.8.0-openjdk-devel
 RUN yum install -y unzip
 RUN adduser tomcat
-USER tomcat
-RUN cd /home/tomcat && curl http://mirror.rise.ph/apache/tomcat/tomcat-9/v9.0.0.M21/bin/apache-tomcat-9.0.0.M21.zip -o apache-tomcat-9.0.0.M21.zip
-RUN cd /home/tomcat && unzip apache-tomcat-9.0.0.M21.zip && ln -s apache-tomcat-9.0.0.M21 tomcat
+ADD tomcat.zip /home/tomcat
+RUN cd /home/tomcat && unzip tomcat.zip && mv apache-tomcat-7.0.82 tomcat
+RUN cd /home/tomcat/tomcat/bin && chown -R 1000:1000 /home/tomcat &&  chmod a+x *.sh && chmod -R a+rxw /home/tomcat
 EXPOSE 8080
-RUN cd /home/tomcat/tomcat/bin && chmod +x *.sh
+USER 1000
 ENTRYPOINT cd /home/tomcat/tomcat/bin && ./catalina.sh run
 ```
 ## Build a docker image
