@@ -15,7 +15,11 @@ Click on Add Storage.
 
 ![Add New Storage](images/add_gogs_storage1.png)
 
-You'll notice there is only one storage and it's already claimed by another container. We need to create another storage. Click on 'create storage' 
+You'll notice there is only one storage and it's already claimed by another container. We need to create another storage. Click on 'create storage' and input the following details as show below:
+
+![Gogs Storage Details](images/gogs_storage_details.png)
+
+Mount gogs-storage to /data and click Add
 
 ![Create New Storage](images/add_gogs_storage2.png)
 
