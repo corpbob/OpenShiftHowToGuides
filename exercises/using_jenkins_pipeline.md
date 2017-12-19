@@ -37,6 +37,12 @@ You should be able to see something like this
 
 ![Todo After Import](images/todo_after_import.png)
 
+## Create a new application using NodeJs template
+
+Click "Add to Project", search for NodeJs
+
+![New NodeJS Apps](images/new_app_nodejs.png)
+
 ## Configure gogs secret in OpenShift
 - Make sure you are in project todo-dev
 ```
