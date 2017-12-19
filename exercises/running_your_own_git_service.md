@@ -34,7 +34,7 @@ oc expose svc gogs
 ## Configure the gogs database by accessing the gogs url. TODO: Add detailed steps.
 Click on the gogs url to open the gogs service.
 
-![Gogs Install Page](images/gogs_install.png)
+![Gogs Install Page](images/gogs_install_page.png)
 
 Set the following parameters to the following values:
 
