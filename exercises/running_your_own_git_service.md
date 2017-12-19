@@ -5,9 +5,14 @@
 oc new-app wkulhanek/gogs:11.4
 ```
 
-- Attach storage to gogs and mount to /data
-- Configure the gogs database by accessing the gogs url. TODO: Add detailed steps.
-- Get the contents of /opt/gogs/custom/conf/app.ini
+## Attach storage to gogs and mount to /data
+
+We are going to replace the "non-persistent" volume mounted on /data and change it to a persistent volume. Go to Applications->Deployments->gogs->Configuration. Scroll down to volumes and delete the volume mounted on /data.
+
+![Delete Gogs Non-Persistent Volume](images/delete_gogs_volume.png)
+
+## Configure the gogs database by accessing the gogs url. TODO: Add detailed steps.
+## Get the contents of /opt/gogs/custom/conf/app.ini
 ```
 [root@openshift todoAPIjs]# oc project gogs
 [root@openshift todoAPIjs]# oc get pods
