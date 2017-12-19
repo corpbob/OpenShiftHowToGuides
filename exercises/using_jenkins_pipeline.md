@@ -142,11 +142,11 @@ spec:
             openshiftDeploy(deploymentConfig: 'todo')
           }
  
-          stage( 'Wait for approval')
-          input( 'Aprove to production?')
-          stage('Deploy UAT'){
-            openshiftDeploy(deploymentConfig: 'todo', namespace: 'todo-uat')
-          }
+          //stage( 'Wait for approval')
+          //input( 'Aprove to production?')
+          //stage('Deploy UAT'){
+            //openshiftDeploy(deploymentConfig: 'todo', namespace: 'todo-uat')
+          //}
 
         }
     type: JenkinsPipeline
@@ -167,3 +167,18 @@ oc create -f todo_pipeline.yml
 - Go to Build->Pipelines. You should be able to see something like this:
 
 ![Todo Build Pipeline](images/todo_pipeline.png)
+
+- At this point, you can do the following:
+  - View Jenkinsfile
+  - Start Pipeline
+  - View the Jenkins Log as the build progresses
+  - View the Deployment after the build
+
+## Setup the UAT environment
+
+- Create a project for UAT. The project should be named after the following convention:
+
+dev${your number}-uat
+
+- 
+
