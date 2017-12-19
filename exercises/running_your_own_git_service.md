@@ -38,11 +38,11 @@ Click on the gogs url to open the gogs service.
 
 Set the following parameters to the following values:
 
-Host = postgresql:5432
-User = gogs
-Password = gogs
-Database Name = gogs
-Run User = gogs
+- Host = postgresql:5432
+- User = gogs
+- Password = gogs
+- Database Name = gogs
+- Run User = gogs
 
 Set the application url to the url of gogs.
 
