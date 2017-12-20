@@ -180,4 +180,4 @@ oc create -f todo_pipeline.yml
   - View the Jenkins Log as the build progresses
   - View the Deployment after the build
 
-Next Exercise: [Using Jenkins Pipeline](06_configure_cicd.md)
+Next Exercise: [Configure the CI/CD pipeline](06_configure_cicd.md)
