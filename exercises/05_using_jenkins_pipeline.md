@@ -2,7 +2,13 @@
 
 ## Register to Gogs 
 
-First we need to register to Gogs as a developer.
+First we need to register to Gogs as a developer. For uniformity, we use the following convention:
+
+*Important: Use the correct value of userX*
+
+username: userX
+email: userX@example.com
+password: userX
 
 ![Register To Gogs](images/register_to_gogs.png)
 
