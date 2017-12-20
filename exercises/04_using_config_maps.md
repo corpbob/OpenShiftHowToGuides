@@ -6,7 +6,6 @@ In this section, we will learn how to externalize configuration files using Conf
 
 ## Get the contents of /opt/gogs/custom/conf/app.ini
 ```
-[root@openshift todoAPIjs]# oc project gogs
 [root@openshift todoAPIjs]# oc get pods
 NAME                 READY     STATUS    RESTARTS   AGE
 gogs-3-t3wqs         1/1       Running   0          9h
