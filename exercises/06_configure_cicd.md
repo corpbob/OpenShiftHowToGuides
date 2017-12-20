@@ -18,8 +18,10 @@ oc policy add-role-to-user edit system:serviceaccount:userX-dev:jenkins -n userX
 
 Important: in the command below, change the namespace "dev1-uat" to your uat project name and "dev1" to your dev project name.
 
+*Important! Use the correct value of userX*
+
 ```
-oc policy add-role-to-user system:image-puller system:serviceaccount:dev1-uat:default --namespace=dev1
+oc policy add-role-to-user system:image-puller system:serviceaccount:userX-uat:default --namespace=userX-dev
 ```
 
 ### Import the following templates
