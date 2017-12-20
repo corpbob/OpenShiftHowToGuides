@@ -30,6 +30,8 @@ oc policy add-role-to-user system:image-puller system:serviceaccount:userX-uat:d
 - Ensure you are in the uat project by checking what project you are in using the command
 
 
+*Important! Use the correct value of userX*
+
 ```
 apiVersion: v1
 kind: Template
