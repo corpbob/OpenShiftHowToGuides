@@ -3,7 +3,13 @@
 ### Create a project for UAT. 
 For the purposes of this workshop, the project should be named after the following convention:
 
-dev${your number}-uat
+*Important! Use the correct value of devX*
+
+devX-uat
+
+```
+oc new-project devX-uat
+```
 
 ### Give the "jenkins" service account the ability to invoke deployments in the UAT environment
 
