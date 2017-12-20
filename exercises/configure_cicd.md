@@ -402,3 +402,97 @@ node('nodejs') {
 
 }
 ```
+
+## Test the Setup
+
+### Configure git email and username
+
+- Execute the following commands to make sure git does not complain when you commit changes.
+
+```
+git config user.email "you@example.com"
+git config user.name "Your Name"
+```
+
+### Change something
+
+- Edit views/index.ejs. Make changes like putting a string "This is a test" near the title.
+- Execute the following commands:
+```
+git add views/index.ejs
+git commit -m "test"
+git tag TestReady-1.0
+git push gogs TestReady-1.0
+```
+- After the push, you should be able to see something like this:
+
+```
+Counting objects: 7, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (4/4), done.
+Writing objects: 100% (4/4), 354 bytes | 0 bytes/s, done.
+Total 4 (delta 2), reused 0 (delta 0)
+remote: Master ref received.  Deploying master branch to production...
+remote:   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+remote:                                  Dload  Upload   Total   Spent    Left  Speed
+remote:   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0* About to connect() to jenkins-dev1.xxx.xxx.xxx.xxx.nip.io port 443 (#0)
+remote: *   Trying xxx.xxx.xxx.xxx...
+remote: * Connected to jenkins-dev1.xxx.xxx.xxx.xxx.nip.io (xxx.xxx.xxx.xxx) port 443 (#0)
+remote: * Initializing NSS with certpath: sql:/etc/pki/nssdb
+remote: * skipping SSL peer certificate verification
+remote: * SSL connection using TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+remote: * Server certificate:
+remote: * 	subject: CN=*.xxx.xxx.xxx.xxx.nip.io
+remote: * 	start date: Dec 19 05:45:18 2017 GMT
+remote: * 	expire date: Dec 19 05:45:19 2019 GMT
+remote: * 	common name: *.xxx.xxx.xxx.xxx.nip.io
+remote: * 	issuer: CN=openshift-signer@1513662256
+remote: * Server auth using Basic with user 'openshift-dev-admin'
+remote: > GET /job/dev1/job/dev1-todo-pipeline/buildWithParameters?token=secret&commit=13311ffd0bb1138d8db492aa5ae9remote: 7cc9&tag=TestReady-1.0 HTTP/1.1
+remote: > Authorization: Basic b3BlbnNoaWZ0LWRldi1hZG1pbjpmZjM1ZmU2ZjQ3OTdmY2FjODMwMDgzMDkzMTRkNTc3Nw==
+remote: > User-Agent: curl/7.29.0
+remote: > Host: jenkins-dev1.xxx.xxx.xxx.xxx.nip.io
+remote: > Accept: */*
+remote: > 
+remote: < HTTP/1.1 302 Found
+remote: < Date: Wed, 20 Dec 2017 02:19:44 GMT
+remote: < X-Content-Type-Options: nosniff
+remote: < Location: https://jenkins-dev1.xxx.xxx.xxx.xxx.nip.io/job/dev1/job/dev1-todo-pipeline/
+remote: < Content-Length: 0
+remote: < Server: Jetty(9.4.z-SNAPSHOT)
+remote: < Set-Cookie: f077bdd19e4769cc805d9c6fd3a63378=8825485b85ce65f504fc2e27c05ddbc6; path=/; HttpOnly; Secure
+remote: < 
+remote:   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+remote: * Connection #0 to host jenkins-dev1.xxx.xxx.xxx.xxx.nip.io left intact
+To http://gogs-dev1.xxx.xxx.xxx.xxx.nip.io/corpbob/todoAPIjs.git
+ * [new tag]         TestReady-1.0 -> TestReady-1.0
+```
+### Observe the Pipeline Run
+
+- Got to the dev environment and click on Builds->Pipelines. You should be able to see a new pipeline being started.
+
+![Pipeline Triggered](images/todo_dev_githook_trigger_pipeline.png)
+
+
+- Go to the Overview page of your dev environment, scroll to "todo" and observe the application being redeployed.
+
+![Todo Dev Redeploy](images/todo_dev_triggered_deploy.png) 
+
+- After a while, the deployment will pause and will ask for input to proceed. 
+
+![Wait for Approval](images/todo_dev_wait_for_approval.png)
+
+- Click on Input Required to open the Jenkins page and approve the request.
+
+![Approve to Production](images/todo_approve_to_production.png)
+
+- Go to your UAT environment and watch "todo" being re-deployed.
+
+![Deployment to UAT](images/todo_uat_deployment.png)
+
+- Open the URL of todo in UAT and check that your changes are there.
+
+![Check Changes](images/todo_web_page_after_pipeline.png)
+
+## If you got this far, Congratulations!
+
