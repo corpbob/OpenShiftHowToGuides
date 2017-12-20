@@ -33,3 +33,5 @@ After saving, you will be taken to the page "Add Config Files to gogs". Click on
 ![Add Config Files 2](images/add_config_files2.png)
 
 This will trigger a redeployment of gogs.
+
+Next Exercise: [Using Jenkins Pipeline](05_using_jenkins_pipeline.md)

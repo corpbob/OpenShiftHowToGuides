@@ -51,3 +51,5 @@ Click on Install Gogs. You will get the following page
 ![Gogs Sign-In Page](images/gogs_sign_in_page.png)
 
 In the next exercise, we will learn how to externalize configuration using ConfigMaps
+
+Next Exercise: [Using ConfigMaps](04_using_config_maps.md)

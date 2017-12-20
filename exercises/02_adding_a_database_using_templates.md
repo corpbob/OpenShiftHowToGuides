@@ -20,3 +20,5 @@ To get information on the persistent volume that was created, enter the command 
 NAME         STATUS    VOLUME    CAPACITY   ACCESSMODES   STORAGECLASS   AGE
 postgresql   Bound     pv0073    100Gi      RWO,ROX,RWX                  58s
 ```
+
+Next Exercise: [Running your own Git Service](03_running_your_own_git_service.md)
