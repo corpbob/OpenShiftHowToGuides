@@ -397,7 +397,7 @@ node('nodejs') {
   stage('Deploy UAT'){
     openshiftTag(sourceStream: 'todo', sourceTag: 'latest', destinationStream: 'todo', destinationTag: params.tag)
     sh "oc patch dc todo --patch \'${deployment_patch}\' -n YYY"
-    openshiftDeploy(deploymentConfig: 'todo', namespace: 'todo-uat')
+    openshiftDeploy(deploymentConfig: 'todo', namespace: 'YYY')
   }
 
 }
