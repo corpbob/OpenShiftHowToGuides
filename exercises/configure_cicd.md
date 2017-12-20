@@ -326,7 +326,9 @@ This will give an output similar to
 - Click on your UserId at the upper right hand corner.
 - Click on Configure at the left hand navigation bar.
 - Click on Show API Token. Take note of the "User ID" and "API Token".
-- Go to gogs page. Access the todoAPIjs repository -> Settings -> Git Hooks -> Post Receive. Paste the following script after substituting the user id and api token you got from Jenkins. The url should also be correct. Instructor will show how to get the correct URL.
+- Go to gogs page. Access the todoAPIjs repository -> Settings -> Git Hooks -> Post Receive. Paste the following script after substituting the user id and api token you got from Jenkins. The url should also be correct. 
+
+*Instructor will show how to get the correct URL.*
 
 ```
 #!/bin/bash
