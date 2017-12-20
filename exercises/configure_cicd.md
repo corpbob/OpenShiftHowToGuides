@@ -281,11 +281,36 @@ oc project
 ```
 oc create -f uat.yaml
 ```
+This will give an output similar to:
+
+```
+template "uat" created
+```
 
 - Create a new application based on the template
 
 ```
 oc create -f uat
+```
+This will give an output similar to 
+
+```
+[root@bcorpus2 bobby]# oc new-app uat
+--> Deploying template "dev2-uat/uat" to project dev2-uat
+
+--> Creating resources ...
+    persistentvolumeclaim "mongodb" created
+    imagestream "todo" created
+    secret "mongodb" created
+    deploymentconfig "mongodb" created
+    deploymentconfig "todo" created
+    service "mongodb" created
+    service "todo" created
+--> Success
+    Application is not exposed. You can expose services to the outside world by executing one or more of the commands below:
+     'oc expose svc/mongodb' 
+     'oc expose svc/todo' 
+    Run 'oc status' to view your app.
 ```
 
 ![Todo UAT Overview](images/todo_uat_overview.png)
