@@ -4,12 +4,17 @@
 For the purposes of this workshop, the project should be named after the following convention:
 
 dev${your number}-uat
+
+### Give the "jenkins" service account the ability to invoke deployments in the UAT environment
+
+oc policy add-role-to-user edit system:serviceaccount:dev1:jenkins -n dev1-uat 
+
 ### Give the default service account access to images in DEV environment
 
-Important: in the command below, change the namespace "dev2-uat" to your uat project name and "dev1" to your dev project name.
+Important: in the command below, change the namespace "dev1-uat" to your uat project name and "dev1" to your dev project name.
 
 ```
-oc policy add-role-to-user system:image-puller system:serviceaccount:dev2-uat:default --namespace=dev1
+oc policy add-role-to-user system:image-puller system:serviceaccount:dev1-uat:default --namespace=dev1
 ```
 
 ### Import the following templates
