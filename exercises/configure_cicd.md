@@ -319,3 +319,26 @@ This will give an output similar to
 ```
 
 ![Todo UAT Overview](images/todo_uat_overview.png)
+
+## Configure the GitHook
+
+### Login to Jenkins as your user id.
+### Click on your UserId at the upper right hand corner.
+### Click on Configure at the left hand navigation bar.
+### Click on Show API Token. Take note of the "User ID" and "API Token".
+### Go to gogs page. Access the todoAPIjs repository -> Settings -> Git Hooks -> Post Receive. Paste the following script after substituting the user id and api token you got from Jenkins. The url should also be correct. Instructor will show how to get the correct URL.
+
+```
+#!/bin/bash
+while read oldrev newrev ref
+do
+    if [[ $ref =~ refs/tags ]];
+    then
+        echo "Master ref received.  Deploying master branch to production..."
+        TAG=`echo $ref|sed 's#refs/tags/\(.*\)#\1#g'`
+        curl -v -k --user <userid>:<api token> -G "https://jenkins-todo-dev.10.1.2.2.nip.io/job/todo-dev-todo-pipeline/buildWithParameters" -d token=secret -d commit=$newrev -d tag=$TAG
+    else
+        echo "Ref $ref successfully received.  Doing nothing: only the master branch may be deployed on this server."
+    fi
+done
+```
