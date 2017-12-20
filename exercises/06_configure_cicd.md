@@ -302,12 +302,11 @@ template "uat" created
 - Create a new application based on the template
 
 ```
-oc create -f uat
+oc new-app uat
 ```
 This will give an output similar to 
 
 ```
-[root@bcorpus2 bobby]# oc new-app uat
 --> Deploying template "dev2-uat/uat" to project dev2-uat
 
 --> Creating resources ...
