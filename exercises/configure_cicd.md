@@ -14,6 +14,10 @@ oc policy add-role-to-user system:image-puller system:serviceaccount:dev2-uat:de
 
 ### Import the following templates
 
+- Using a notepad or vi, create a file named uat.yaml and paste the below contents to this file and save.
+- Ensure you are in the uat project by checking what project you are in using the command
+
+
 ```
 apiVersion: v1
 kind: Template
@@ -266,3 +270,22 @@ objects:
     sessionAffinity: None
     type: ClusterIP
 ```  
+- Ensure you are in the uat project by checking the output of the command below:
+
+```
+oc project
+```
+
+- Import the template 
+
+```
+oc create -f uat.yaml
+```
+
+- Create a new application based on the template
+
+```
+oc create -f uat
+```
+
+![Todo UAT Overview](images/todo_uat_overview.png)
