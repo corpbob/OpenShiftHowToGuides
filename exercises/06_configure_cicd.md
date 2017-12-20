@@ -2,15 +2,17 @@
 ## Setup the UAT environment
 ### Create a project for UAT. 
 
-*Important! Use the correct value of devX*
+*Important! Use the correct value of userX*
 
 ```
-oc new-project devX-uat
+oc new-project userX-uat
 ```
 
 ### Give the "jenkins" service account the ability to invoke deployments in the UAT environment
 
-oc policy add-role-to-user edit system:serviceaccount:dev1:jenkins -n dev1-uat 
+*Important! Use the correct value of userX*
+
+oc policy add-role-to-user edit system:serviceaccount:userX-dev:jenkins -n userX-uat 
 
 ### Give the default service account access to images in DEV environment
 
