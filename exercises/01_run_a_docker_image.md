@@ -2,16 +2,16 @@
 
 ## Login into OpenShift 
 
-*Important: Please substitute for "openshift-devel" the user id assigned to you*
+*Important: Please substitute for "userX" the user id assigned to you*
 
 ```
-oc login -u openshift-devel
+oc login -u userX
 ```
 
 ## Create a new project
 
 ```
-oc new-project myproject
+oc new-project userX-dev
 ```
 
 ## Run the app 
