@@ -344,3 +344,61 @@ do
     fi
 done
 ```
+
+## Configure Jenkins
+
+- Login to Jenkins
+- Click on todo-pipeline
+- Click on Configure
+- Tick "This Project is Parametrized"
+- Add the following string parameters
+  - tag
+  - commit
+- Tick "Trigger Builds Remotely". Set the token to "secret" (without the quotes).
+- Click Save
+- Modify the pipeline script
+
+*Important!* 
+- Change the string XXX to your dev namespace.
+- Change the string YYY to your uat namespace.
+
+```
+deployment_patch = """{
+    "spec": {
+        "triggers": [
+            {
+                "type": "ImageChange",
+                "imageChangeParams": {
+                    "containerNames": [
+                        "todo"
+                    ],
+                    "from": {
+                        "kind": "ImageStreamTag",
+                        "namespace": "XXX",
+                        "name": \"todo:${params.tag}\"
+                    }
+                }
+            }
+        ]
+    }
+}"""
+deployment_patch = deployment_patch.replace("\n"," ")
+
+node('nodejs') {
+  stage('build') {
+    openshiftBuild(buildConfig: 'todo', showBuildLogs: 'true', commitID: params.commit)
+  }
+  stage('deploy') {
+    openshiftDeploy(deploymentConfig: 'todo')
+  }
+
+  stage( 'Wait for approval')
+  input( 'Aprove to production?')
+  stage('Deploy UAT'){
+    openshiftTag(sourceStream: 'todo', sourceTag: 'latest', destinationStream: 'todo', destinationTag: params.tag)
+    sh "oc patch dc todo --patch \'${deployment_patch}\' -n YYY"
+    openshiftDeploy(deploymentConfig: 'todo', namespace: 'todo-uat')
+  }
+
+}
+```
