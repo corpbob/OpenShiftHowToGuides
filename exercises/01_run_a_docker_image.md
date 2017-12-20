@@ -20,4 +20,10 @@ oc new-project myproject
 oc new-app bcorpusjr/tomcat
 ```
 
+## Allow the public to access your application
+
+```
+oc expose svc tomcat
+```
+
 
