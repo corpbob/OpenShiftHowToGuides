@@ -63,7 +63,7 @@ objects:
     - annotations: null
       from:
         kind: DockerImage
-        name: 172.30.1.1:5000/dev1/todo:latest
+        name: 172.30.1.1:5000/userX-dev/todo:latest
       generation: null
       importPolicy: {}
       name: latest
@@ -222,7 +222,7 @@ objects:
         - env:
           - name: PORT
             value: "8080"
-          image: 172.30.1.1:5000/dev1/todo
+          image: 172.30.1.1:5000/userX-dev/todo
           imagePullPolicy: Always
           name: todo
           ports:
@@ -245,7 +245,7 @@ objects:
         from:
           kind: ImageStreamTag
           name: todo:latest
-          namespace: dev1
+          namespace: userX-dev
       type: ImageChange
     - type: ConfigChange
 - apiVersion: v1
