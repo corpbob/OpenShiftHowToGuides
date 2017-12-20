@@ -325,6 +325,11 @@ This will give an output similar to
      'oc expose svc/todo' 
     Run 'oc status' to view your app.
 ```
+- Expose the todo app to the public
+
+```
+oc expose svc todo
+```
 
 ![Todo UAT Overview](images/todo_uat_overview.png)
 
