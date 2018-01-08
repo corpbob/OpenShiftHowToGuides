@@ -10,9 +10,41 @@
 - Find "OpenShift Pipeline Jenkins Plugin"
 - Install it.
 
+## Create the Jenkins Service Account
+- Make sure you're in the correct project
+
+```
+oc project todo-dev
+```
+
+- In your project create a service account named jenkins (if not existing already)
+```
+oc create sa jenkins
+```
+
+- Get the token name of Jenkins
+```
+[bobby@bcorpus2 ~]$ oc describe sa jenkins
+Name:		jenkins
+Namespace:	todo-dev
+Labels:		<none>
+Annotations:	<none>
+
+Image pull secrets:	jenkins-dockercfg-97wdd
+
+Mountable secrets: 	jenkins-token-wcccq
+                   	jenkins-dockercfg-97wdd
+
+Tokens:            	jenkins-token-vx9gj
+                   	jenkins-token-wcccq
+
+Events:	<none>
+```
 ## Create a Jenkins Pipeline
 - In Jenkins, create a new Item
 - Give it a name "todo-pipeline"
 - Click on "Pipeline" as shown below
 
 ![external_new_pipeline.png](images/external_new_pipeline.png)
+
+
