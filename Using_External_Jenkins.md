@@ -73,7 +73,7 @@ Copy the contents.
   - apiUrl
     - default value: The url of your openshift master, for example, https://10.1.2.2:8443
   - authToken
-    - default value : The token which you got [above](token_value)
+    - default value : The token which you got [above](user-content-token_value)
   - namespace 
     - default value: todo-dev
   - CA_CERT_FILE
