@@ -121,43 +121,15 @@ done
 - Tick "Trigger Builds Remotely". Set the token to _secret_.
 - Modify the pipeline script
 ```
-deployment_patch = """{
-    "spec": {
-        "triggers": [
-            {
-                "type": "ImageChange",
-                "imageChangeParams": {
-                    "containerNames": [
-                        "todo"
-                    ],
-                    "from": {
-                        "kind": "ImageStreamTag",
-                        "namespace": "todo-dev",
-                        "name": \"todo:${params.tag}\"
-                    }
-                }
-            }
-        ]
-    }
-}"""
-deployment_patch = deployment_patch.replace("\n"," ")
-
 node('nodejs') {
   stage('build') {
     openshiftBuild(buildConfig: 'todo', showBuildLogs: 'true', commitID: params.commit)
   }
-  stage('deploy') {
-    openshiftDeploy(deploymentConfig: 'todo')
-  }
-
   stage( 'Wait for approval')
   input( 'Aprove to production?')
   stage('Deploy UAT'){
     openshiftTag(sourceStream: 'todo', sourceTag: 'latest', destinationStream: 'todo', destinationTag: params.tag)
-    sh "oc patch dc todo --patch \'${deployment_patch}\' -n todo-uat"
-    openshiftDeploy(deploymentConfig: 'todo', namespace: 'todo-uat')
   }
-
 }
 ```
 
