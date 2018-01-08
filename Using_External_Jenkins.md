@@ -26,7 +26,8 @@ oc create sa jenkins
 oc policy add-role-to-user edit -z jenkins
 ```
 
-## <a name="token_value"></a>Get the token name of Jenkins
+## <a name="token_value"></a>Get the token of Jenkins
+- Get token name of Jenkins
 ```
 [bobby@bcorpus2 ~]$ oc describe sa jenkins
 Name:		jenkins
