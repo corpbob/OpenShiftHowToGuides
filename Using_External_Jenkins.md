@@ -10,4 +10,9 @@
 - Find "OpenShift Pipeline Jenkins Plugin"
 - Install it.
 
-## 
+## Create a Jenkins Pipeline
+- In Jenkins, create a new Item
+- Give it a name "todo-pipeline"
+- Click on "Pipeline" as shown below
+
+
