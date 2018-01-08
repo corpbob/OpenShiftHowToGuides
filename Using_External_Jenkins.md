@@ -49,7 +49,7 @@ Events:	<none>
 ```
 oc describe secret jenkins-token-vx9gj
 ```
-<a href="token_value"></a>This will give you the token value. Take note of it.
+<a name="token_value"></a>This will give you the token value. Take note of it.
 
 ## Copy the certificate to the Jenkins Server
 - In the OpenShift server
