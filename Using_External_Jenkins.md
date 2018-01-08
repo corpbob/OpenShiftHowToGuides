@@ -26,7 +26,7 @@ oc create sa jenkins
 oc policy add-role-to-user edit -z jenkins
 ```
 
-- Get the token name of Jenkins
+## <a name="token_value"></a>Get the token name of Jenkins
 ```
 [bobby@bcorpus2 ~]$ oc describe sa jenkins
 Name:		jenkins
@@ -49,7 +49,7 @@ Events:	<none>
 ```
 oc describe secret jenkins-token-vx9gj
 ```
-<a name="token_value"></a>This will give you the token value. Take note of it.
+This will give you the token value. Take note of it.
 
 ## Copy the certificate to the Jenkins Server
 - In the OpenShift server
