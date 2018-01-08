@@ -15,4 +15,4 @@
 - Give it a name "todo-pipeline"
 - Click on "Pipeline" as shown below
 
-
+![external_new_pipeline.png](images/external_new_pipeline.png)
