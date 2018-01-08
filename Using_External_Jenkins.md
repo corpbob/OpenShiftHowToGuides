@@ -82,3 +82,4 @@ Copy the contents.
 - Add the following "String" parameters
   - tag
   - commit
+## At this point, the rest of the steps should be the same as the instructions in [using_cicd_pipeline_part2](using_cicd_pipeline_part2.md)
