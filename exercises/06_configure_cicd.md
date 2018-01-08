@@ -333,32 +333,6 @@ oc expose svc todo
 
 ![Todo UAT Overview](images/todo_uat_overview.png)
 
-### Change the deployment trigger from automatic = true to automatic = false. This is to prevent the automatic deployment of an application when the image has changed. We want to trigger it manually via the approval.
-
-- Go to Applications->Deployments->todo
-- Click Actions->Edit Yaml
-
-![Edit Yaml](images/todo_edit_yaml.png)
-
-- Find this part:
-
-```
-    triggers:
-    - imageChangeParams:
-        automatic: true
-        containerNames:
-        - todo
-        from:
-          kind: ImageStreamTag
-          name: todo:latest
-          namespace: userX-dev
-      type: ImageChange
-    - type: ConfigChange
-```
-
-- Change automatic: true to automatic: false
-- Save
-
 ## Configure the GitHook
 
 - Login to Jenkins as your user id.
