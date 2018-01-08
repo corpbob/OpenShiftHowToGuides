@@ -49,7 +49,7 @@ Events:	<none>
 ```
 oc describe secret jenkins-token-vx9gj
 ```
-This will give you the token value. Take note of it.
+<a href="token_value"></a>This will give you the token value. Take note of it.
 
 ## Copy the certificate to the Jenkins Server
 - In the OpenShift server
@@ -73,7 +73,7 @@ Copy the contents.
   - apiUrl
     - default value: The url of your openshift master, for example, https://10.1.2.2:8443
   - authToken
-    - default value : The token which you got above
+    - default value : The token which you got [above](token_value)
   - namespace 
     - default value: todo-dev
   - CA_CERT_FILE
