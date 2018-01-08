@@ -21,6 +21,10 @@ oc project todo-dev
 ```
 oc create sa jenkins
 ```
+- Give edit role to jenkins
+```
+oc policy add-role-to-user edit -z jenkins
+```
 
 - Get the token name of Jenkins
 ```
@@ -40,6 +44,21 @@ Tokens:            	jenkins-token-vx9gj
 
 Events:	<none>
 ```
+
+- Copy one of the tokens, say 'jenkins-token-vx9gj' and execute command
+```
+oc describe secret jenkins-token-vx9gj
+```
+This will give you the token value. Take note of it.
+
+## Copy the certificate to the Jenkins Server
+- In the OpenShift server
+```
+cat /var/lib/origin/openshift.local.config/master/ca.crt
+```
+Copy the contents.
+- In the Jenkins Server, create a file /path/to/ca.crt and paste the contents that you copied above.
+
 ## Create a Jenkins Pipeline
 - In Jenkins, create a new Item
 - Give it a name "todo-pipeline"
@@ -47,4 +66,19 @@ Events:	<none>
 
 ![external_new_pipeline.png](images/external_new_pipeline.png)
 
-
+- Click "This project is parametrized"
+- Add the following String parameters
+  - tag
+  - commit
+  - apiUrl
+    - default value: The url of your openshift master, for example, https://10.1.2.2:8443
+  - authToken
+    - default value : The token which you got above
+  - namespace 
+    - default value: todo-dev
+  - CA_CERT_FILE
+    - default value: /path/to/ca.crt
+- Click OK
+- Add the following "String" parameters
+  - tag
+  - commit
