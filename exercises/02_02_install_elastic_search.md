@@ -5,6 +5,8 @@
 ```
 sudo sysctl -w vm.max_map_count=262144
 ```
+*Note* The instructor should have done this already.
+
 ## Install elastic search
 
 ```
