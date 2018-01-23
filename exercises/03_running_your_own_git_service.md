@@ -37,7 +37,7 @@ Click on the gogs url to open the gogs service.
 ![Gogs Install Page](images/gogs_install_page.png)
 
 Set the following parameters to the following values:
-
+- Database Type = Postgresql
 - Host = postgresql:5432
 - User = gogs
 - Password = gogs
