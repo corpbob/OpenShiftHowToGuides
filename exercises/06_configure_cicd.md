@@ -246,7 +246,7 @@ objects:
         - todo
         from:
           kind: ImageStreamTag
-          name: todo:latest
+          name: todo:TestReady
           namespace: userX-dev
       type: ImageChange
     - type: ConfigChange
@@ -384,7 +384,7 @@ node('nodejs') {
   stage( 'Wait for approval')
   input( 'Aprove to production?')
   stage('Deploy UAT'){
-    openshiftTag(sourceStream: 'todo', sourceTag: 'latest', destinationStream: 'todo', destinationTag: params.tag)   
+    openshiftTag(sourceStream: 'todo', sourceTag: 'latest', destinationStream: 'todo', destinationTag: 'TestReady')   
   }
 
 }
