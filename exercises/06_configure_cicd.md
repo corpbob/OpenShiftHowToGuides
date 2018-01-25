@@ -371,10 +371,6 @@ done
 - Click Save
 - Modify the pipeline script
 
-*Important!* 
-- Change the string XXX to your dev namespace.
-- Change the string YYY to your uat namespace.
-
 ```
 node('nodejs') {
   stage('build') {
