@@ -26,4 +26,4 @@ oc new-app bcorpusjr/tomcat
 oc expose svc tomcat
 ```
 
-Next Exercise: [Adding a Database Using Templates](02_adding_a_database_using_templates.md)
+Next Exercise: [Adding a Database Using Templates](02_01_adding_a_database_using_templates.md)
