@@ -279,3 +279,40 @@ You should be able to see this:
 <img src="images/web_console.png">
 
 # Congratulations! OpenShift Origin is up and running!
+
+# Configure host directories persistent volume
+
+```
+for i in `seq 0 100`
+do
+  mkdir -p /var/lib/origin/openshift.local.pv/pv$i
+  chcon -u system_u -r object_r -t svirt_sandbox_file_t -l s0 /var/lib/origin/openshift.local.pv/pv$i
+  chmod 777 /var/lib/origin/openshift.local.pv/pv$i
+done
+```
+
+- Create the PV objects in OpenShift
+
+```
+for i in `seq 0 100`
+do
+cat << EOF | oc create -f -
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  labels:
+    volume: pv$i
+  name: pv$i
+spec:
+  accessModes:
+  - ReadWriteOnce
+  - ReadWriteMany
+  - ReadOnlyMany
+  capacity:
+    storage: 100Gi
+  hostPath:
+    path: /var/lib/origin/openshift.local.pv/pv$i
+  persistentVolumeReclaimPolicy: Recycle
+EOF
+done
+```
