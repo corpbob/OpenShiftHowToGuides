@@ -279,7 +279,6 @@ master.10.1.2.2.nip.io openshift_public_hostname="master.10.1.2.2.nip.io"  opens
 
 *Note: dev password is dev, admin password is admin*
 
-- 
 ## Install OpenShift Origin
 
 ```
