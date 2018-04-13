@@ -131,6 +131,8 @@ python setup.py install
 
 ## Ansible Hosts
 
+*Adapted from https://raw.githubusercontent.com/sjbylo/misc/master/ocp-install-39/create-hosts*
+
 ```
 # Create an OSEv3 group that contains the master, nodes, etcd, and lb groups.
 [OSEv3:children]
