@@ -311,8 +311,6 @@ You should be able to see this:
 
 <img src="images/openshift_ansible.png">
 
-# Congratulations! OpenShift Origin is up and running!
-
 # Configure host directories persistent volume
 
 - Execute the command below to create persistent volumes in the directory /var/lib/origin/openshift.local.pv
@@ -351,3 +349,5 @@ spec:
 EOF
 done
 ```
+
+# Congratulations! OpenShift Origin is up and running!
