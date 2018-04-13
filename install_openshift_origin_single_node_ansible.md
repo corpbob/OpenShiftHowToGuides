@@ -310,7 +310,7 @@ password: admin
 ```
 You should be able to see this:
 
-<img src="images/web_console.png">
+<img src="images/openshift_ansible.png">
 
 # Congratulations! OpenShift Origin is up and running!
 
