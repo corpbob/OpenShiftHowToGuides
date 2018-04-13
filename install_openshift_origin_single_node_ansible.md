@@ -105,7 +105,7 @@ round-trip min/avg/max/stddev = 0.454/0.454/0.454/0.000 ms
 ## Install docker
 
 ```
-yum install -y docker
+yum install -y docker-1.13.1
 ```
 - Edit the file /etc/sysconfig/docker and add the line 
 
@@ -118,6 +118,13 @@ INSECURE_REGISTRY='--insecure-registry 172.30.0.0/16'
 systemctl restart docker
 ```
 
+## Install required packages
+
+```
+yum install -y git unzip java-1.8.0-openjdk-headless
+
+```
+
 ## Install Ansible
 
 - Download ansible 2.4.3.0
@@ -127,6 +134,13 @@ curl https://pypi.python.org/packages/ed/84/09e8dd117081db2077cf08dbd670a3454ab0
 tar xzf ansible.tar.gz
 cd ansible-2.4.3.0/
 python setup.py install
+```
+
+## Download Openshift-ansible
+
+```
+curl -L https://github.com/openshift/openshift-ansible/archive/release-3.7.zip -o openshift-ansible-release-3.7.zip
+unzip openshift-ansible-release-3.7.zip
 ```
 
 ## Customize Ansible Hosts file
@@ -228,9 +242,15 @@ master.10.1.2.2.nip.io
 [nodes]
 master.10.1.2.2.nip.io openshift_public_hostname="master.10.1.2.2.nip.io"  openshift_schedulable=true openshift_node_labels="{'name': 'master', 'region': 'infra', 'env': 'dev'}" ansible_connection=local
 ```
+
+*Note: dev password is dev, admin password is admin*
+
 - 
 ## Install OpenShift Origin
 
+```
+ansible-playbook -i /etc/ansible/hosts ~/openshift-ansible/playbooks/byo/config.yml
+```
 
 - Login as system:admin
 ```
