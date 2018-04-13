@@ -145,7 +145,7 @@ unzip openshift-ansible-release-3.7.zip
 
 - Open the file openshift-ansible/roles/openshift_service_catalog/templates/controller_manager.j2 and find line Add the following
 
-```
+```yaml {.line-numbers}
       volumes:
       - name: service-catalog-ssl
         secret:
@@ -158,7 +158,7 @@ unzip openshift-ansible-release-3.7.zip
 
 - Change it to 
 
-```
+```yaml {.line-numbers}
       volumes:
       - name: service-catalog-ssl
         secret:
