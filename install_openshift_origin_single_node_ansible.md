@@ -143,6 +143,33 @@ curl -L https://github.com/openshift/openshift-ansible/archive/release-3.7.zip -
 unzip openshift-ansible-release-3.7.zip
 ```
 
+- Open the file openshift-ansible/roles/openshift_service_catalog/templates/controller_manager.j2 and find line Add the following
+
+```
+      volumes:
+      - name: service-catalog-ssl
+        secret:
+          defaultMode: 420
+          items:
+          - key: tls.crt
+            path: apiserver.crt
+          secretName: apiserver-ssl
+```
+
+- Change it to 
+
+```
+      volumes:
+      - name: service-catalog-ssl
+        secret:
+          defaultMode: 420
+          items:
+          - key: tls.crt
+            path: apiserver.crt
+          - key: tls.key
+            path: apiserver.key
+          secretName: apiserver-ssl
+```
 ## Customize Ansible Hosts file
 
 *Adapted from https://raw.githubusercontent.com/sjbylo/misc/master/ocp-install-39/create-hosts*
@@ -281,6 +308,8 @@ You should be able to see this:
 # Congratulations! OpenShift Origin is up and running!
 
 # Configure host directories persistent volume
+
+- Execute the command below to create persistent volumes in the directory /var/lib/origin/openshift.local.pv
 
 ```
 for i in `seq 0 100`
