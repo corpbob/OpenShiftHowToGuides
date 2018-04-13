@@ -141,6 +141,7 @@ python setup.py install
 ```
 curl -L https://github.com/openshift/openshift-ansible/archive/release-3.7.zip -o openshift-ansible-release-3.7.zip
 unzip openshift-ansible-release-3.7.zip
+mv openshift-ansible-release-3.7 openshift-ansible
 ```
 
 - Open the file openshift-ansible/roles/openshift_service_catalog/templates/controller_manager.j2 and find line Add the following
