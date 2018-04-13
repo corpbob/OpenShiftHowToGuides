@@ -129,7 +129,7 @@ cd ansible-2.4.3.0/
 python setup.py install
 ```
 
-## Ansible Hosts
+## Customize Ansible Hosts file
 
 *Adapted from https://raw.githubusercontent.com/sjbylo/misc/master/ocp-install-39/create-hosts*
 
@@ -154,7 +154,7 @@ openshift_clock_enabled=true
 openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider', 'filename': '/etc/origin/openshift-passwd'}]
 
 # Create dev and admin users
-openshift_master_htpasswd_users={'dev': '$apr1$PTuOXsIl$tb8wyZQY3S9XkQFL8Mvgz.', 'admin': '$apr1$PTuOXsIl$tb8wyZQY3S9XkQFL8Mvgz.'}
+openshift_master_htpasswd_users={'dev': '$apr1$f4jGxBUp$TMIBlmIVoVf9PKHWoL4w8.', 'admin': '$apr1$f4jGxBUp$TMIBlmIVoVf9PKHWoL4w8.'}
 
 # apply updated node defaults
 openshift_node_kubelet_args={'pods-per-core': ['10'], 'max-pods': ['250'], 'image-gc-high-threshold': ['80'], 'image-gc-low-threshold': ['60']}
