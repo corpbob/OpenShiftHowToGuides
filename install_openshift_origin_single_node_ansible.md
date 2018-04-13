@@ -136,6 +136,74 @@ cd ansible-2.4.3.0/
 python setup.py install
 ```
 
+## Make SSH passwordless
+
+- Generate SSH keys
+
+```
+[root@localhost ~]# ssh-keygen 
+Generating public/private rsa key pair.
+Enter file in which to save the key (/root/.ssh/id_rsa): 
+Created directory '/root/.ssh'.
+Enter passphrase (empty for no passphrase): 
+Enter same passphrase again: 
+Your identification has been saved in /root/.ssh/id_rsa.
+Your public key has been saved in /root/.ssh/id_rsa.pub.
+The key fingerprint is:
+SHA256:XlB/0nXW9vY/GQq9bcSfXoQGOEreDVFxTQGgAol01Pk root@localhost.localdomain
+The key's randomart image is:
++---[RSA 2048]----+
+|  ..o+o . oo+oo+B|
+|   ....o ..+ o o=|
+|       .+.+ + o..|
+|       o.E + + .o|
+|        S o o +.o|
+|       . . . o =.|
+|        .   . = B|
+|             o *+|
+|              o..|
++----[SHA256]-----+
+```
+
+- Copy the public key to authorized keys
+```
+cd ~/.ssh
+cp id_rsa.pub authorized_keys
+chmod 600 authorized_keys
+```
+- Verify you can log in without password
+```
+ssh -v localhost
+```
+
+- You should see something like this
+
+```
+Are you sure you want to continue connecting (yes/no)?
+```
+- Type yes. You should then see something like
+
+```
+debug1: Sending environment.
+debug1: Sending env LANG = en_US.UTF-8
+Last login: Fri Apr 13 08:36:56 2018 from 10.1.2.1
+[root@localhost ~]# 
+```
+
+- Type exit and press enter
+
+```
+[root@localhost ~]# exit
+logout
+debug1: client_input_channel_req: channel 0 rtype exit-status reply 0
+debug1: client_input_channel_req: channel 0 rtype eow@openssh.com reply 0
+debug1: channel 0: free: client-session, nchannels 1
+Connection to localhost closed.
+Transferred: sent 3280, received 2988 bytes, in 116.8 seconds
+Bytes per second: sent 28.1, received 25.6
+debug1: Exit status 0
+```
+
 ## Download Openshift-ansible
 
 ```
