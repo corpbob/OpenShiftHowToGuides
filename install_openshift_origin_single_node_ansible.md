@@ -120,6 +120,114 @@ systemctl restart docker
 
 ## Install Ansible
 
+- Download ansible 2.4.3.0
+
+```
+curl https://pypi.python.org/packages/ed/84/09e8dd117081db2077cf08dbd670a3454ab0265b05e8e7f75482492b46f0/ansible-2.4.3.0.tar.gz#md5=809c90ad435bab3315d2c12fc72c9e68 -o ansible.tar.gz
+tar xzf ansible.tar.gz
+cd ansible-2.4.3.0/
+python setup.py install
+```
+
+## Ansible Hosts
+
+
+# Create an OSEv3 group that contains the master, nodes, etcd, and lb groups.
+```
+[OSEv3:children]
+masters
+etcd
+nodes
+
+# Set variables common for all OSEv3 hosts
+[OSEv3:vars]
+openshift_enable_docker_excluder=False
+openshift_enable_openshift_excluder=False
+ansible_ssh_user=root
+ansible_become=true
+#deployment_type=openshift-origin
+openshift_deployment_type=origin
+#debug_level=4
+openshift_clock_enabled=true
+
+openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider', 'filename': '/etc/origin/openshift-passwd'}]
+
+# Create dev and admin users
+openshift_master_htpasswd_users={'dev': '$apr1$PTuOXsIl$tb8wyZQY3S9XkQFL8Mvgz.', 'admin': '$apr1$PTuOXsIl$tb8wyZQY3S9XkQFL8Mvgz.'}
+
+# apply updated node defaults
+openshift_node_kubelet_args={'pods-per-core': ['10'], 'max-pods': ['250'], 'image-gc-high-threshold': ['80'], 'image-gc-low-threshold': ['60']}
+
+# AWS related configuration
+
+#openshift_cloudprovider_kind=aws
+#openshift_clusterid=cluster01   # Set this to the id of the cluster (need to tag ec2 resources) 
+
+#openshift_cloudprovider_aws_access_key="{{ lookup('env','AWS_ACCESS_KEY_ID') }}"
+#openshift_cloudprovider_aws_secret_key="{{ lookup('env','AWS_SECRET_ACCESS_KEY') }}"
+
+# If using S3 for the Docker registry, S3 bucket must already exist.
+# These vars are required 
+# https://docs.docker.com/registry/storage-drivers/s3/ 
+#openshift_hosted_registry_storage_kind=object
+#openshift_hosted_registry_storage_provider=s3
+#openshift_hosted_registry_storage_s3_bucket=ocp-registry
+#openshift_hosted_registry_storage_s3_region=ap-southeast-1
+
+# These vars are optional
+#openshift_hosted_registry_storage_s3_encrypt=false
+#openshift_hosted_registry_storage_s3_kmskeyid=aws_kms_key_id
+#openshift_hosted_registry_storage_s3_accesskey=aws_access_key_id
+#openshift_hosted_registry_storage_s3_secretkey=aws_secret_access_key
+#openshift_hosted_registry_storage_s3_chunksize=26214400
+#openshift_hosted_registry_storage_s3_rootdirectory=/registry
+#openshift_hosted_registry_pullthrough=true
+#openshift_hosted_registry_acceptschema2=true
+#openshift_hosted_registry_enforcequota=true
+
+osm_default_node_selector='env=dev'
+openshift_hosted_metrics_deploy=true
+#openshift_hosted_logging_deploy=true
+
+# Disable some pre-flight checks 
+openshift_disable_check=memory_availability,disk_availability,package_version
+
+# default subdomain to use for exposed routes
+openshift_master_default_subdomain=apps.10.1.2.2.nip.io
+
+# Set the port of the master (default is 8443) if the master is a dedicated host
+#openshift_master_api_port=443
+#openshift_master_console_port=443
+
+# default project node selector
+osm_default_node_selector='env=dev'
+
+# Router selector (optional)
+openshift_hosted_router_selector='env=dev'
+openshift_hosted_router_replicas=1
+
+# Registry selector (optional)
+openshift_registry_selector='env=dev'
+
+# Configure metricsPublicURL in the master config for cluster metrics
+#openshift_master_metrics_public_url=https://hawkular-metrics.public.10.1.2.2.nip.io
+
+# Configure loggingPublicURL in the master config for aggregate logging
+#openshift_master_logging_public_url=https://kibana.10.1.2.2.nip.io
+
+# host group for masters
+[masters]
+master.10.1.2.2.nip.io
+
+# host group for etcd
+[etcd]
+master.10.1.2.2.nip.io
+
+# host group for nodes, includes region info
+[nodes]
+master.10.1.2.2.nip.io openshift_public_hostname="master.10.1.2.2.nip.io"  openshift_schedulable=true openshift_node_labels="{'name': 'master', 'region': 'infra', 'env': 'dev'}" ansible_connection=local
+```
+- 
 ## Install OpenShift Origin
 
 
