@@ -131,9 +131,8 @@ python setup.py install
 
 ## Ansible Hosts
 
-
-# Create an OSEv3 group that contains the master, nodes, etcd, and lb groups.
 ```
+# Create an OSEv3 group that contains the master, nodes, etcd, and lb groups.
 [OSEv3:children]
 masters
 etcd
