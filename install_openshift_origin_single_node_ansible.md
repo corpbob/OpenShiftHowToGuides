@@ -156,7 +156,13 @@ unzip openshift-ansible-release-3.7.zip
           secretName: apiserver-ssl
 ```
 
-- Change it to 
+- Add the following under "items":
+
+```yaml
+          - key: tls.key
+            path: apiserver.key
+```
+this will result in
 
 ```yaml {.line-numbers}
       volumes:
