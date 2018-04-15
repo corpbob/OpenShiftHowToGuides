@@ -148,8 +148,15 @@ yum install atomic-openshift-utils
 ```
 yum install -y docker-1.13.1
 ```
-- Edit the file /etc/sysconfig/docker and add the line 
+- Edit the file /etc/sysconfig/docker. Modify the line
 
+```
+OPTIONS='--selinux-enabled --log-driver=journald --signature-verification=false'
+```
+to
+```
+OPTIONS='--selinux-enabled --log-driver=journald --signature-verification=false --insecure-registry 172.30.0.0/16'
+```
 ```
 INSECURE_REGISTRY='--insecure-registry 172.30.0.0/16'
 ```
