@@ -428,4 +428,4 @@ EOF
 done
 ```
 
-# Congratulations! OpenShift Origin is up and running!
+# Congratulations! OpenShift is up and running!
