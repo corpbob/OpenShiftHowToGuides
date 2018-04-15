@@ -1,4 +1,4 @@
-# How to Install OpenShift Origin in one node Using Ansible for Development Purposes
+# How to Install OpenShift Enterprise in one node Using Ansible for Development Purposes
 
 ## Assumptions:
 
