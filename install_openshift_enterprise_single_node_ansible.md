@@ -102,6 +102,47 @@ PING 10.1.2.2 (10.1.2.2): 56 data bytes
 1 packets transmitted, 1 packets received, 0.0% packet loss
 round-trip min/avg/max/stddev = 0.454/0.454/0.454/0.000 ms
 ```
+
+## Subscribe the system ad refresh
+
+```
+subscription-manager register 
+subscription-manager refresh
+```
+
+## Get the subscriptin that has OpenShift Container Platform in it. Choose the subscription where System Type = Virtual
+```
+subscription-manager list --available --matches '*OpenShift*'
+```
+##
+Attach to the pool id of that subscription
+```
+subscription-manager attach --pool=<pool id>
+```
+## Disable all repo
+```
+subscription-manager repos --disable="*"
+```
+
+## Enable the following repo
+```
+subscription-manager repos     --enable="rhel-7-server-rpms"     --enable="rhel-7-server-extras-rpms"     --enable="rhel-7-server-ose-3.7-rpms"     --enable="rhel-7-fast-datapath-rpms"
+```
+## Install required packages
+```
+yum install wget git net-tools bind-utils iptables-services bridge-utils bash-completion kexec-tools sos psacct
+```
+
+## Update to the latest versions
+```
+yum update
+```
+
+## Install atomic-openshift-utils
+```
+yum install atomic-openshift-utils
+```
+
 ## Install docker
 
 ```
