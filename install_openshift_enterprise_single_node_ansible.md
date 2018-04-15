@@ -349,6 +349,11 @@ It's possible that these repositories were disabled during the installation.
 ansible-playbook -i /etc/ansible/hosts /usr/share/ansible/openshift-ansible/playbooks/byo/config.yml
 ```
 
+### If you encounter an error like: Could not resolve host: xxx; Unknown error
+
+- It's possible that the reboot the system
+- run the playbook again
+
 ## If the installation completed without errors, you will see something like this:
 
 ```
