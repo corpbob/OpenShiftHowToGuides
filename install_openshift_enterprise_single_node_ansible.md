@@ -2,8 +2,8 @@
 
 ## Assumptions:
 
-- CentOS operating System running as a VM in virtual box.
-- Download CentOS from here: http://isoredirect.centos.org/centos/7/isos/x86_64/CentOS-7-x86_64-Everything-1611.iso
+- RHEL 7.4 operating System running as a VM in virtual box.
+- Download RHEL 7.4 from here: https://developers.redhat.com/download-manager/content/origin/files/sha256/43/431a58c8c0351803a608ffa56948c5a7861876f78ccbe784724dd8c987ff7000/rhel-server-7.4-x86_64-dvd.iso
 
 ## Create a Host-Only Network in VirtualBox
 - Navigate to VirtualBox->Preferences
@@ -20,7 +20,7 @@
 
 - Click OK
 
-## Install CentOS
+## Install RHEL
 - Using VirtualBox, click the Create button
 
 <img src="images/install_centos_create.png" height="400px">
@@ -40,9 +40,9 @@
 
 <img src="images/networking-host-only.png" height="400px">
 
-## Configure CentOS
+## Configure RHEL
 
-- Once installation is complete, configure the networking inside CentOS. As root edit the file /etc/sysconfig/network-scripts/ifcfg-enp0s3 and set it to these contents
+- Once installation is complete, configure the networking inside RHEL. As root edit the file /etc/sysconfig/network-scripts/ifcfg-enp0s3 and set it to these contents
 
 ```
 TYPE=Ethernet
