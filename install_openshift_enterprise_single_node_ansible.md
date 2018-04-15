@@ -163,6 +163,21 @@ OPTIONS='--selinux-enabled --log-driver=journald --signature-verification=false 
 systemctl restart docker
 ```
 
+## Pre-pull some images
+
+```
+docker pull registry.access.redhat.com/openshift3/ose-deployer:v3.7.42
+docker pull registry.access.redhat.com/openshift3/ose-haproxy-router:v3.7.42
+docker pull registry.access.redhat.com/openshift3/ose:v3.7
+docker pull registry.access.redhat.com/openshift3/ose-docker-registry:v3.7.42
+docker pull registry.access.redhat.com/openshift3/metrics-hawkular-metrics:v3.7
+docker pull registry.access.redhat.com/openshift3/metrics-cassandra:v3.7
+docker pull registry.access.redhat.com/openshift3/ose-ansible-service-broker:v3.7
+docker pull registry.access.redhat.com/openshift3/ose-pod:v3.7.42
+docker pull registry.access.redhat.com/openshift3/registry-console:v3.7
+docker pull registry.access.redhat.com/openshift3/metrics-heapster:v3.7
+docker pull registry.access.redhat.com/openshift3/ose-service-catalog:v3.7
+```
 ## Make SSH passwordless
 
 - Generate SSH keys
