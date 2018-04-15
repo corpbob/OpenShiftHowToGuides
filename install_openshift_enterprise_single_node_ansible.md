@@ -157,9 +157,6 @@ to
 ```
 OPTIONS='--selinux-enabled --log-driver=journald --signature-verification=false --insecure-registry 172.30.0.0/16'
 ```
-```
-INSECURE_REGISTRY='--insecure-registry 172.30.0.0/16'
-```
 - restart docker
 
 ```
