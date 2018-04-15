@@ -351,7 +351,7 @@ ansible-playbook -i /etc/ansible/hosts /usr/share/ansible/openshift-ansible/play
 
 ### If you encounter an error like: Could not resolve host: xxx; Unknown error
 
-- It's possible that the reboot the system
+- It's possible that the installer has affected the name resolution. Reboot the system
 - run the playbook again
 
 ## If the installation completed without errors, you will see something like this:
