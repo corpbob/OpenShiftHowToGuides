@@ -159,24 +159,6 @@ INSECURE_REGISTRY='--insecure-registry 172.30.0.0/16'
 systemctl restart docker
 ```
 
-## Install required packages
-
-```
-yum install -y git unzip java-1.8.0-openjdk-headless
-
-```
-
-## Install Ansible
-
-- Download ansible 2.4.3.0
-
-```
-curl https://pypi.python.org/packages/ed/84/09e8dd117081db2077cf08dbd670a3454ab0265b05e8e7f75482492b46f0/ansible-2.4.3.0.tar.gz#md5=809c90ad435bab3315d2c12fc72c9e68 -o ansible.tar.gz
-tar xzf ansible.tar.gz
-cd ansible-2.4.3.0/
-python setup.py install
-```
-
 ## Make SSH passwordless
 
 - Generate SSH keys
@@ -245,47 +227,6 @@ Bytes per second: sent 28.1, received 25.6
 debug1: Exit status 0
 ```
 
-## Download Openshift-ansible
-
-```
-curl -L https://github.com/openshift/openshift-ansible/archive/release-3.7.zip -o openshift-ansible-release-3.7.zip
-unzip openshift-ansible-release-3.7.zip
-mv openshift-ansible-release-3.7 openshift-ansible
-```
-
-- Open the file openshift-ansible/roles/openshift_service_catalog/templates/controller_manager.j2 and find line Add the following
-
-```yaml {.line-numbers}
-      volumes:
-      - name: service-catalog-ssl
-        secret:
-          defaultMode: 420
-          items:
-          - key: tls.crt
-            path: apiserver.crt
-          secretName: apiserver-ssl
-```
-
-- Add the following under "items":
-
-```yaml
-          - key: tls.key
-            path: apiserver.key
-```
-this will result in
-
-```yaml {.line-numbers}
-      volumes:
-      - name: service-catalog-ssl
-        secret:
-          defaultMode: 420
-          items:
-          - key: tls.crt
-            path: apiserver.crt
-          - key: tls.key
-            path: apiserver.key
-          secretName: apiserver-ssl
-```
 ## Customize Ansible Hosts file
 
 *Adapted from https://raw.githubusercontent.com/sjbylo/misc/master/ocp-install-39/create-hosts*
@@ -390,10 +331,36 @@ master.10.1.2.2.nip.io openshift_public_hostname="master.10.1.2.2.nip.io"  opens
 
 *Note: dev password is dev, admin password is admin*
 
-## Install OpenShift Origin
+## Install OpenShift
 
 ```
-ansible-playbook -i /etc/ansible/hosts ~/openshift-ansible/playbooks/byo/config.yml
+ansible-playbook -i /etc/ansible/hosts /usr/share/ansible/openshift-ansible/playbooks/byo/config.yml
+```
+### If you encounter an error like: No package matching 'xxx' found available, installed or updated", then run again
+
+```
+subscription-manager repos     --enable="rhel-7-server-rpms"     --enable="rhel-7-server-extras-rpms"     --enable="rhel-7-server-ose-3.7-rpms"     --enable="rhel-7-fast-datapath-rpms"
+```
+It's possible that these repositories were disabled during the installation.
+- Run the playbook again
+```
+ansible-playbook -i /etc/ansible/hosts /usr/share/ansible/openshift-ansible/playbooks/byo/config.yml
+```
+
+## If the installation completed without errors, you will see something like this:
+
+```
+INSTALLER STATUS *********************************************************************************************************************************************
+Initialization             : Complete
+Health Check               : Complete
+etcd Install               : Complete
+Master Install             : Complete
+Master Additional Install  : Complete
+Node Install               : Complete
+Hosted Install             : Complete
+Metrics Install            : Complete
+Service Catalog Install    : Complete
+
 ```
 
 - Login as system:admin
