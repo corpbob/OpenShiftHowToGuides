@@ -103,7 +103,7 @@ PING 10.1.2.2 (10.1.2.2): 56 data bytes
 round-trip min/avg/max/stddev = 0.454/0.454/0.454/0.000 ms
 ```
 
-## Subscribe the system ad refresh
+## Subscribe the system and refresh
 
 ```
 subscription-manager register 
