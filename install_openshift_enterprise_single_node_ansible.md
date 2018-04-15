@@ -79,7 +79,13 @@ ONBOOT=yes
 IPADDR=10.1.2.2
 ZONE=public
 ```
-- reboot the virtual machine to make sure the network settings work. After the reboot, test if you can ping yahoo.com:
+- reboot the virtual machine to make sure the network settings work. 
+
+```
+reboot
+```
+
+After the reboot, test if you can ping yahoo.com:
 
 ```
 [root@openshift sysconfig]# ping yahoo.com
@@ -367,6 +373,11 @@ ansible-playbook -i /etc/ansible/hosts /usr/share/ansible/openshift-ansible/play
 ### If you encounter an error like: Could not resolve host: xxx; Unknown error
 
 - It's possible that the installer has affected the name resolution. Reboot the system
+
+```
+reboot
+```
+
 - run the playbook again
 
 ## If the installation completed without errors, you will see something like this:
