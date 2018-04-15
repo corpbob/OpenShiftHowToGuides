@@ -382,6 +382,10 @@ reboot
 
 - run the playbook again
 
+### If you encounter an error like: Failed connect to apiserver.openshift-template-service-broker.svc:443; Connection refused"
+
+- run the playbook again
+
 ## If the installation completed without errors, you will see something like this:
 
 ```
