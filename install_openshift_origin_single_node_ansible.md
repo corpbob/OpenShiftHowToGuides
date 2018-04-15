@@ -3,7 +3,7 @@
 ## Assumptions:
 
 - CentOS operating System running as a VM in virtual box.
-- Download CentOS from here: http://isoredirect.centos.org/centos/7/isos/x86_64/CentOS-7-x86_64-Everything-1611.iso
+- Download CentOS from here: http://mirror.vodien.com/centos/7/isos/x86_64/CentOS-7-x86_64-Everything-1708.iso
 
 ## Create a Host-Only Network in VirtualBox
 - Navigate to VirtualBox->Preferences
