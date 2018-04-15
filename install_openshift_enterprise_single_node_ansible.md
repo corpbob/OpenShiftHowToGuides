@@ -256,6 +256,8 @@ debug1: Exit status 0
 
 *Adapted from https://raw.githubusercontent.com/sjbylo/misc/master/ocp-install-39/create-hosts*
 
+- Edit the file /etc/ansible/hosts. Replace the contents with the following:
+
 ```
 # Create an OSEv3 group that contains the master, nodes, etcd, and lb groups.
 [OSEv3:children]
