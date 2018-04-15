@@ -3,7 +3,7 @@
 ## Assumptions:
 
 - RHEL 7.4 operating System running as a VM in virtual box.
-- Download RHEL 7.4 from here: https://developers.redhat.com/download-manager/content/origin/files/sha256/43/431a58c8c0351803a608ffa56948c5a7861876f78ccbe784724dd8c987ff7000/rhel-server-7.4-x86_64-dvd.iso
+- Login to developers.redhat.com. Create an account if you don't have one. Download RHEL 7.4 from here: https://developers.redhat.com/download-manager/content/origin/files/sha256/43/431a58c8c0351803a608ffa56948c5a7861876f78ccbe784724dd8c987ff7000/rhel-server-7.4-x86_64-dvd.iso
 
 ## Create a Host-Only Network in VirtualBox
 - Navigate to VirtualBox->Preferences
