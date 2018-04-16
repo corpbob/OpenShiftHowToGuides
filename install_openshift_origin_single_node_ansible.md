@@ -126,19 +126,8 @@ systemctl restart docker
 ## Install required packages
 
 ```
-yum install -y git unzip java-1.8.0-openjdk-headless
+yum install -y git unzip java-1.8.0-openjdk-headless ansible
 
-```
-
-## Install Ansible
-
-- Download ansible 2.4.3.0
-
-```
-curl https://pypi.python.org/packages/ed/84/09e8dd117081db2077cf08dbd670a3454ab0265b05e8e7f75482492b46f0/ansible-2.4.3.0.tar.gz#md5=809c90ad435bab3315d2c12fc72c9e68 -o ansible.tar.gz
-tar xzf ansible.tar.gz
-cd ansible-2.4.3.0/
-python setup.py install
 ```
 
 ## Make SSH passwordless
