@@ -239,7 +239,7 @@ this will result in
             path: apiserver.key
           secretName: apiserver-ssl
 ```
-## Customize Ansible Hosts file
+## Replace Default Ansible Hosts file
 
 - Replace the contents of the /etc/ansible/hosts file with the below
 
