@@ -354,6 +354,32 @@ ansible-playbook -i /etc/ansible/hosts ~/openshift-ansible/playbooks/byo/config.
 ansible-playbook -i /etc/ansible/hosts ~/openshift-ansible/playbooks/byo/config.yml
 ```
 
+- A successful deployment should look like
+
+```
+Sunday 15 April 2018  23:02:41 -0400 (0:00:00.087)       0:14:21.113 ********** 
+=============================================================================== 
+openshift_master : restart master api ---------------------------------------------------------------------------------------------------------------- 33.47s
+Run health checks (install) - EL --------------------------------------------------------------------------------------------------------------------- 19.42s
+openshift_metrics : Create objects ------------------------------------------------------------------------------------------------------------------- 18.95s
+openshift_hosted : Ensure OpenShift pod correctly rolls out (best-effort today) ---------------------------------------------------------------------- 16.95s
+openshift_hosted : Ensure OpenShift pod correctly rolls out (best-effort today) ---------------------------------------------------------------------- 16.47s
+openshift_service_catalog : oc_process --------------------------------------------------------------------------------------------------------------- 14.34s
+openshift_service_catalog : wait for api server to be ready ------------------------------------------------------------------------------------------ 12.97s
+openshift_hosted_facts : Set hosted facts ------------------------------------------------------------------------------------------------------------ 11.49s
+openshift_hosted_facts : Set hosted facts ------------------------------------------------------------------------------------------------------------ 11.27s
+openshift_sanitize_inventory : pause ----------------------------------------------------------------------------------------------------------------- 10.08s
+openshift_master : restart master controllers --------------------------------------------------------------------------------------------------------- 8.31s
+openshift_metrics : Generating serviceaccounts for hawkular metrics/cassandra ------------------------------------------------------------------------- 7.20s
+openshift_hosted_facts : Set hosted facts ------------------------------------------------------------------------------------------------------------- 7.05s
+openshift_metrics : slurp ----------------------------------------------------------------------------------------------------------------------------- 7.01s
+openshift_metrics : Applying /tmp/openshift-metrics-ansible-8zfzlh/templates/metrics-hawkular-cassandra-svc.yaml -------------------------------------- 6.91s
+restart master api ------------------------------------------------------------------------------------------------------------------------------------ 6.78s
+openshift_service_catalog : Create api service -------------------------------------------------------------------------------------------------------- 6.70s
+openshift_hosted_facts : Set hosted facts ------------------------------------------------------------------------------------------------------------- 6.53s
+openshift_metrics : Set serviceaccounts for hawkular metrics/cassandra -------------------------------------------------------------------------------- 5.98s
+openshift_metrics : Start Heapster -------------------------------------------------------------------------------------------------------------------- 5.53s
+```
 - Login as system:admin
 ```
 oc login -u system:admin
