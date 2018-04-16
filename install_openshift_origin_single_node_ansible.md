@@ -347,6 +347,13 @@ master.10.1.2.2.nip.io openshift_public_hostname="master.10.1.2.2.nip.io"  opens
 ansible-playbook -i /etc/ansible/hosts ~/openshift-ansible/playbooks/byo/config.yml
 ```
 
+### If you get an error like: Failed connect to apiserver.openshift-template-service-broker.svc:443; Connection refused"
+- run the playbook again
+
+```
+ansible-playbook -i /etc/ansible/hosts ~/openshift-ansible/playbooks/byo/config.yml
+```
+
 - Login as system:admin
 ```
 oc login -u system:admin
