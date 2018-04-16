@@ -107,10 +107,15 @@ round-trip min/avg/max/stddev = 0.454/0.454/0.454/0.000 ms
 ```
 yum install -y docker-1.13.1
 ```
-- Edit the file /etc/sysconfig/docker and add the line 
+- Edit the file /etc/sysconfig/docker. Modify the line
 
 ```
-INSECURE_REGISTRY='--insecure-registry 172.30.0.0/16'
+OPTIONS='--selinux-enabled --log-driver=journald --signature-verification=false'
+```
+
+to
+```
+OPTIONS='--selinux-enabled --log-driver=journald --signature-verification=false --insecure-registry 172.30.0.0/16'
 ```
 - restart docker
 
