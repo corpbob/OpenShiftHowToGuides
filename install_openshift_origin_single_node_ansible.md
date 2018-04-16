@@ -241,6 +241,8 @@ this will result in
 ```
 ## Customize Ansible Hosts file
 
+- Replace the contents of the /etc/ansible/hosts file with the below
+
 *Adapted from https://raw.githubusercontent.com/sjbylo/misc/master/ocp-install-39/create-hosts*
 
 ```
