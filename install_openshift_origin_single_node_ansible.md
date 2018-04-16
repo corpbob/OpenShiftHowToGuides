@@ -105,7 +105,7 @@ round-trip min/avg/max/stddev = 0.454/0.454/0.454/0.000 ms
 ## Install docker
 
 ```
-yum install -y docker-1.13.1
+yum install -y docker
 ```
 - Edit the file /etc/sysconfig/docker. Modify the line
 
