@@ -123,6 +123,21 @@ OPTIONS='--selinux-enabled --log-driver=journald --signature-verification=false 
 systemctl restart docker
 ```
 
+## Pre-pull images
+
+```
+docker pull docker.io/openshift/origin:latest
+docker pull docker.io/openshift/origin-metrics-cassandra:latest
+docker pull docker.io/openshift/origin-metrics-hawkular-metrics:latest
+docker pull docker.io/openshift/origin-metrics-heapster:latest
+docker pull docker.io/openshift/origin-service-catalog:latest
+docker pull docker.io/cockpit/kubernetes:latest
+docker pull docker.io/openshift/origin-haproxy-router:v3.7.1
+docker pull docker.io/openshift/origin-deployer:v3.7.1
+docker pull docker.io/openshift/origin-docker-registry:v3.7.1
+docker pull docker.io/openshift/origin-pod:v3.7.1
+docker pull docker.io/ansibleplaybookbundle/origin-ansible-service-broker:v3.7
+```
 ## Install required packages
 
 ```
