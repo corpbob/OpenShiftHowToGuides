@@ -2,9 +2,9 @@
 
 ## Contents
 - [How to run a docker image in OpenShift](01_run_a_docker_image.md)
-The image that you created earlier will be run inside OpenShift to take advantage of Self-Healing, High Availability, and Auto-scaling.
+You'll learn how to run a Docker image inside OpenShift to take advantage of Self-Healing, High Availability, and Auto-scaling.
 - [Adding a Database Using Templates](02_adding_a_database_using_templates.md)
-Will introduce you to the concept of templates. In particular, you will be adding a database using a template. This database will be used by Gogs Git Service.
+Will introduce you to the concept of templates. In particular, you will be adding a database using a template. This database will be used by [Gogs](https://gogs.io/) Git Service.
 - [Running your own Git Service](03_running_your_own_git_service.md)
 We will be installing our individual git service that will be used in CI/CD.
 - [Using ConfigMaps](04_using_config_maps.md)
