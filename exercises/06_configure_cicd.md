@@ -284,6 +284,10 @@ objects:
     sessionAffinity: None
     type: ClusterIP
 ```  
+> The yaml above was generated using the command:
+> oc export pvc,is,secret,dc,svc --as-template=uat > uat.yml
+> and removing the sections like status, creationTimestamp, runtime annotations, generation, and those objects we don't want to create like jenkins related objects
+
 - Ensure you are in the uat project by checking the output of the command below:
 
 ```
