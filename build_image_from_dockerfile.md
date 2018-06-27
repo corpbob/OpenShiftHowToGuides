@@ -1,6 +1,6 @@
 # How to build a docker image from a Dockerfile in OpenShift
 
-Suppose you have the followig Dockerfile:
+Suppose you have the following Dockerfile:
 
 ```
 #==== BEGIN DOCKER FILE
