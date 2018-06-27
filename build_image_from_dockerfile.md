@@ -1,7 +1,8 @@
 # How to build a docker image from a Dockerfile in OpenShift
 
 Suppose you have the followig Dockerfile:
-'''
+
+```
 #==== BEGIN DOCKER FILE
 FROM centos:latest
 RUN yum install -y java-1.8.0-openjdk-devel
@@ -15,32 +16,32 @@ EXPOSE 8080
 RUN cd /home/tomcat/tomcat/bin && chmod +x *.sh
 ENTRYPOINT cd /home/tomcat/tomcat/bin && ./catalina.sh run
 #==== END DOCKER FILE
-'''
+```
 
 1. Create a new project
 
-'''
+```
 oc new-project test
-'''
+```
 
 2. process the docker file
 
-'''
+```
 cat Dockerfile | oc new-build --to=mytomcat -D -
-'''
+```
 
 3. Using the web console, go to Builds->Builds->mytomcat->View Log. Wait for the build to finish.
 
 4. Create a new app
 
-'''
+```
 oc new-app mytomcat
-'''
+```
 
 5. Create a route
 
-'''
+```
 oc expose mytomcat
-'''
+```
 
 6. Go to web and click on the route created for mytomcat.
