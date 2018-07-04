@@ -1,4 +1,4 @@
-# How to Setup Local Storage on OpenShift
+# How to Setup Local Storage on OpenShift Cluster
 ## Assumptions
 - You have an openshift cluster with N nodes.
 - You can create loop back devices
