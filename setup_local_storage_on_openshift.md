@@ -135,4 +135,24 @@ volumeBindingMode: WaitForFirstConsumer
 ```
 oc create -f storage.yaml
 ```
+## Make this the default storage class by patching the storage class object.
 
+```
+oc patch storageclass local-loop -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
+```
+
+## You should be able to see the persistent volumes created by the provisioner
+
+```
+oc get pv
+
+NAME                CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS      CLAIM     STORAGECLASS   REASON    AGE
+local-pv-108b59fd   923928Ki   RWO            Delete           Available             local-loop               17h
+local-pv-1097a6b3   923928Ki   RWO            Delete           Available             local-loop               17h
+local-pv-1608a587   923928Ki   RWO            Delete           Available             local-loop               17h
+local-pv-172068c5   923928Ki   RWO            Delete           Available             local-loop               17h
+local-pv-17e07158   923928Ki   RWO            Delete           Available             local-loop               17h
+
+```
+
+## Congratulations! You can now deploy persistent pods using the local storage volume.
