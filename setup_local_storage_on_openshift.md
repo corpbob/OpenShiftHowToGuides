@@ -1,5 +1,6 @@
 # How to Setup Local Storage on OpenShift Cluster
 ## Assumptions
+- This is just a POC and not for production use.
 - You have an openshift cluster with N nodes.
 - You can create loop back devices
 
