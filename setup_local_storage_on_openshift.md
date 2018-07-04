@@ -74,7 +74,7 @@ systemctl restart origin-master-api origin-master-controllers
 systemctl restart origin-node
 ```
 
-## Create a Config map
+## Create a Config map. Name it config.yaml.
 
 ```
 kind: ConfigMap
@@ -87,7 +87,12 @@ data:
         "mountDir": "/mnt/local-storage/loop" 
       }
 ```
+## Import this into OpenShift
+```
+oc create -f config.yaml
+``
 
+```
 ## Create a project local-storage
 
 ```
@@ -106,3 +111,28 @@ oc adm policy add-scc-to-user privileged -z local-storage-admin
 ```
 oc create -f https://raw.githubusercontent.com/openshift/origin/master/examples/storage-examples/local-examples/local-storage-provisioner-template.yaml
 ```
+## Create the app
+
+```
+oc new-app -p CONFIGMAP=local-volume-config \
+  -p SERVICE_ACCOUNT=local-storage-admin \
+  -p NAMESPACE=local-storage \
+  -p PROVISIONER_IMAGE=quay.io/external_storage/local-volume-provisioner:v1.0.1 \
+  local-storage-provisioner
+```
+
+## Create the storage class yaml storage.yaml
+```
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+ name: local-loop
+provisioner: kubernetes.io/no-provisioner
+volumeBindingMode: WaitForFirstConsumer
+```
+
+## import this yaml 
+```
+oc create -f storage.yaml
+```
+
