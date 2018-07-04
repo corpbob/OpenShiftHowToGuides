@@ -75,6 +75,18 @@ systemctl restart origin-master-api origin-master-controllers
 systemctl restart origin-node
 ```
 
+## Create a project local-storage
+
+```
+oc new-project local-storage
+```
+
+## Create a service account and give it root privileges
+
+```
+oc create serviceaccount local-storage-admin
+oc adm policy add-scc-to-user privileged -z local-storage-admin
+```
 ## Create a Config map. Name it config.yaml.
 
 ```
@@ -94,18 +106,7 @@ oc create -f config.yaml
 ``
 
 ```
-## Create a project local-storage
 
-```
-oc new-project local-storage
-```
-
-## Create a service account and give it root privileges
-
-```
-oc create serviceaccount local-storage-admin
-oc adm policy add-scc-to-user privileged -z local-storage-admin
-```
 
 ## Install the template
 
