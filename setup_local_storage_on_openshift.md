@@ -19,7 +19,7 @@ mount -a
 chcon -R unconfined_u:object_r:svirt_sandbox_file_t:s0 /mnt/local-storage/
 ```
 
-## Edit the /etc/origin/master/master-config.yml and add enable the feature gates:
+## Edit the /etc/origin/master/master-config.yaml and add enable the feature gates:
 
 ```
 kubernetesMasterConfig:
@@ -36,4 +36,73 @@ kubernetesMasterConfig:
     
 ```
 
-## 
+## Edit the /etc/origin/node/node-config.yaml and enable feature gates:
+
+```
+kubeletArguments: 
+  :
+  feature-gates:
+  - PersistentLocalVolumes=true
+  - VolumeScheduling=true
+```
+
+## Edit the /etc/origin/master/scheduler.json and add CheckVolumeBinding
+
+```
+{
+    "apiVersion": "v1", 
+    "kind": "Policy", 
+    "predicates": [
+        {
+            "name": "CheckVolumeBinding"
+        },
+        :
+     ]
+ }
+    
+
+```
+
+## Restart all the masters
+```
+systemctl restart origin-master-api origin-master-controllers
+```
+
+## Restart all the nodes
+
+```
+systemctl restart origin-node
+```
+
+## Create a Config map
+
+```
+kind: ConfigMap
+metadata:
+  name: local-volume-config
+data:
+    "local-loop": | 
+      {
+        "hostDir": "/mnt/local-storage/loop", 
+        "mountDir": "/mnt/local-storage/loop" 
+      }
+```
+
+## Create a project local-storage
+
+```
+oc new-project local-storage
+```
+
+## Create a service account and give it root privileges
+
+```
+oc create serviceaccount local-storage-admin
+oc adm policy add-scc-to-user privileged -z local-storage-admin
+```
+
+## Install the template
+
+```
+oc create -f https://raw.githubusercontent.com/openshift/origin/master/examples/storage-examples/local-examples/local-storage-provisioner-template.yaml
+```
