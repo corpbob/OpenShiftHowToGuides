@@ -26,7 +26,7 @@ yum -y install atomic
 ```
 yum -y install docker-1.13.1
 ```
-## Create the ansible hosts file
+## Create the ansible hosts file in /root/hosts
 
 ```
 # Create an OSEv3 group that contains the master, nodes, etcd, and lb groups.
@@ -93,4 +93,24 @@ master.{{ my_domain }} openshift_public_hostname="master.ellipticurve.com"  open
 node2.{{ my_domain }} openshift_schedulable=true openshift_node_labels="{'name': 'node2',  'env': 'dev', 'region': 'infra' }"
 node3.{{ my_domain }} openshift_schedulable=true openshift_node_labels="{'name': 'node3',  'env': 'dev'}"
 ```
+## Run the pre-requisites
 
+```
+atomic install --system \
+    --storage=ostree \
+    --set INVENTORY_FILE=/root/hosts \
+    --set PLAYBOOK_FILE=/usr/share/ansible/openshift-ansible/playbooks/prerequisites.yml \
+    --set OPTS="-vvv" \
+    docker.io/openshift/origin-ansible:v3.9.28
+```
+
+## Run the installer
+
+```
+atomic install --system \
+    --storage=ostree \
+    --set INVENTORY_FILE=/root/hosts \
+    --set PLAYBOOK_FILE=/usr/share/ansible/openshift-ansible/playbooks/deploy_cluster.yml \
+    --set OPTS="-vvv" \
+    docker.io/openshift/origin-ansible:v3.9.28
+```
