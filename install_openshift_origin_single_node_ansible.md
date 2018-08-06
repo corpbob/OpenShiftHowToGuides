@@ -102,165 +102,35 @@ PING 10.1.2.2 (10.1.2.2): 56 data bytes
 1 packets transmitted, 1 packets received, 0.0% packet loss
 round-trip min/avg/max/stddev = 0.454/0.454/0.454/0.000 ms
 ```
-## Install docker
+## Install OpenShift 3.9
+- copy the script below to a file named install_openshift.sh inside the directory /root
+```
+#### Filename: install_openshift.sh #####
+HOSTNAME=10.1.2.2.nip.io
+if [ ! -f ~/.updated ]
+then
+  hostnamectl set-hostname $HOSTNAME
+  yum -y install wget git net-tools bind-utils yum-utils iptables-services bridge-utils bash-completion kexec-tools sos psacct 
+  yum update -y
+  touch ~/.updated
+  systemctl reboot   
+fi
 
-```
-yum install -y docker
-```
-- Edit the file /etc/sysconfig/docker. Modify the line
+yum -y install     https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+sed -i -e "s/^enabled=1/enabled=0/" /etc/yum.repos.d/epel.repo
+yum -y --enablerepo=epel install ansible pyOpenSSL
+cd ~
+git clone https://github.com/openshift/openshift-ansible
+cd openshift-ansible/
+git checkout release-3.9
+yum install docker-1.13.1
+systemctl start docker
+yum install -y NetworkManager
+systemctl start NetworkManager
+yum install -y python-passlib
+yum install -y java-1.8.0-openjdk-headless
 
-```
-OPTIONS='--selinux-enabled --log-driver=journald --signature-verification=false'
-```
-
-to
-```
-OPTIONS='--selinux-enabled --log-driver=journald --signature-verification=false --insecure-registry 172.30.0.0/16'
-```
-- restart docker
-
-```
-systemctl restart docker
-```
-
-## Pre-pull images
-
-```
-docker pull docker.io/openshift/origin:latest
-docker pull docker.io/openshift/origin-metrics-cassandra:latest
-docker pull docker.io/openshift/origin-metrics-hawkular-metrics:latest
-docker pull docker.io/openshift/origin-metrics-heapster:latest
-docker pull docker.io/openshift/origin-service-catalog:latest
-docker pull docker.io/cockpit/kubernetes:latest
-docker pull docker.io/openshift/origin-haproxy-router:v3.7.1
-docker pull docker.io/openshift/origin-deployer:v3.7.1
-docker pull docker.io/openshift/origin-docker-registry:v3.7.1
-docker pull docker.io/openshift/origin-pod:v3.7.1
-docker pull docker.io/ansibleplaybookbundle/origin-ansible-service-broker:v3.7
-```
-## Install required packages
-
-```
-yum install -y git unzip java-1.8.0-openjdk-headless ansible
-
-```
-
-## Make SSH passwordless
-
-- Generate SSH keys
-
-```
-[root@localhost ~]# ssh-keygen 
-Generating public/private rsa key pair.
-Enter file in which to save the key (/root/.ssh/id_rsa): 
-Created directory '/root/.ssh'.
-Enter passphrase (empty for no passphrase): 
-Enter same passphrase again: 
-Your identification has been saved in /root/.ssh/id_rsa.
-Your public key has been saved in /root/.ssh/id_rsa.pub.
-The key fingerprint is:
-SHA256:XlB/0nXW9vY/GQq9bcSfXoQGOEreDVFxTQGgAol01Pk root@localhost.localdomain
-The key's randomart image is:
-+---[RSA 2048]----+
-|  ..o+o . oo+oo+B|
-|   ....o ..+ o o=|
-|       .+.+ + o..|
-|       o.E + + .o|
-|        S o o +.o|
-|       . . . o =.|
-|        .   . = B|
-|             o *+|
-|              o..|
-+----[SHA256]-----+
-```
-
-- Copy the public key to authorized keys
-```
-cd ~/.ssh
-cp id_rsa.pub authorized_keys
-chmod 600 authorized_keys
-```
-- Verify you can log in without password
-```
-ssh -v localhost
-```
-
-- You should see something like this
-
-```
-Are you sure you want to continue connecting (yes/no)?
-```
-- Type yes. You should then see something like
-
-```
-debug1: Sending environment.
-debug1: Sending env LANG = en_US.UTF-8
-Last login: Fri Apr 13 08:36:56 2018 from 10.1.2.1
-[root@localhost ~]# 
-```
-
-- Type exit and press enter
-
-```
-[root@localhost ~]# exit
-logout
-debug1: client_input_channel_req: channel 0 rtype exit-status reply 0
-debug1: client_input_channel_req: channel 0 rtype eow@openssh.com reply 0
-debug1: channel 0: free: client-session, nchannels 1
-Connection to localhost closed.
-Transferred: sent 3280, received 2988 bytes, in 116.8 seconds
-Bytes per second: sent 28.1, received 25.6
-debug1: Exit status 0
-```
-
-## Download Openshift-ansible
-
-```
-curl -L https://github.com/openshift/openshift-ansible/archive/release-3.7.zip -o openshift-ansible-release-3.7.zip
-unzip openshift-ansible-release-3.7.zip
-mv openshift-ansible-release-3.7 openshift-ansible
-```
-
-- Open the file openshift-ansible/roles/openshift_service_catalog/templates/controller_manager.j2 and find line Add the following
-
-```yaml {.line-numbers}
-      volumes:
-      - name: service-catalog-ssl
-        secret:
-          defaultMode: 420
-          items:
-          - key: tls.crt
-            path: apiserver.crt
-          secretName: apiserver-ssl
-```
-
-- Add the following under "items":
-
-```yaml
-          - key: tls.key
-            path: apiserver.key
-```
-this will result in
-
-```yaml {.line-numbers}
-      volumes:
-      - name: service-catalog-ssl
-        secret:
-          defaultMode: 420
-          items:
-          - key: tls.crt
-            path: apiserver.crt
-          - key: tls.key
-            path: apiserver.key
-          secretName: apiserver-ssl
-```
-## Replace Default Ansible Hosts file
-
-- Replace the contents of the /etc/ansible/hosts file with the below
-
-*Adapted from https://raw.githubusercontent.com/sjbylo/misc/master/ocp-install-39/create-hosts*
-
-```
+cat << EOF> /etc/ansible/hosts
 # Create an OSEv3 group that contains the master, nodes, etcd, and lb groups.
 [OSEv3:children]
 masters
@@ -273,10 +143,13 @@ openshift_enable_docker_excluder=False
 openshift_enable_openshift_excluder=False
 ansible_ssh_user=root
 ansible_become=true
-#deployment_type=openshift-origin
+#containerized=true
 openshift_deployment_type=origin
-#debug_level=4
+openshift_release=3.9
 openshift_clock_enabled=true
+ansible_service_broker_install=false
+openshift_enable_service_catalog=false
+template_service_broker_install=false
 
 openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider', 'filename': '/etc/origin/openshift-passwd'}]
 
@@ -286,42 +159,16 @@ openshift_master_htpasswd_users={'dev': '$apr1$LcfsxR41$zY2JK4Bg9gXeBDKXiokRZ1',
 # apply updated node defaults
 openshift_node_kubelet_args={'pods-per-core': ['10'], 'max-pods': ['250'], 'image-gc-high-threshold': ['80'], 'image-gc-low-threshold': ['60']}
 
-# AWS related configuration
-
-#openshift_cloudprovider_kind=aws
-#openshift_clusterid=cluster01   # Set this to the id of the cluster (need to tag ec2 resources) 
-
-#openshift_cloudprovider_aws_access_key="{{ lookup('env','AWS_ACCESS_KEY_ID') }}"
-#openshift_cloudprovider_aws_secret_key="{{ lookup('env','AWS_SECRET_ACCESS_KEY') }}"
-
-# If using S3 for the Docker registry, S3 bucket must already exist.
-# These vars are required 
-# https://docs.docker.com/registry/storage-drivers/s3/ 
-#openshift_hosted_registry_storage_kind=object
-#openshift_hosted_registry_storage_provider=s3
-#openshift_hosted_registry_storage_s3_bucket=ocp-registry
-#openshift_hosted_registry_storage_s3_region=ap-southeast-1
-
-# These vars are optional
-#openshift_hosted_registry_storage_s3_encrypt=false
-#openshift_hosted_registry_storage_s3_kmskeyid=aws_kms_key_id
-#openshift_hosted_registry_storage_s3_accesskey=aws_access_key_id
-#openshift_hosted_registry_storage_s3_secretkey=aws_secret_access_key
-#openshift_hosted_registry_storage_s3_chunksize=26214400
-#openshift_hosted_registry_storage_s3_rootdirectory=/registry
-#openshift_hosted_registry_pullthrough=true
-#openshift_hosted_registry_acceptschema2=true
-#openshift_hosted_registry_enforcequota=true
-
 osm_default_node_selector='env=dev'
 openshift_hosted_metrics_deploy=true
+openshift_metrics_image_version=v3.9
 #openshift_hosted_logging_deploy=true
 
 # Disable some pre-flight checks 
-openshift_disable_check=memory_availability,disk_availability,package_version
+openshift_disable_check=memory_availability,disk_availability,package_version,docker_storage,docker_image_availability
 
 # default subdomain to use for exposed routes
-openshift_master_default_subdomain=apps.10.1.2.2.nip.io
+openshift_master_default_subdomain=$HOSTNAME
 
 # Set the port of the master (default is 8443) if the master is a dedicated host
 #openshift_master_api_port=443
@@ -331,44 +178,38 @@ openshift_master_default_subdomain=apps.10.1.2.2.nip.io
 osm_default_node_selector='env=dev'
 
 # Router selector (optional)
-openshift_hosted_router_selector='env=dev'
 openshift_hosted_router_replicas=1
+
 
 # Registry selector (optional)
 openshift_registry_selector='env=dev'
-
-# Configure metricsPublicURL in the master config for cluster metrics
-#openshift_master_metrics_public_url=https://hawkular-metrics.public.10.1.2.2.nip.io
-
-# Configure loggingPublicURL in the master config for aggregate logging
-#openshift_master_logging_public_url=https://kibana.10.1.2.2.nip.io
-
 # host group for masters
 [masters]
-master.10.1.2.2.nip.io
+$HOSTNAME
 
 # host group for etcd
 [etcd]
-master.10.1.2.2.nip.io
+$HOSTNAME
 
 # host group for nodes, includes region info
 [nodes]
-master.10.1.2.2.nip.io openshift_public_hostname="master.10.1.2.2.nip.io"  openshift_schedulable=true openshift_node_labels="{'name': 'master', 'region': 'infra', 'env': 'dev'}" ansible_connection=local
+$HOSTNAME openshift_public_hostname="$HOSTNAME"  openshift_schedulable=true openshift_node_labels="{'name': 'master',  'env': 'dev', 'region': 'infra'}" ansible_connection=local
+EOF
+
+ansible-playbook -i /etc/ansible/hosts  ~/openshift-ansible/playbooks/prerequisites.yml
+ansible-playbook -i /etc/ansible/hosts  ~/openshift-ansible/playbooks/deploy_cluster.yml
+### End script
 ```
-
-*Note: dev password is dev, admin password is admin*
-
-## Install OpenShift Origin
-
-```
-ansible-playbook -i /etc/ansible/hosts ~/openshift-ansible/playbooks/byo/config.yml
-```
-
-### If you get an error like: Failed connect to apiserver.openshift-template-service-broker.svc:443; Connection refused"
-- run the playbook again
+- execute it using
 
 ```
-ansible-playbook -i /etc/ansible/hosts ~/openshift-ansible/playbooks/byo/config.yml
+bash install_openshift.sh
+```
+
+- Initially it will install some packages and update yum then reboot.
+- After the reboot, run the script again.
+```
+bash install_openshift.sh
 ```
 
 - A successful deployment should look like
