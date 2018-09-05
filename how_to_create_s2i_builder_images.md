@@ -81,4 +81,123 @@ CMD ["/usr/libexec/s2i/usage"]
 
 ```
 
+7. Edit the Makefile. Change the value of IMAGE_NAME to my-spring-boot-s2i
 
+8. Inside the s2i directory are the following files
+
+```
+s2i/bin
+s2i/bin/save-artifacts
+s2i/bin/assemble
+s2i/bin/run
+s2i/bin/usage
+```
+
+9. Replace the contents of the file s2i/bin/assemble with:
+
+```
+#!/bin/bash -e
+#
+# S2I assemble script for the 'nginx-centos7' image.
+# The 'assemble' script builds your application source so that it is ready to run.
+#
+# For more information refer to the documentation:
+#	https://github.com/openshift/source-to-image/blob/master/docs/builder_image.md
+#
+
+if [[ "$1" == "-h" ]]; then
+	# If the 'nginx-centos7' assemble script is executed with '-h' flag,
+	# print the usage.
+	exec /usr/libexec/s2i/usage
+fi
+
+mvn -Dmaven.repo.local=/tmp/.m2 package
+```
+
+10. Replace the contents of the file s2i/bin/run with:
+
+```
+#!/bin/bash -e
+# The run script executes the server that runs your application.
+#
+# For more information see the documentation:
+#	https://github.com/openshift/source-to-image/blob/master/docs/builder_image.md
+#
+
+# We will turn off daemonizing for the nginx process so that the container
+# doesn't exit after the process runs.
+
+#exec /usr/sbin/nginx -g "daemon off;"
+cd /tmp/src/target
+exec java -jar gs-serving-web-content-0.1.0.jar
+```
+
+11. Create the s2i image by running make:
+
+```
+make
+```
+
+12. Check that the image has been build
+```
+docker images |grep my-spring-boot-s2i
+
+my-spring-boot-s2i                                            latest              6f671258dc9d        About an hour ago   429 MB
+```
+
+13. Tag the new image with your docker hub repository name:
+
+```
+docker tag my-spring-boot-s2i <your_repo_name>/my-spring-boot-s2i
+```
+
+In my case, I tag is using:
+
+```
+docker tag my-spring-boot-s2i bcorpusjr/my-spring-boot-s2i
+```
+
+14. Login to docker hub using your username and password
+
+```
+docker login
+```
+
+15. Push the image to docke hub
+
+```
+docker  push <your_repo_name>/my-spring-boot-s2i
+```
+
+In my case I execute the command:
+
+```
+docker  push bcorpusjr/my-spring-boot-s2i
+```
+
+## Testing the image
+
+1. Create a new project in openshift
+
+```
+oc new-project spring
+```
+
+2. Create a new spring boot app. We will use the following project https://github.com/corpbob/hello-spring-boot.git
+
+
+```
+oc new-app <your_repo_name>/my-spring-boot-s2i~https://github.com/corpbob/hello-spring-boot.git
+```
+
+In my case, I do
+
+```
+oc new-app bcorpusjr/my-spring-boot-s2i~https://github.com/corpbob/hello-spring-boot.git
+```
+
+3. Login to the OpenShift web console->Projects->spring->Builds->Builds
+
+You should see something like:
+
+[images/s2i_howto_build.png](images/s2i_howto_build.png)
