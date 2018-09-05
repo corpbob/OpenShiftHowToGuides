@@ -200,4 +200,4 @@ oc new-app bcorpusjr/my-spring-boot-s2i~https://github.com/corpbob/hello-spring-
 
 You should see something like:
 
-<img src="images/s2i_howto_build.png" height="400px">
+<img src="images/s2i_howto_build.png" >
