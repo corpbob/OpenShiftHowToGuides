@@ -215,3 +215,5 @@ oc expose svc hello-spring-boot
 6. Click on the create route and you should be able to see the following:
 
 <img src="images/s2i_howto_web.png"/>
+
+## Congratulations! You have just created your first s2i builder image!
