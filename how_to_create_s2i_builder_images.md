@@ -200,4 +200,18 @@ oc new-app bcorpusjr/my-spring-boot-s2i~https://github.com/corpbob/hello-spring-
 
 You should see something like:
 
-<img src="images/s2i_howto_build.png" >
+<img src="images/s2i_howto_build.png" />
+
+4. Click on the Logs to see the following:
+
+<img src="images/s2i_howto_build_logs.png"/>
+
+5. After the build, create a route for the application
+
+```
+oc expose svc hello-spring-boot
+```
+
+6. Click on the create route and you should be able to see the following:
+
+<img src="images/s2i_howto_web.png"/>
