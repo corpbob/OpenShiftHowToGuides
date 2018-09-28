@@ -123,7 +123,7 @@ cd ~
 git clone https://github.com/openshift/openshift-ansible
 cd openshift-ansible/
 git checkout release-3.9
-yum install docker-1.13.1
+yum install -y docker-1.13.1
 systemctl start docker
 yum install -y NetworkManager
 systemctl start NetworkManager
