@@ -349,13 +349,16 @@ oc expose svc todo
 
 ```
 #!/bin/bash
+USERID=<your jenkins userid>
+TOKEN=<your jenkins token>
+JENKINS_URL=<your jenkins url>
 while read oldrev newrev ref
 do
     if [[ $ref =~ refs/tags ]];
     then
         echo "Master ref received.  Deploying master branch to production..."
         TAG=`echo $ref|sed 's#refs/tags/\(.*\)#\1#g'`
-        curl -v -k --user <userid>:<api token> -G "https://jenkins-todo-dev.10.1.2.2.nip.io/job/todo-dev-todo-pipeline/buildWithParameters" -d token=secret -d commit=$newrev -d tag=$TAG
+        curl -v -k --user $USERID:$TOKEN -G "$JENKINS_URL/buildWithParameters" -d token=secret -d commit=$newrev -d tag=$TAG
     else
         echo "Ref $ref successfully received.  Doing nothing: only the master branch may be deployed on this server."
     fi
