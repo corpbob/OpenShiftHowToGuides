@@ -1,6 +1,18 @@
 # Adding a Database Using Templates
 ## Browse the catalog and look for PostgreSQL database
 
+Now delete the project tomcatX, where X is your user number.
+
+```
+oc delete project tomcatX
+```
+
+Create a new project called userX-dev:
+
+```
+oc new-project userX-dev
+```
+
 While inside the project userX-dev, browse the catalog and search for postgresql.
 
 ![Service Catalog](images/service_catalog.png)
