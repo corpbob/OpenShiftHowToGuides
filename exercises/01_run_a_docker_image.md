@@ -11,7 +11,7 @@ oc login -u userX
 ## Create a new project
 
 ```
-oc new-project userX-dev
+oc new-project tomcatX
 ```
 
 ## Run the app 
