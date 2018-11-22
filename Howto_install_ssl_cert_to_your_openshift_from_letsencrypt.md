@@ -35,3 +35,31 @@ You can find the following files in that directory:
 ls /etc/letsencrypt/live/$YOUR_WILDCARD_DOMAIN
 cert.pem  chain.pem  fullchain.pem  privkey.pem  README
 ```
+- Concatenate the fullchain.pem, /etc/origin/master/ca.crt and privkey.pem to derive the router certificate:
+```
+cat fullchain.pem /etc/origin/master/ca.crt privkey.pem > router.pem
+```
+
+## Update the OpenShift router certificates
+- Backup the old router certs
+```
+oc project default
+oc export secret router-certs > ~/old-router-certs-secret.yaml
+```
+- Do a dry run
+```
+oc create secret tls router-certs --cert=router.pem --key=privkey.pem -o json --dry-run
+```
+- Replace the certs.
+```
+oc create secret tls router-certs --cert=router.pem --key=privkey.pem -o json --dry-run| oc replace -f -
+```
+- Annotate the service
+```
+oc annotate service router     service.alpha.openshift.io/serving-cert-secret-name-     service.alpha.openshift.io/serving-cert-signed-by-
+oc annotate service router     service.alpha.openshift.io/serving-cert-secret-name=router-certs
+```
+- Redeploy the router
+```
+oc rollout latest dc/router
+```
