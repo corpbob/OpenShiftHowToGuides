@@ -1,0 +1,5 @@
+# Howto Install SSL Certificates to your Openshift route
+## Assumptions
+- You have OpenShift 3.9 or above
+- You have access to your DNS server
+- 
