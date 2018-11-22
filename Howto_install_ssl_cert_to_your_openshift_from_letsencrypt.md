@@ -1,9 +1,10 @@
-# How to install SSL certificates from Letsencrypt
+# How to install SSL certificates from Letsencrypt to your OpenShift Router
 
 ## Assumptions
 - You are using Openshift on Centos 7
 - You have shell access and able to install software.
 - You have access to your DNS to add a TXT record
+- You are using the default HAProxy router of OpenShift.
 
 ## WildCard certificate
 
