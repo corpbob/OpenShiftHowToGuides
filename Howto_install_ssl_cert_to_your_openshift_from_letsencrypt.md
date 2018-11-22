@@ -1,4 +1,4 @@
-# How to install SSL certificates from Letsencrypt to your OpenShift Router
+# How to install Wildcard SSL certificates from Letsencrypt to your OpenShift Router
 
 ## Assumptions
 - You are using Openshift on Centos 7
