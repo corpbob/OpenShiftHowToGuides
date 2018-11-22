@@ -46,10 +46,6 @@ cat fullchain.pem /etc/origin/master/ca.crt privkey.pem > router.pem
 oc project default
 oc export secret router-certs > ~/old-router-certs-secret.yaml
 ```
-- Do a dry run
-```
-oc create secret tls router-certs --cert=router.pem --key=privkey.pem -o json --dry-run
-```
 - Replace the certs.
 ```
 oc create secret tls router-certs --cert=router.pem --key=privkey.pem -o json --dry-run| oc replace -f -
