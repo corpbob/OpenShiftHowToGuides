@@ -14,7 +14,7 @@ sudo certbot --server https://acme-v02.api.letsencrypt.org/directory -d $ROUTE_U
 - You will be asked to insert a txt record into your DNS. After inserting, verify that you are able to resolve the TXT record. 
 
 ```
-dig -t _acme-challenge.$ROUTE_URL
+dig -t txt _acme-challenge.$ROUTE_URL
 ```
 It should give you something like the below:
 
