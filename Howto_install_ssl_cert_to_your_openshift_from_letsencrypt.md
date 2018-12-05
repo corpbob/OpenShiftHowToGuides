@@ -60,3 +60,19 @@ oc annotate service router     service.alpha.openshift.io/serving-cert-secret-na
 ```
 oc rollout latest dc/router
 ```
+
+If you encounter this error:
+
+```
+    service.alpha.openshift.io/serving-cert-generation-error: secret/router-certs
+      references serviceUID , which does not match 0211a462-f722-11e8-ac86-001c42500494
+    service.alpha.openshift.io/serving-cert-generation-error-num: "10"
+```
+
+Do the following:
+
+```
+oc delete secret router-certs
+oc annotate service router service.alpha.openshift.io/serving-cert-generation-error-
+oc annotate service router service.alpha.openshift.io/serving-cert-generation-error-num-
+```
