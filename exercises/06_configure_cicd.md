@@ -381,6 +381,7 @@ done
 ```
 node('nodejs') {
   stage('build') {
+    sh """oc patch bc todo -p '{ "spec": { "source": { "git":  { "ref": \"${params.tag}\" }}}}'"""
     openshiftBuild(buildConfig: 'todo', showBuildLogs: 'true', commitID: params.commit)
   }
 
