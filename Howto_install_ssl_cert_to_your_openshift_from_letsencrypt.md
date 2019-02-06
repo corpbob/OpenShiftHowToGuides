@@ -18,7 +18,7 @@ sudo certbot --server https://acme-v02.api.letsencrypt.org/directory -d *.$YOUR_
 - You will be asked to insert a txt record into your DNS. After inserting, verify that you are able to resolve the TXT record. For example if the TXT record is __acme-challenge.openshift:
 
 ```
-dig -t _acme-challenge.$YOUR_WILDCARD_DOMAIN
+dig -t TXT _acme-challenge.$YOUR_WILDCARD_DOMAIN
 ```
 It should give you something like the below:
 
