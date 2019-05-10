@@ -45,7 +45,7 @@ cat fullchain.pem /etc/origin/master/ca.crt privkey.pem > router.pem
 - Backup the old router certs
 ```
 oc project default
-oc export secret router-certs > ~/old-router-certs-secret.yaml
+oc export secret router-certs > old-router-certs-secret.yaml
 ```
 - Replace the certs.
 ```
