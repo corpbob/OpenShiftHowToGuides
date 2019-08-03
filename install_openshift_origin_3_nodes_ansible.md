@@ -107,11 +107,13 @@ node2 openshift_ip=10.1.2.4 openshift_node_group_name='node-config-compute' open
 ## Run the pre-requisites
 
 ```
+cd ~/openshift-ansible
 ansible-playbook -i /root/hosts playbooks/prerequisites.yml
 ```
 
 ## Run the installer
 
 ```
+cd ~/openshift-ansible
 ansible-playbook -i /root/hosts playbooks/deploy_cluster.yml
 ```
