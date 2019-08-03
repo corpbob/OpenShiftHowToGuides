@@ -102,7 +102,7 @@ PING 10.1.2.2 (10.1.2.2): 56 data bytes
 1 packets transmitted, 1 packets received, 0.0% packet loss
 round-trip min/avg/max/stddev = 0.454/0.454/0.454/0.000 ms
 ```
-## Install OpenShift 3.9
+## Install OpenShift 3.11
 - copy the script below to a file named install_openshift.sh inside the directory /root
 ```
 #### Filename: install_openshift.sh #####
@@ -122,7 +122,7 @@ yum -y --enablerepo=epel install ansible pyOpenSSL
 cd ~
 git clone https://github.com/openshift/openshift-ansible
 cd openshift-ansible/
-git checkout release-3.9
+git checkout release-3.11
 yum install -y docker-1.13.1
 systemctl start docker
 yum install -y NetworkManager
@@ -145,7 +145,7 @@ ansible_ssh_user=root
 ansible_become=true
 #containerized=true
 openshift_deployment_type=origin
-openshift_release=3.9
+openshift_release=3.11
 openshift_clock_enabled=true
 ansible_service_broker_install=false
 openshift_enable_service_catalog=false
@@ -161,7 +161,7 @@ openshift_node_kubelet_args={'pods-per-core': ['10'], 'max-pods': ['250'], 'imag
 
 osm_default_node_selector='env=dev'
 openshift_hosted_metrics_deploy=true
-openshift_metrics_image_version=v3.9
+openshift_metrics_image_version=v3.11
 #openshift_hosted_logging_deploy=true
 
 # Disable some pre-flight checks 
@@ -193,8 +193,10 @@ $HOSTNAME
 
 # host group for nodes, includes region info
 [nodes]
-$HOSTNAME openshift_public_hostname="$HOSTNAME"  openshift_schedulable=true openshift_node_labels="{'name': 'master',  'env': 'dev', 'region': 'infra'}" ansible_connection=local
+# comment out if you have only more than one vm
+$HOSTNAME openshift_public_hostname="$HOSTNAME"  openshift_schedulable=true openshift_node_labels=node-config-all-in-one ansible_connection=local
 EOF
+
 
 ansible-playbook -i /etc/ansible/hosts  ~/openshift-ansible/playbooks/prerequisites.yml
 ansible-playbook -i /etc/ansible/hosts  ~/openshift-ansible/playbooks/deploy_cluster.yml
