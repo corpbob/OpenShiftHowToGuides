@@ -2,6 +2,22 @@
 ## Pre-Requisites
 - You should have added your hosts to DNS
 - You have a wildcard dns entry
+- You have one master and 2 compute nodes
+- IP addresses:
+  - master : 10.1.2.2
+  - node1  : 10.1.2.3
+  - node2  : 10.1.2.4
+- Your /etc/hosts has the following entries (in all nodes)
+
+```
+cat /etc/hosts
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+10.1.2.2 master
+10.1.2.3 node1
+10.1.2.4 node2
+
+```
 
 ## Prepare Hosts
 - Install base software
@@ -16,11 +32,15 @@ yum -y install wget git net-tools bind-utils yum-utils iptables-services bridge-
 yum update
 systemctl reboot
 ```
-- Install Atomic
+- Install openshift-ansible
 
 ```
-yum -y install atomic
+cd ~
+git clone https://github.com/openshift/openshift-ansible
+cd openshift-ansible
+git checkout release-3.11
 ```
+
 - Install docker
 
 ```
@@ -29,88 +49,69 @@ yum -y install docker-1.13.1
 ## Create the ansible hosts file in /root/hosts
 
 ```
-# Create an OSEv3 group that contains the master, nodes, etcd, and lb groups.
+# Create an OSEv3 group that contains the masters, nodes, and etcd groups
 [OSEv3:children]
 masters
-etcd
 nodes
+etcd
+new_nodes
 
 # Set variables common for all OSEv3 hosts
 [OSEv3:vars]
-openshift_enable_docker_excluder=False
-openshift_enable_openshift_excluder=False
+# SSH user, this user should allow ssh based auth without requiring a password
 ansible_ssh_user=root
+
+# If ansible_ssh_user is not root, ansible_become must be set to true
 ansible_become=true
-containerized=true
+os_firewall_use_firewalld=True
 openshift_deployment_type=origin
-openshift_release=3.9
-openshift_clock_enabled=true
-my_domain=mydomain.com
 
-openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider', 'filename': '/etc/origin/openshift-passwd'}]
+# uncomment the following to enable htpasswd authentication; defaults to DenyAllPasswordIdentityProvider
+openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider'}]
 
-# Create dev and admin users
-openshift_master_htpasswd_users={'dev': '$apr1$LcfsxR41$zY2JK4Bg9gXeBDKXiokRZ1', 'admin': '$apr1$f4jGxBUp$TMIBlmIVoVf9PKHWoL4w8.'}
+openshift_disable_check=memory_availability,disk_availability,package_version,docker_image_availability,package_availability,package_update,docker_storage
+openshift_master_default_subdomain=apps.10.1.2.2.nip.io
 
-# apply updated node defaults
-openshift_node_kubelet_args={'pods-per-core': ['10'], 'max-pods': ['250'], 'image-gc-high-threshold': ['80'], 'image-gc-low-threshold': ['60']}
-
-osm_default_node_selector='env=dev'
-openshift_hosted_metrics_deploy=true
-openshift_metrics_image_version=v3.9
-#openshift_hosted_logging_deploy=true
-
-# Disable some pre-flight checks 
-openshift_disable_check=memory_availability,disk_availability,package_version,docker_storage,docker_image_availability
-
-# default subdomain to use for exposed routes
-openshift_master_default_subdomain=openshift.{{ my_domain }}
-
-# Set the port of the master (default is 8443) if the master is a dedicated host
-#openshift_master_api_port=443
-#openshift_master_console_port=443
-
-# default project node selector
-osm_default_node_selector='env=dev'
-
-# Router selector (optional)
-openshift_hosted_router_selector='env=dev'
-openshift_hosted_router_replicas=1
-
-# Registry selector (optional)
-openshift_registry_selector='env=dev'
+# true by default
+# openshift_cluster_monitoring_operator_install=false
+# false by default
+# openshift_metrics_install_metrics=true
+# false by default
+# openshift_logging_install_logging=true
+# true by default
+# openshift_enable_service_catalog=false
+# false by default
+# ansible_service_broker_install=false
+# true by default
+# template_service_broker_install=false
+# true by default
+# openshift_web_console_install=false
+# true by default
+# openshift_console_install=false
+# preview only
+# openshift_enable_olm=true
 # host group for masters
 [masters]
-master.mydomain.com
+master openshift_ip=10.1.2.2
 
 # host group for etcd
 [etcd]
-master.{{ my_domain }}
+master openshift_ip=10.1.2.2
 
 # host group for nodes, includes region info
 [nodes]
-master.{{ my_domain }} openshift_public_hostname="master.ellipticurve.com"  openshift_schedulable=true openshift_node_labels="{'name': 'master',  'env': 'dev'}" 
-node2.{{ my_domain }} openshift_schedulable=true openshift_node_labels="{'name': 'node2',  'env': 'dev', 'region': 'infra' }"
-node3.{{ my_domain }} openshift_schedulable=true openshift_node_labels="{'name': 'node3',  'env': 'dev'}"
+master openshift_ip=10.1.2.2 openshift_public_hostname=master.10.1.2.2.nip.io openshift_node_group_name='node-config-master-infra' openshift_schedulable=true ansible_connection=local
+node1 openshift_ip=10.1.2.3 openshift_node_group_name='node-config-compute' openshift_schedulable=true 
+node2 openshift_ip=10.1.2.4 openshift_node_group_name='node-config-compute' openshift_schedulable=true
 ```
 ## Run the pre-requisites
 
 ```
-atomic install --system \
-    --storage=ostree \
-    --set INVENTORY_FILE=/root/hosts \
-    --set PLAYBOOK_FILE=/usr/share/ansible/openshift-ansible/playbooks/prerequisites.yml \
-    --set OPTS="-vvv" \
-    docker.io/openshift/origin-ansible:v3.9.28
+ansible-playbook -i /root/hosts playbooks/prerequisites.yml
 ```
 
 ## Run the installer
 
 ```
-atomic install --system \
-    --storage=ostree \
-    --set INVENTORY_FILE=/root/hosts \
-    --set PLAYBOOK_FILE=/usr/share/ansible/openshift-ansible/playbooks/deploy_cluster.yml \
-    --set OPTS="-vvv" \
-    docker.io/openshift/origin-ansible:v3.9.28
+ansible-playbook -i /root/hosts playbooks/deploy_cluster.yml
 ```
