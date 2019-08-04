@@ -108,17 +108,17 @@ openshift_master_default_subdomain=apps.10.1.2.2.nip.io
 # openshift_enable_olm=true
 # host group for masters
 [masters]
-master openshift_ip=10.1.2.2
+master openshift_ip=10.1.2.2 etcd_ip=10.1.2.2
 
 # host group for etcd
 [etcd]
-master openshift_ip=10.1.2.2
+master openshift_public_ip=10.1.2.2 etcd_ip=10.1.2.2
 
 # host group for nodes, includes region info
 [nodes]
-master openshift_ip=10.1.2.2 openshift_public_hostname=master.10.1.2.2.nip.io openshift_node_group_name='node-config-master-infra' openshift_schedulable=true ansible_connection=local
-node1 openshift_ip=10.1.2.3 openshift_node_group_name='node-config-compute' openshift_schedulable=true 
-node2 openshift_ip=10.1.2.4 openshift_node_group_name='node-config-compute' openshift_schedulable=true
+master openshift_public_ip=10.1.2.2 etcd_ip=10.1.2.2 openshift_public_hostname=master.10.1.2.2.nip.io openshift_node_group_name='node-config-master-infra' openshift_schedulable=true ansible_connection=local
+node1 openshift_public_ip=10.1.2.3 openshift_node_group_name='node-config-compute' openshift_schedulable=true 
+node2 openshift_public_ip=10.1.2.4 openshift_node_group_name='node-config-compute' openshift_schedulable=true
 ```
 ## Run the pre-requisites
 
