@@ -133,3 +133,15 @@ ansible-playbook -i /root/hosts playbooks/prerequisites.yml
 cd ~/openshift-ansible
 ansible-playbook -i /root/hosts playbooks/deploy_cluster.yml
 ```
+## Add the admin user and give privilege
+
+```
+htpasswd -nb admin admin > /etc/origin/master/htpasswd
+oc adm policy add-cluster-role-to-user cluster-admin admin
+```
+
+## Login to console
+
+- Navigate to http://master.10.1.2.2.nip.io:8443
+- Login as admin/admin
+
