@@ -32,6 +32,22 @@ yum -y install wget git net-tools bind-utils yum-utils iptables-services bridge-
 yum update
 systemctl reboot
 ```
+- Install ansible
+
+```
+yum -y install     https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+sed -i -e "s/^enabled=1/enabled=0/" /etc/yum.repos.d/epel.repo
+yum -y --enablerepo=epel install ansible pyOpenSSL
+   
+```
+- Generate SSH keys
+
+```
+ssh-keygen 
+ssh-copy-id -i ~/.ssh/id_rsa 10.1.2.3
+ssh-copy-id -i ~/.ssh/id_rsa 10.1.2.4
+```
+
 - Install openshift-ansible
 
 ```
