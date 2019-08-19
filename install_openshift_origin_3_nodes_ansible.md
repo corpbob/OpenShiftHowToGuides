@@ -70,7 +70,6 @@ yum -y install docker-1.13.1
 masters
 nodes
 etcd
-new_nodes
 
 # Set variables common for all OSEv3 hosts
 [OSEv3:vars]
@@ -108,7 +107,7 @@ openshift_master_default_subdomain=apps.10.1.2.2.nip.io
 # openshift_enable_olm=true
 # host group for masters
 [masters]
-master openshift_ip=10.1.2.2 etcd_ip=10.1.2.2
+master openshift_public_ip=10.1.2.2 etcd_ip=10.1.2.2
 
 # host group for etcd
 [etcd]
