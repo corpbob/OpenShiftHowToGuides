@@ -169,6 +169,7 @@ spec:
 ```
 oc create -f todo_pipeline.yml
 ```
+- This will provision a jenkins pod. Wait for the Jenkins pod to be ready.
 
 - Go to Build->Pipelines. You should be able to see something like this:
 
