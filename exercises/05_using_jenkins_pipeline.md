@@ -51,7 +51,7 @@ You should be able to see something like this
 - Set the following parameters to the specified values:
 
   - Database Service Name = mongodb
-  - MongoDB Connection Usernae = demo
+  - MongoDB Connection Username = demo
   - MongoDB Connection Password = demo
   - MongoDB Database Name = todo-api
   - MongoDB Admin Password = demo
