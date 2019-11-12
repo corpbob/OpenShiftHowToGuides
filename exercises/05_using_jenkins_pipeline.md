@@ -142,18 +142,26 @@ spec:
       jenkinsfile: |-
         node('nodejs') {
           stage('build') {
-            openshiftBuild(buildConfig: 'todo', showBuildLogs: 'true')
+            openshift.withCluster(){
+              openshift.withProject(){
+                def bc= openshift.selector("bc/todo")
+                bc.startBuild()
+                bc.logs("-f")
+              }
+              
+            }
+            
           }
-          stage('deploy') {
-            openshiftDeploy(deploymentConfig: 'todo')
-          }
- 
+          //stage('deploy') {
+          //  openshiftDeploy(deploymentConfig: 'todo')
+          //}
+        
           //stage( 'Wait for approval')
           //input( 'Aprove to production?')
           //stage('Deploy UAT'){
             //openshiftDeploy(deploymentConfig: 'todo', namespace: 'todo-uat')
           //}
-
+        
         }
     type: JenkinsPipeline
   triggers:
