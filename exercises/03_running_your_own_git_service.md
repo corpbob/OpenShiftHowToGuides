@@ -11,18 +11,16 @@ We are going to replace the "non-persistent" volume mounted on /data and change 
 
 ![Delete Gogs Non-Persistent Volume](images/delete_gogs_volume_4.2.png)
 
-Click on Add Storage. 
+Next we create a Persistent Volume Claim (PVC) that we will mount into "/data". Go to Search->PersistentVolumeClaim. Click on Create Persistent Volume Claim.
 
-![Add New Storage](images/add_gogs_storage1.png)
+![Gogs Storage Details](images/gogs_storage_details_4.2.png)
 ![Add New Storage](images/create_persistent_volume_claim_4.2.png)
 
-You'll notice there is only one storage and it's already claimed by another container. We need to create another storage. Click on 'create storage' and input the following details as show below:
-
-![Gogs Storage Details](images/gogs_storage_details.png)
+Name it "gogs-storage", Single User Access Mode, and Size = 1Gi. Click Create.
 
 Mount gogs-storage to /data and click Add
 
-![Create New Storage](images/add_gogs_storage2.png)
+![Create New Storage](images/add_gogs_storage2_4.2.png)
 
 # Expose the gogs service 
 
