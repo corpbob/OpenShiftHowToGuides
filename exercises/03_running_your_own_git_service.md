@@ -23,7 +23,7 @@ Mount gogs-storage to /data and click Add
 
 # Expose the gogs service 
 
-Type the following command to create a route for the gogs service.
+Now we need to expose this service to the public. So we need a URL for this. Type the following command to create a route for the gogs service.
 
 ```
 oc expose svc gogs
