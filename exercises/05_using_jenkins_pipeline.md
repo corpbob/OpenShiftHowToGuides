@@ -119,7 +119,7 @@ oc start-build bc/todo
 
 You can also view the build logs:
 
-![Todo Build Logs](images/todo_build_logs_4.2.png)
+![Todo Build Logs](images/todo_build_logs_4.2_v2.png)
 - Wait for the build to complete. The build will complete when the image build is pushed to the internal container registry.
 - This will automatically deploy the todo application. Go to Search-Pods. Click on the todo pod. Click on Logs and you should see something like
 
