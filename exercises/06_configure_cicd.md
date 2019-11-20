@@ -341,7 +341,7 @@ This will give an output similar to
 oc expose svc todo
 ```
 
-![Todo UAT Overview](images/todo_uat_overview.png)
+![Todo UAT Overview](images/todo_uat_overview_4.2.png)
 
 ## Configure the GitHook
 
