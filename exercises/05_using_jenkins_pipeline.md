@@ -74,11 +74,13 @@ Click on Node.js (the one without the mongodb).  Input the Git Repo URL of your 
 
 ![New NodeJs App Details](images/todo_nodejs_details_4.2.png)
 
-Click on "advanced options". Scroll to Deployment Configuration and add Environment Variable
+Click on "Deployment Configuration". Add Environment Variable
 
 ```
 PORT = 8080
 ```
+
+![Deployment Configuration](images/todo_nodejs_deployment_configuration_4.2.png)
 
 Click on Create.
 
