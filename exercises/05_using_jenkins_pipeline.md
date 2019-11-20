@@ -65,13 +65,14 @@ You should be able to see something like this
 
 ## Create a new application using NodeJs template
 
-Click "Add to Project", search for NodeJs
+Click "+Add", search for NodeJs
 
 ![New NodeJS Apps](images/new_app_nodejs_4.2.png)
 
-Input the details as shown below. The project should be the project assigned to you.
+Click on Node.js (the one without the mongodb).  Input the Git Repo URL of your gogs git repo. Set the "Application Name" and "Name" to "todo".
 
-![New NodeJs App Details](images/todo_nodejs_details.png)
+
+![New NodeJs App Details](images/todo_nodejs_details_4.2.png)
 
 Click on "advanced options". Scroll to Deployment Configuration and add Environment Variable
 
