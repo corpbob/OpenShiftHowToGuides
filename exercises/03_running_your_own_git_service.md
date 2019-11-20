@@ -17,7 +17,7 @@ Next we create a Persistent Volume Claim (PVC) that we will mount into "/data". 
 
 Name it "gogs-storage", Single User Access Mode, and Size = 1Gi. Click Create.
 
-Mount gogs-storage to /data and click Add
+Mount gogs-storage to /data and click Save.
 
 ![Create New Storage](images/add_gogs_storage2_4.2.png)
 
@@ -30,7 +30,8 @@ oc expose svc gogs
 ```
 
 ## Configure the gogs database by accessing the gogs url. TODO: Add detailed steps.
-Click on the gogs url to open the gogs service.
+
+Go to Search->Route. Click on the gogs url to open the gogs service.
 
 ![Gogs Install Page](images/gogs_install_page.png)
 
