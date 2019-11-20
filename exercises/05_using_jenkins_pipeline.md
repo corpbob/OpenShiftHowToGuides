@@ -88,6 +88,11 @@ The build will fail in this case because the repository is private.
 
 ## Add Gogs credentials to your OpenShift project
 
+
+![Build Error](images/todo_error1_4.2.png)
+
+You can view the logs from the pod. Go to Search->Pod. Click the todo pod. 
+
 ![Build Error](images/todo_error.png)
 
 - Make sure you are in the correct project
@@ -102,26 +107,26 @@ oc secrets new-basicauth  gogs-secret --username=<your gogs username> --password
 ```
 Configure the deployment config to use this secret. 
 
-- Go to Builds->Builds->todo
+```
+oc set build-secret --source bc/todo gogs-secret
+```
 
-![Edit Build Config](images/todo_edit_build_config.png)
+Then start the build
 
-- Click on Advanced Options
+```
+oc start-build bc/todo
+```
 
-![Advanced Options](images/todo_edit_build_config2.png)
-
-- Set source secret to gogs-secret
-
-![Set Source Secret](images/todo_edit_build_config3.png)
+You can also view the build logs:
 
 - Click Save 
 - Click Start Build
 
-![Todo Build Logs](images/todo_build_logs.png)
-- Wait for the build to complete. The build will complete when the image build is pushed to the internal docker registry.
-- This will automatically deploy the todo application. Go to Applications-Pods. Click on the todo pod. Click on Logs and you should see something like
+![Todo Build Logs](images/todo_build_logs_4.2.png)
+- Wait for the build to complete. The build will complete when the image build is pushed to the internal container registry.
+- This will automatically deploy the todo application. Go to Search-Pods. Click on the todo pod. Click on Logs and you should see something like
 
-![Todo Deployment](images/todo_deployment.png)
+![Todo Deployment](images/todo_deployment_4.2.png)
 
 - Click on the todo url and you should be able to see something like this
 
