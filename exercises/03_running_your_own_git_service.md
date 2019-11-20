@@ -7,13 +7,14 @@ oc new-app wkulhanek/gogs:11.4
 
 ## Attach storage to gogs and mount to /data
 
-We are going to replace the "non-persistent" volume mounted on /data and change it to a persistent volume. Go to Applications->Deployments->gogs->Configuration. Scroll down to volumes and delete the volume mounted on /data.
+We are going to replace the "non-persistent" volume mounted on /data and change it to a persistent volume. Go to Search>DeploymentConfig>gogs.  Scroll down to volumes and delete the volume mounted on /data.
 
-![Delete Gogs Non-Persistent Volume](images/delete_gogs_volume.png)
+![Delete Gogs Non-Persistent Volume](images/delete_gogs_volume_4.2.png)
 
 Click on Add Storage. 
 
 ![Add New Storage](images/add_gogs_storage1.png)
+![Add New Storage](images/create_persistent_volume_claim_4.2.png)
 
 You'll notice there is only one storage and it's already claimed by another container. We need to create another storage. Click on 'create storage' and input the following details as show below:
 
