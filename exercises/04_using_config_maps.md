@@ -14,24 +14,54 @@ postgresql-1-7969q   1/1       Running   0          10h
 - Take note of the pod and get the contents of /opt/gogs/custom/conf/app.ini.
 
 ```
-oc rsh gogs-3-t3wqs cat /opt/gogs/custom/conf/app.ini
+oc rsh gogs-3-t3wqs cat /opt/gogs/custom/conf/app.ini > app.ini.tmp
 ```
+
+Since the generated file contains '\r' characters, let's get rid of that:
+
+```
+tr -d '\r' < app.ini.tmp > app.ini
+```
+
 ## Create a config map 
 
-Got to Applications->Deployments->Gogs->Configuration. Click on Add Config Files.
+In the same terminal window, import the file into a ConfigMap. In this example, we give it a name "gogs-config" but you can use any name as long at it is unique in the namespace/project. Execute the following command:
 
-![Add Config Files](images/add_config_files.png)
+```
+oc create configmap gogs-config --from-file=app.ini
+```
 
-Since this is a new config map, we need to create it.
+Check the newly created ConfigMap:
 
-![Create Config Map](images/create_config_map.png)
+```
+oc get configmap gogs-config -o yaml
+```
+The following 2 commands are equivalent to the first one:
 
-You can use any unique name for the Config Map. In this exercise, we name it gogs-config. The key should be "app.ini".  We then paste the contents of app.ini to the text area. This will be rendered as a file by Kubernetes with filename app.ini.
+```
+oc get configmap/gogs-config -o yaml
+oc get cm/gogs-config -o yaml
+```
 
-After saving, you will be taken to the page "Add Config Files to gogs". Click on "Source" and select gogs-config. Set the mount path to /opt/gogs/custom/conf/ and click Add.
+We now need to mount this ConfigMap to the pod by setting it as a volume and mounting it at the directory /opt/gogs/custom/conf.
 
-![Add Config Files 2](images/add_config_files2.png)
+First, let us scale down the pods to 0:
 
-This will trigger a redeployment of gogs.
+```
+oc scale dc/gogs --replicas=0
+```
+
+Next, set the ConfigMap as a volume in the DeploymentConfig:
+
+```
+ oc set volume dc/gogs --add --type=configmap --mount-path=/opt/gogs/custom/conf --configmap-name=gogs-config
+```
+
+Finally, redeploy the gogs container:
+
+```
+oc rollout latest dc/gogs
+oc scale dc/gogs --replicas=1
+```
 
 Next Exercise: [Using Jenkins Pipeline](05_using_jenkins_pipeline.md)
