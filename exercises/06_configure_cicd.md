@@ -492,15 +492,13 @@ To http://gogs-dev1.xxx.xxx.xxx.xxx.nip.io/corpbob/todoAPIjs.git
 
 - After a while, the deployment will pause and will ask for input to proceed. 
 
-![Wait for Approval](images/todo_dev_wait_for_approval.png)
+![Wait for Approval](images/todo_dev_wait_for_approval_4.2.png)
 
 - Click on Input Required to open the Jenkins page and approve the request.
 
-![Approve to Production](images/todo_approve_to_production.png)
-
 - Go to your UAT environment and watch "todo" being re-deployed.
 
-![Deployment to UAT](images/todo_uat_deployment.png)
+![Deployment to UAT](images/todo_uat_deployment_4.2.png)
 
 - Open the URL of todo in UAT and check that your changes are there.
 
