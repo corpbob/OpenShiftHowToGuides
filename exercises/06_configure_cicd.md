@@ -65,7 +65,7 @@ objects:
     - annotations: null
       from:
         kind: DockerImage
-        name: 172.30.1.1:5000/userX-dev/todo:latest
+        name: 172.30.1.1:5000/${DEV_NAMESPACE}/todo:latest
       generation: null
       importPolicy: {}
       name: latest
@@ -224,7 +224,7 @@ objects:
         - env:
           - name: PORT
             value: "8080"
-          image: 172.30.1.1:5000/userX-dev/todo
+          image: 172.30.1.1:5000/${DEV_NAMESPACE}/todo
           imagePullPolicy: Always
           name: todo
           ports:
@@ -247,7 +247,7 @@ objects:
         from:
           kind: ImageStreamTag
           name: todo:TestReady
-          namespace: userX-dev
+          namespace: ${DEV_NAMESPACE}
       type: ImageChange
     - type: ConfigChange
 - apiVersion: v1
@@ -283,6 +283,12 @@ objects:
       deploymentconfig: todo
     sessionAffinity: None
     type: ClusterIP
+parameters:
+- description: The name of the DEV namespace
+  displayName: Dev Namespace
+  name: DEV_NAMESPACE
+  required: true
+  value: user0-dev
 ```  
 > The yaml above was generated using the command:
 > oc export pvc,is,secret,dc,svc --as-template=uat > uat.yml
@@ -305,10 +311,10 @@ This will give an output similar to:
 template "uat" created
 ```
 
-- Create a new application based on the template
+- Create a new application based on the template. **Make sure you substitute the correct value of X**
 
 ```
-oc new-app uat
+oc new-app uat -p DEV_NAMESPACE=userX-dev
 ```
 This will give an output similar to 
 
