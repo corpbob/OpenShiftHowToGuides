@@ -348,7 +348,7 @@ oc expose svc todo
 - Login to Jenkins as your user id.
 - Click on your UserId at the upper right hand corner.
 - Click on Configure at the left hand navigation bar.
-- Click on Show API Token. Take note of the "User ID" and "API Token".
+- In the API Token section, click on "Add new token". Give it a name and click Generate. Take note of the "User ID" and "API Token".
 - Go to gogs page. Access the todoAPIjs repository -> Settings -> Git Hooks -> Post Receive. Paste the following script after substituting the user id and api token you got from Jenkins. The url should also be correct. 
 
 *Instructor will show how to get the correct URL.*
@@ -387,16 +387,31 @@ done
 ```
 node('nodejs') {
   stage('build') {
-    sh """oc patch bc todo -p '{ "spec": { "source": { "git":  { "ref": \"${params.tag}\" }}}}'"""
-    openshiftBuild(buildConfig: 'todo', showBuildLogs: 'true', commitID: params.commit)
+    openshift.withCluster(){
+      openshift.withProject(){
+        sh """oc patch bc todo -p '{ "spec": { "source": { "git":  { "ref": \"${params.tag}\" }}}}'"""
+        def bc= openshift.selector("bc/todo")
+        bc.startBuild()
+        bc.logs("-f")
+      }
+      
+    }
+    
   }
+
+  stage('deploy') {
+    //automatic deployment
+  } 
 
   stage( 'Wait for approval')
   input( 'Aprove to production?')
   stage('Deploy UAT'){
-    openshiftTag(sourceStream: 'todo', sourceTag: 'latest', destinationStream: 'todo', destinationTag: 'TestReady')   
+    openshift.withCluster(){
+      openshift.withProject() {
+        openshift.tag( 'user0-dev/todo:latest', 'user0-dev/todo:TestReady')
+      }
+    }
   }
-
 }
 ```
 
@@ -468,12 +483,12 @@ To http://gogs-dev1.xxx.xxx.xxx.xxx.nip.io/corpbob/todoAPIjs.git
 
 - Got to the dev environment and click on Builds->Pipelines. You should be able to see a new pipeline being started.
 
-![Pipeline Triggered](images/todo_dev_githook_trigger_pipeline.png)
+![Pipeline Triggered](images/todo_dev_githook_trigger_pipeline_4.2.png)
 
 
 - Go to the Overview page of your dev environment, scroll to "todo" and observe the application being redeployed.
 
-![Todo Dev Redeploy](images/todo_dev_triggered_deploy.png) 
+![Todo Dev Redeploy](images/todo_dev_triggered_deploy_4.2.png) 
 
 - After a while, the deployment will pause and will ask for input to proceed. 
 
