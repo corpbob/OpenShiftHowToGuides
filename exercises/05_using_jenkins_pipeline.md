@@ -47,7 +47,7 @@ You should be able to see something like this
 
 - Using the service catalog, search for a mongodb template. 
 
-![MongoDB template](images/todo_mongodb1.png)
+![MongoDB template](images/todo_mongodb1_4.2.png)
 - Set the following parameters to the specified values:
 
   - Database Service Name = mongodb
