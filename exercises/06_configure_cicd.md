@@ -488,7 +488,7 @@ To http://gogs-dev1.xxx.xxx.xxx.xxx.nip.io/corpbob/todoAPIjs.git
 
 - Go to the Overview page of your dev environment, scroll to "todo" and observe the application being redeployed.
 
-![Todo Dev Redeploy](images/todo_dev_triggered_deploy_4.2.png) 
+![Todo Dev Redeploy](images/todo_dev_triggered_deploy_4.2_v2.png) 
 
 - After a while, the deployment will pause and will ask for input to proceed. 
 
@@ -498,7 +498,7 @@ To http://gogs-dev1.xxx.xxx.xxx.xxx.nip.io/corpbob/todoAPIjs.git
 
 - Go to your UAT environment and watch "todo" being re-deployed.
 
-![Deployment to UAT](images/todo_uat_deployment_4.2.png)
+![Deployment to UAT](images/todo_uat_deployment_4.2_v3.png)
 
 - Open the URL of todo in UAT and check that your changes are there.
 
