@@ -14,7 +14,6 @@ We are going to replace the "non-persistent" volume mounted on /data and change 
 Next we create a Persistent Volume Claim (PVC) that we will mount into "/data". Go to Search->PersistentVolumeClaim. Click on Create Persistent Volume Claim.
 
 ![Gogs Storage Details](images/gogs_storage_details_4.2.png)
-![Add New Storage](images/create_persistent_volume_claim_4.2.png)
 
 Name it "gogs-storage", Single User Access Mode, and Size = 1Gi. Click Create.
 
