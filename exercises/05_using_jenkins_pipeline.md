@@ -188,15 +188,15 @@ spec:
 ```
 oc create -f todo_pipeline.yml
 ```
-- This will provision a jenkins pod. Wait for the Jenkins pod to be ready.
+- This will use the Jenkins you just installed to run the pipeline.
 
-- Go to Build->Pipelines. You should be able to see something like this:
+- Go to Builds->todo-pipeline. You should be able to see something like this:
 
-![Todo Build Pipeline](images/todo_pipeline.png)
+![Todo Build Pipeline](images/todo_pipeline_4.2.png)
 
 - At this point, you can do the following:
   - View Jenkinsfile
-  - Start Pipeline
+  - Start Pipeline using Actions->Start Build
   - View the Jenkins Log as the build progresses
   - View the Deployment after the build
 
