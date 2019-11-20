@@ -48,6 +48,8 @@ You should be able to see something like this
 - Using the service catalog, search for a mongodb template. 
 
 ![MongoDB template](images/todo_mongodb1_4.2.png)
+
+- Click Instantiate Template
 - Set the following parameters to the specified values:
 
   - Database Service Name = mongodb
@@ -57,7 +59,7 @@ You should be able to see something like this
   - MongoDB Admin Password = demo
 
 
-![MongoDB template values](images/todo_mongodb2.png)
+![MongoDB template values](images/todo_mongodb2_4.2.png)
 
 - Click on Create.
 
@@ -65,7 +67,7 @@ You should be able to see something like this
 
 Click "Add to Project", search for NodeJs
 
-![New NodeJS Apps](images/new_app_nodejs.png)
+![New NodeJS Apps](images/new_app_nodejs_4.2.png)
 
 Input the details as shown below. The project should be the project assigned to you.
 
