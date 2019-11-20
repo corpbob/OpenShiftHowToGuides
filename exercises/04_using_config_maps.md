@@ -1,6 +1,6 @@
 # Using ConfigMaps 
 
-For containers to be portable across environments, we can put configuration paramaters in environment variables. However, most of the applications read their configurations from configuration files. For example, in the Java platform, we call these config files as properties files. 
+For containers to be portable across environments, we can put configuration parameters in environment variables. However, most of the applications read their configurations from configuration files. For example, in the Java platform, we call these config files as properties files. 
 
 In this section, we will learn how to externalize configuration files using ConfigMaps.
 
