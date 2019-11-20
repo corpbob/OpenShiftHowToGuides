@@ -159,20 +159,8 @@ spec:
                 bc.startBuild()
                 bc.logs("-f")
               }
-              
             }
-            
           }
-          //stage('deploy') {
-          //  openshiftDeploy(deploymentConfig: 'todo')
-          //}
-        
-          //stage( 'Wait for approval')
-          //input( 'Aprove to production?')
-          //stage('Deploy UAT'){
-            //openshiftDeploy(deploymentConfig: 'todo', namespace: 'todo-uat')
-          //}
-        
         }
     type: JenkinsPipeline
   triggers:
