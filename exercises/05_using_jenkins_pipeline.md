@@ -125,9 +125,13 @@ You can also view the build logs:
 
 ![Todo Deployment](images/todo_deployment_4.2.png)
 
-- Click on the todo url and you should be able to see something like this
+- Go to Search->Route. Click on the todo url and you should be able to see something like this
 
 ![Todo Page](images/todo_web_page.png)
+
+## Install Jenkins
+
+- By now, you should already know how to provision a Jenkins application using the Application Catalog. Go ahead and provision a Jenkins Ephemeral application.
 
 ## Create the Build Pipeline
 
