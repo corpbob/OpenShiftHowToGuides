@@ -376,7 +376,7 @@ done
   - commit
 - Tick "Trigger Builds Remotely". Set the token to "secret" (without the quotes).
 - Click Save
-- Modify the pipeline script
+- Modify the pipeline script. Make sure you change userX to the appropriate value.
 
 ```
 node('nodejs') {
