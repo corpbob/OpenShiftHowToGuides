@@ -2,7 +2,7 @@
 ## Run the Go Git Service image using the command below
 
 ```
-oc new-app wkulhanek/gogs:11.4
+oc new-app wkulhanek/gogs:11.86
 ```
 
 ## Attach storage to gogs and mount to /data
