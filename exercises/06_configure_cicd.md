@@ -402,7 +402,7 @@ node('nodejs') {
   stage('Deploy UAT'){
     openshift.withCluster(){
       openshift.withProject() {
-        openshift.tag( 'user0-dev/todo:latest', 'user0-dev/todo:TestReady')
+        openshift.tag( 'userX-dev/todo:latest', 'userX-dev/todo:TestReady')
       }
     }
   }
