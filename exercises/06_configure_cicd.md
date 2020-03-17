@@ -381,16 +381,31 @@ done
 ```
 node('nodejs') {
   stage('build') {
-    sh """oc patch bc todo -p '{ "spec": { "source": { "git":  { "ref": \"${params.tag}\" }}}}'"""
-    openshiftBuild(buildConfig: 'todo', showBuildLogs: 'true', commitID: params.commit)
+    openshift.withCluster(){
+      openshift.withProject(){
+        sh """oc patch bc todo -p '{ "spec": { "source": { "git":  { "ref": \"${params.tag}\" }}}}'"""
+        def bc= openshift.selector("bc/todo")
+        bc.startBuild()
+        bc.logs("-f")
+      }
+      
+    }
+    
   }
+
+  stage('deploy') {
+    //automatic deployment
+  } 
 
   stage( 'Wait for approval')
   input( 'Aprove to production?')
   stage('Deploy UAT'){
-    openshiftTag(sourceStream: 'todo', sourceTag: 'latest', destinationStream: 'todo', destinationTag: 'TestReady')   
+    openshift.withCluster(){
+      openshift.withProject() {
+        openshift.tag( 'user0-dev/todo:latest', 'user0-dev/todo:TestReady')
+      }
+    }
   }
-
 }
 ```
 
