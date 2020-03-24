@@ -93,8 +93,9 @@ oc project
 
 - Create basic secret by specifying your username and password to gogs. In the command below, substitute your gogs username and gogs password.
 ```
-oc secrets new-basicauth  gogs-secret --username=<your gogs username> --password=<your gogs password>
+oc create secret generic gogs-secret --from-literal='username=userX' --from-literal='password=mypassword'
 ```
+
 Configure the deployment config to use this secret. 
 
 - Go to Builds->Builds->todo
@@ -108,6 +109,12 @@ Configure the deployment config to use this secret.
 - Set source secret to gogs-secret
 
 ![Set Source Secret](images/todo_edit_build_config3.png)
+
+***Doing it in the command line***
+
+```
+oc set build-secret bc/todo gogs-secret --source
+```
 
 - Click Save 
 - Click Start Build
