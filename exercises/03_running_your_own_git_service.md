@@ -23,7 +23,7 @@ Mount gogs-storage to /data and click Add
 
 ![Create New Storage](images/add_gogs_storage2.png)
 
-Doing it by commandline:
+***Doing it in the command-line***
 
 - Get the name of the volume
 ```
