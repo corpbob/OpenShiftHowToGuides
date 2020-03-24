@@ -23,7 +23,63 @@ Mount gogs-storage to /data and click Add
 
 ![Create New Storage](images/add_gogs_storage2.png)
 
+Doing it by commandline:
+
+- Get the name of the volume
+```
+oc set volume dc/gogs
+deploymentconfigs/gogs
+  empty directory as gogs-volume-1
+    mounted at /data
+```
+
+- Remove the volume from the DeploymentConfig
+```
+oc set volume dc/gogs --remove --name gogs-volume-1
+```
+- Request for a PersitentVolume by creating a persistent volume claim. Create a file named pvc.yaml with the following contents:
+
+```
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app: gogs
+  name: gogs-storage
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+```
+
+Import this into the OKD cluster:
+
+```
+oc create -f pvc.yaml
+```
+
+If you query for the pvc using the command
+
+```
+oc get pvc
+```
+
+you will get something like:
+
+```
+NAME           STATUS   VOLUME   CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+gogs-storage   Bound    pv-59    100Gi      RWO,ROX,RWX                   15s
+```
+
+- Mount this volume to the deployment config
+
+```
+oc set volume dc/gogs --add --type persistentVolumeClaim --claim-name gogs-storage --mount-path /data --name gogs-storage
+```
 # Expose the gogs service 
+
 
 Type the following command to create a route for the gogs service.
 
