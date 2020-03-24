@@ -14,7 +14,7 @@ postgresql-1-7969q   1/1       Running   0          10h
 - Take note of the pod and get the contents of /opt/gogs/custom/conf/app.ini.
 
 ```
-oc rsh gogs-3-t3wqs cat /opt/gogs/custom/conf/app.ini
+oc rsh gogs-3-t3wqs cat /opt/gogs/custom/conf/app.ini > app.ini
 ```
 ## Create a config map 
 
@@ -33,5 +33,18 @@ After saving, you will be taken to the page "Add Config Files to gogs". Click on
 ![Add Config Files 2](images/add_config_files2.png)
 
 This will trigger a redeployment of gogs.
+
+***Doing it in the commandline***
+
+- Create a configmap directly from the file app.ini
+```
+oc create configmap gogs-config --from-file=app.ini
+```
+
+- Mount this configmap to the directory /opt/gogs/custom/conf/
+
+```
+oc set volume dc/gogs --add --type configmap --configmap-name gogs-config --mount-path /opt/gogs/custom/conf --name gogs-config
+```
 
 Next Exercise: [Using Jenkins Pipeline](05_using_jenkins_pipeline.md)
