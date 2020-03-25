@@ -13,4 +13,5 @@ Configuration is the difference between environments and should not be baked int
 Continuous Integration/Continuous Deployment and Containerization enables rapid deployment from Development to Production with minimal risk and rapid-rollback. We will use the built-in Jenkins pipeline of OpenShift to trigger the build of our application.
 - [Configure the CI/CD pipeline](06_configure_cicd.md)
 We will configure an end-to-end pipeline starting from a code pushed to the Git until it deploys to a higher environment with approvals in between. This demonstrates the ease at which containerization has make deployments rapid and can be done in business hours.
-
+- [Configure Blue-Green Deployment](07_blue_green.md)
+We will now setup blue-green deployment.

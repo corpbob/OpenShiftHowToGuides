@@ -502,3 +502,4 @@ To http://gogs-dev1.xxx.xxx.xxx.xxx.nip.io/corpbob/todoAPIjs.git
 
 ## If you got this far, Congratulations!
 
+## Optional: [Configure Blue-Green Deployment](07_blue_green.md)
