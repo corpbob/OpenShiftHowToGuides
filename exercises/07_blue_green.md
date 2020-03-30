@@ -1,5 +1,6 @@
 # Configure Blue-Green Deployment
 ## Create deployment configs for blue and green 
+***In the following yaml files, substitute user0 with your username***
 
 ### Create a file todo-blue.yaml
 
